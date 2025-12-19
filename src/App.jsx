@@ -66,7 +66,7 @@ function App() {
             </div>
           </div>
 
-          {/* Right Column - Chat UI Card */}
+          
           <div className="content-right-wrapper">
             <div className="content-right">
               <div className="chat-card">
