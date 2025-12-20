@@ -1,17 +1,39 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import smartbotImage from './img/PhotoshopExtension_Image.png';
+import logoImage from './img/logo.png';
 import './styles.css';
 
 function App() {
+  const [isNavCollapsed, setIsNavCollapsed] = useState(true);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [activeMobileNav, setActiveMobileNav] = useState('Home');
+
+  useEffect(() => {
+    // Automatically open the menu smoothly on page load
+    setIsNavCollapsed(false);
+    
+    // Handle scroll for header blur effect
+    const handleScroll = () => {
+      if (window.scrollY > 100) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const handleMenuClick = () => {
-    console.log('Menu clicked');
-    // Add your menu functionality here
+    // Toggle nav bar collapse/expand
+    setIsNavCollapsed(!isNavCollapsed);
   };
 
   const handleArrowClick = (e) => {
     e.stopPropagation(); // Prevent triggering the button click
-    console.log('Arrow clicked');
-    // Add your arrow-specific functionality here
+    handleMenuClick();
   };
 
   return (
@@ -19,29 +41,127 @@ function App() {
       {/* HERO SECTION */}
       <section className="hero-section">
         <div className="hero-container">
-          {/* Navigation Bar */}
-          <nav className="nav-bar">
-            <button className="nav-link">Product</button>
-            <button className="nav-link">Solutions</button>
-            <button className="nav-link">Agencies</button>
-            <button className="nav-link">Pricing</button>
-            <button className="nav-link">Resources</button>
-            <button className="btn-contact" onClick={handleMenuClick}>
-              Menu
-              <span className="menu-arrow-icon" onClick={handleArrowClick}>
-                <span className="menu-arrow-circle">→</span>
+          {/* Navigation Container */}
+          <div className={`nav-wrapper ${isScrolled ? 'scrolled' : ''}`}>
+            {/* Logo with Text */}
+            <div className="logo-container">
+              <img src={logoImage} alt="Logo" className="nav-logo" />
+              <span className="logo-text">
+                <span className="logo-capital">S</span>ystem<span className="logo-capital">M</span>inds
               </span>
-            </button>
-          </nav>
+            </div>
+            
+            {/* Navigation Bar */}
+            <nav className="nav-bar">
+              {/* Menu Items */}
+              <div className="nav-links-container">
+                <AnimatePresence mode="popLayout">
+                  {!isNavCollapsed && (
+                    <>
+                      <motion.button 
+                        className="nav-link"
+                        initial={{ opacity: 0, y: -10, height: 0 }}
+                        animate={{ opacity: 1, y: 0, height: 'auto' }}
+                        exit={{ opacity: 0, y: -10, height: 0 }}
+                        transition={{ duration: 0.3, ease: 'easeInOut' }}
+                      >
+                        Product
+                      </motion.button>
+                      <motion.button 
+                        className="nav-link"
+                        initial={{ opacity: 0, y: -10, height: 0 }}
+                        animate={{ opacity: 1, y: 0, height: 'auto' }}
+                        exit={{ opacity: 0, y: -10, height: 0 }}
+                        transition={{ duration: 0.3, ease: 'easeInOut', delay: 0.05 }}
+                      >
+                        Solutions
+                      </motion.button>
+                      <motion.button 
+                        className="nav-link"
+                        initial={{ opacity: 0, y: -10, height: 0 }}
+                        animate={{ opacity: 1, y: 0, height: 'auto' }}
+                        exit={{ opacity: 0, y: -10, height: 0 }}
+                        transition={{ duration: 0.3, ease: 'easeInOut', delay: 0.1 }}
+                      >
+                        Agencies
+                      </motion.button>
+                      <motion.button 
+                        className="nav-link"
+                        initial={{ opacity: 0, y: -10, height: 0 }}
+                        animate={{ opacity: 1, y: 0, height: 'auto' }}
+                        exit={{ opacity: 0, y: -10, height: 0 }}
+                        transition={{ duration: 0.3, ease: 'easeInOut', delay: 0.15 }}
+                      >
+                        Pricing
+                      </motion.button>
+                      <motion.button 
+                        className="nav-link"
+                        initial={{ opacity: 0, y: -10, height: 0 }}
+                        animate={{ opacity: 1, y: 0, height: 'auto' }}
+                        exit={{ opacity: 0, y: -10, height: 0 }}
+                        transition={{ duration: 0.3, ease: 'easeInOut', delay: 0.2 }}
+                      >
+                        Resources
+                      </motion.button>
+                    </>
+                  )}
+                </AnimatePresence>
+              </div>
+              <button className="btn-contact" onClick={handleMenuClick}>
+                <span className="menu-text">Menu</span>
+                <motion.span 
+                  className="menu-arrow-icon" 
+                  onClick={handleArrowClick}
+                  animate={{ rotate: isNavCollapsed ? 180 : 0 }}
+                  transition={{ duration: 0.3, ease: 'easeInOut' }}
+                >
+                  <span className="menu-arrow-circle">→</span>
+                </motion.span>
+              </button>
+            </nav>
+          </div>
 
-          {/* Hero Content with SmartBot Character and Logo */}
+          {/* Hero Content with Company Description */}
           <div className="hero-main">
-            <div className="smartbot-character">
+            <motion.div 
+              className="smartbot-character"
+              initial={{ opacity: 0, x: -100, scale: 0.8 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              transition={{ 
+                duration: 0.8, 
+                ease: "easeOut",
+                delay: 0.2
+              }}
+              whileHover={{ 
+                scale: 1.05,
+                rotate: [0, -5, 5, -5, 0],
+                transition: { duration: 0.5 }
+              }}
+              whileTap={{ scale: 0.95 }}
+            >
               <img src={smartbotImage} alt="SmartBot Character" className="bot-image" />
-            </div>
-            <div className="smartbot-logo">
-              SYSTEM MINDS<sup className="trademark">®</sup>
-            </div>
+            </motion.div>
+            <motion.div 
+              className="hero-content"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ 
+                duration: 0.6, 
+                ease: "easeOut",
+                delay: 0.3
+              }}
+            >
+              <p className="hero-tagline">TRANSFORM YOUR IDEAS INTO REALITY</p>
+              <h1 className="hero-title">
+                Professional <span className="hero-title-underline">Services</span> & Innovative Products
+              </h1>
+              <p className="hero-description">
+                SystemMinds is a full-stack digital studio delivering robust products, future-ready platforms, and tailor-made enterprise solutions. We blend strategy, UI engineering, and cloud-native development to accelerate growth for ambitious brands.
+              </p>
+              <p className="hero-description">
+                With expertise spanning React.js, Spring Boot, Python, and modern cloud technologies, we transform complex business challenges into elegant, scalable digital solutions. Our team combines technical excellence with creative problem-solving to deliver products that not only meet today's needs but are built to evolve with your business.
+              </p>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -746,6 +866,67 @@ function App() {
           </div>
         </div>
       </footer>
+
+      {/* Mobile Bottom Navigation Bar */}
+      <nav className="mobile-bottom-nav">
+        <button 
+          className={`mobile-nav-item ${activeMobileNav === 'Home' ? 'active' : ''}`}
+          onClick={() => setActiveMobileNav('Home')}
+        >
+          <div className="mobile-nav-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+              <path d="M9 22V12H15V22" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+            </svg>
+          </div>
+        </button>
+        <button 
+          className={`mobile-nav-item ${activeMobileNav === 'About' ? 'active' : ''}`}
+          onClick={() => setActiveMobileNav('About')}
+        >
+          <div className="mobile-nav-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+              <circle cx="12" cy="7" r="4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+            </svg>
+          </div>
+        </button>
+        <button 
+          className={`mobile-nav-item ${activeMobileNav === 'Service' ? 'active' : ''}`}
+          onClick={() => setActiveMobileNav('Service')}
+        >
+          <div className="mobile-nav-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+              <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+              <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+            </svg>
+          </div>
+        </button>
+        <button 
+          className={`mobile-nav-item ${activeMobileNav === 'Work' ? 'active' : ''}`}
+          onClick={() => setActiveMobileNav('Work')}
+        >
+          <div className="mobile-nav-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="3" y="3" width="7" height="7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+              <rect x="14" y="3" width="7" height="7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+              <rect x="14" y="14" width="7" height="7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+              <rect x="3" y="14" width="7" height="7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+            </svg>
+          </div>
+        </button>
+        <button 
+          className={`mobile-nav-item ${activeMobileNav === 'Contact' ? 'active' : ''}`}
+          onClick={() => setActiveMobileNav('Contact')}
+        >
+          <div className="mobile-nav-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+            </svg>
+          </div>
+        </button>
+      </nav>
     </div>
   );
 }
