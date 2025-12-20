@@ -671,12 +671,82 @@ input {
   max-width: 70%;
   word-wrap: break-word;
   min-width: 120px;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.message-text {
+  flex: 1;
+  min-width: 0;
 }
 
 .message-bubble-right {
   border-radius: 16px;
   border-bottom-right-radius: 4px;
   border-bottom-left-radius: 16px;
+  background: #020617;
+  color: #ffffff;
+}
+
+.message-status {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.loading-spinner {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 0;
+}
+
+.spinner-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.6);
+  animation: bounce 1.4s infinite ease-in-out both;
+}
+
+.spinner-dot:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.spinner-dot:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes bounce {
+  0%, 80%, 100% {
+    transform: scale(0);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.tick-icon {
+  flex-shrink: 0;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.single-tick {
+  width: 16px;
+  height: 16px;
+  opacity: 0.7;
+}
+
+.double-tick {
+  width: 20px;
+  height: 16px;
+  opacity: 1;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .message-bubble.liked-message {

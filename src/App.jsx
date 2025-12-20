@@ -11,6 +11,8 @@ function App() {
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [likedMessageId, setLikedMessageId] = useState(null);
+  const [userEmail, setUserEmail] = useState(null);
+  const [isEmailCollected, setIsEmailCollected] = useState(false);
   const messagesInitialized = useRef(false);
 
   useEffect(() => {
@@ -68,6 +70,20 @@ function App() {
         }];
       });
     }, 1500);
+
+    // Third message - asking for email
+    setTimeout(() => {
+      setMessages(prev => {
+        // Check if message already exists to prevent duplicates
+        if (prev.some(msg => msg.id === 3)) return prev;
+        return [...prev, {
+          id: 3,
+          text: 'Please enter your email address so we can respond to you:',
+          sender: 'bot',
+          timestamp: new Date()
+        }];
+      });
+    }, 2500);
   }, []);
 
   // Auto-scroll to bottom when messages change
@@ -88,16 +104,119 @@ function App() {
     handleMenuClick();
   };
 
-  const handleSendMessage = (e) => {
+  // Email validation function
+  const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const handleSendMessage = async (e) => {
     e.preventDefault();
     if (!inputValue.trim()) return;
 
-    // Add user message
+    const messageText = inputValue.trim();
+    const messageId = Date.now();
+
+    // Check if we're collecting email and this is an email input
+    if (!isEmailCollected && messageText.includes('@')) {
+      // Validate email
+      if (isValidEmail(messageText)) {
+        setUserEmail(messageText);
+        setIsEmailCollected(true);
+        
+        // Add user email message
+        const emailMessage = {
+          id: messageId,
+          text: messageText,
+          sender: 'user',
+          timestamp: new Date(),
+          status: 'sending'
+        };
+
+        setMessages(prev => [...prev, emailMessage]);
+
+        // Send email notification when user provides their email
+        try {
+          const response = await fetch('/api/send-email', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              userMessage: messageText, // The email address itself
+              subject: 'New Email Registration from SystemMinds Website',
+              fromName: 'SystemMinds Website Visitor',
+              fromEmail: messageText, // Send from user's email
+              isEmailRegistration: true, // Flag to indicate this is email registration
+            }),
+          });
+
+          const result = await response.json();
+          if (result.ok) {
+            // Update message status to "delivered"
+            setMessages(prev => prev.map(msg => 
+              msg.id === messageId ? { ...msg, status: 'delivered' } : msg
+            ));
+          } else {
+            // Update message status to "sent" even if email failed
+            setMessages(prev => prev.map(msg => 
+              msg.id === messageId ? { ...msg, status: 'sent' } : msg
+            ));
+          }
+        } catch (error) {
+          // Update message status to "sent" on error
+          setMessages(prev => prev.map(msg => 
+            msg.id === messageId ? { ...msg, status: 'sent' } : msg
+          ));
+          console.error('Error sending email notification:', error);
+        }
+
+        // Bot confirmation
+        setTimeout(() => {
+          setMessages(prev => [...prev, {
+            id: Date.now(),
+            text: `Thank you! Your email ${messageText} has been saved. You can now send your message.`,
+            sender: 'bot',
+            timestamp: new Date()
+          }]);
+        }, 500);
+
+        setInputValue('');
+        return;
+      } else {
+        // Invalid email - show error and ask again
+        const errorMessage = {
+          id: messageId,
+          text: messageText,
+          sender: 'user',
+          timestamp: new Date(),
+          status: 'delivered'
+        };
+
+        setMessages(prev => [...prev, errorMessage]);
+
+        setTimeout(() => {
+          setMessages(prev => [...prev, {
+            id: Date.now(),
+            text: 'Please enter a valid email address (e.g., yourname@example.com):',
+            sender: 'bot',
+            timestamp: new Date()
+          }]);
+        }, 500);
+
+        setInputValue('');
+        return;
+      }
+    }
+
+    // Regular message handling
+    // Add user message with "sending" status
     const userMessage = {
-      id: Date.now(),
-      text: inputValue,
+      id: messageId,
+      text: messageText,
       sender: 'user',
-      timestamp: new Date()
+      timestamp: new Date(),
+      status: 'sending' // sending, sent, delivered
     };
 
     setMessages(prev => [...prev, userMessage]);
@@ -110,6 +229,42 @@ function App() {
         chatBody.scrollTop = chatBody.scrollHeight;
       }
     }, 50);
+
+    // Send email with user message
+    try {
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userMessage: messageText,
+          subject: 'New Message from SystemMinds Website',
+          fromName: 'SystemMinds Website Visitor',
+          fromEmail: userEmail && isValidEmail(userEmail) ? userEmail : null,
+        }),
+      });
+
+      const result = await response.json();
+      if (result.ok) {
+        // Update message status to "delivered" (double tick)
+        setMessages(prev => prev.map(msg => 
+          msg.id === messageId ? { ...msg, status: 'delivered' } : msg
+        ));
+      } else {
+        // Update message status to "sent" (single tick) even if email failed
+        setMessages(prev => prev.map(msg => 
+          msg.id === messageId ? { ...msg, status: 'sent' } : msg
+        ));
+        console.error('Failed to send email:', result.error);
+      }
+    } catch (error) {
+      // Update message status to "sent" on error
+      setMessages(prev => prev.map(msg => 
+        msg.id === messageId ? { ...msg, status: 'sent' } : msg
+      ));
+      console.error('Error sending email:', error);
+    }
   };
 
   const handleLikeClick = () => {
@@ -297,10 +452,32 @@ function App() {
                         </div>
                       )}
                       <div className={`message-bubble ${message.sender === 'user' ? 'message-bubble-right' : ''} ${likedMessageId === message.id && message.sender === 'bot' ? 'liked-message' : ''}`} style={{ position: 'relative' }}>
-                        {message.text}
+                        <span className="message-text">{message.text}</span>
                         {likedMessageId === message.id && message.sender === 'bot' && (
                           <div className="message-reaction-icon">
                             ❤️
+                          </div>
+                        )}
+                        {message.sender === 'user' && (
+                          <div className="message-status">
+                            {message.status === 'sending' && (
+                              <div className="loading-spinner">
+                                <div className="spinner-dot"></div>
+                                <div className="spinner-dot"></div>
+                                <div className="spinner-dot"></div>
+                              </div>
+                            )}
+                            {message.status === 'sent' && (
+                              <svg className="tick-icon single-tick" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M3 8L6 11L13 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                              </svg>
+                            )}
+                            {message.status === 'delivered' && (
+                              <svg className="tick-icon double-tick" width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M2 8L5 11L12 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                <path d="M6 8L9 11L16 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                              </svg>
+                            )}
                           </div>
                         )}
                       </div>
