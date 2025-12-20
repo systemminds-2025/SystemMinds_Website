@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import smartbotImage from './img/PhotoshopExtension_Image.png';
 import logoImage from './img/logo.png';
@@ -8,6 +8,10 @@ function App() {
   const [isNavCollapsed, setIsNavCollapsed] = useState(true);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeMobileNav, setActiveMobileNav] = useState('Home');
+  const [messages, setMessages] = useState([]);
+  const [inputValue, setInputValue] = useState('');
+  const [likedMessageId, setLikedMessageId] = useState(null);
+  const messagesInitialized = useRef(false);
 
   useEffect(() => {
     // Automatically open the menu smoothly on page load
@@ -26,6 +30,54 @@ function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Auto-send greeting messages on page load
+  useEffect(() => {
+    // Only initialize once
+    if (messagesInitialized.current) return;
+    messagesInitialized.current = true;
+
+    const getGreeting = () => {
+      const hour = new Date().getHours();
+      if (hour < 12) return 'Good morning';
+      if (hour < 18) return 'Good afternoon';
+      return 'Good evening';
+    };
+
+    const greeting = getGreeting();
+    
+    // First message - greeting
+    setTimeout(() => {
+      setMessages([{
+        id: 1,
+        text: `${greeting}! Hello! 👋`,
+        sender: 'bot',
+        timestamp: new Date()
+      }]);
+    }, 500);
+
+    // Second message - asking about project
+    setTimeout(() => {
+      setMessages(prev => {
+        // Check if message already exists to prevent duplicates
+        if (prev.some(msg => msg.id === 2)) return prev;
+        return [...prev, {
+          id: 2,
+          text: 'Please tell me about your project. How can we help you today?',
+          sender: 'bot',
+          timestamp: new Date()
+        }];
+      });
+    }, 1500);
+  }, []);
+
+  // Auto-scroll to bottom when messages change
+  useEffect(() => {
+    const chatBody = document.querySelector('.chat-body');
+    if (chatBody) {
+      chatBody.scrollTop = chatBody.scrollHeight;
+    }
+  }, [messages]);
+
   const handleMenuClick = () => {
     // Toggle nav bar collapse/expand
     setIsNavCollapsed(!isNavCollapsed);
@@ -34,6 +86,39 @@ function App() {
   const handleArrowClick = (e) => {
     e.stopPropagation(); // Prevent triggering the button click
     handleMenuClick();
+  };
+
+  const handleSendMessage = (e) => {
+    e.preventDefault();
+    if (!inputValue.trim()) return;
+
+    // Add user message
+    const userMessage = {
+      id: Date.now(),
+      text: inputValue,
+      sender: 'user',
+      timestamp: new Date()
+    };
+
+    setMessages(prev => [...prev, userMessage]);
+    setInputValue('');
+
+    // Auto-scroll to bottom
+    setTimeout(() => {
+      const chatBody = document.querySelector('.chat-body');
+      if (chatBody) {
+        chatBody.scrollTop = chatBody.scrollHeight;
+      }
+    }, 50);
+  };
+
+  const handleLikeClick = () => {
+    // Find the latest bot message
+    const botMessages = messages.filter(msg => msg.sender === 'bot');
+    if (botMessages.length > 0) {
+      const latestBotMessage = botMessages[botMessages.length - 1];
+      setLikedMessageId(latestBotMessage.id);
+    }
   };
 
   return (
@@ -171,9 +256,12 @@ function App() {
         <div className="content-container">
           {/* Left Column - Text and Buttons */}
           <div className="content-left">
-            <h1 className="content-title">Get the Most From Every Conversation</h1>
+            <p className="content-tagline">DIGITAL TRANSFORMATION SOLUTIONS</p>
+            <h1 className="content-title">
+              Build <span className="content-title-underline">Scalable</span> Solutions That Drive Growth
+            </h1>
             <p className="content-description">
-              Sell more, engage better, and grow your audience with powerful automations for Instagram, WhatsApp, TikTok, and Messenger.
+              From concept to deployment, we deliver enterprise-grade applications using cutting-edge technologies. Our full-stack expertise in React.js, Spring Boot, and Python enables us to create robust, future-ready platforms that scale with your business. We combine technical excellence with innovative thinking to transform your business challenges into powerful digital solutions.
             </p>
             <div className="content-actions">
               <button className="btn-primary">
@@ -195,64 +283,69 @@ function App() {
                   <div className="chat-header-line"></div>
                 </div>
                 <div className="chat-body">
-                  <div className="chat-message">
-                    <div className="avatar avatar-blue">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                        <path d="M3.41 22C3.41 18.13 7.26 15 12 15C16.74 15 20.59 18.13 20.59 22" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
+                  {messages.map((message) => (
+                    <div 
+                      key={message.id} 
+                      className={`chat-message ${message.sender === 'user' ? 'chat-message-right' : ''}`}
+                    >
+                      {message.sender === 'bot' && (
+                        <div className="avatar avatar-blue">
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                            <path d="M3.41 22C3.41 18.13 7.26 15 12 15C16.74 15 20.59 18.13 20.59 22" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                        </div>
+                      )}
+                      <div className={`message-bubble ${message.sender === 'user' ? 'message-bubble-right' : ''} ${likedMessageId === message.id && message.sender === 'bot' ? 'liked-message' : ''}`} style={{ position: 'relative' }}>
+                        {message.text}
+                        {likedMessageId === message.id && message.sender === 'bot' && (
+                          <div className="message-reaction-icon">
+                            ❤️
+                          </div>
+                        )}
+                      </div>
+                      {message.sender === 'user' && (
+                        <div className="avatar avatar-green">
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                            <path d="M3.41 22C3.41 18.13 7.26 15 12 15C16.74 15 20.59 18.13 20.59 22" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                        </div>
+                      )}
                     </div>
-                    <div className="message-bubble">
-                      <div className="placeholder-line"></div>
-                      <div className="placeholder-line short"></div>
-                    </div>
-                  </div>
-                  <div className="chat-message chat-message-right">
-                    <div className="message-bubble message-bubble-right">
-                      <div className="placeholder-line"></div>
-                      <div className="placeholder-line short"></div>
-                    </div>
-                    <div className="avatar avatar-green">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                        <path d="M3.41 22C3.41 18.13 7.26 15 12 15C16.74 15 20.59 18.13 20.59 22" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                    </div>
-                  </div>
-                  <div className="chat-message">
-                    <div className="avatar avatar-grey">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                        <path d="M3.41 22C3.41 18.13 7.26 15 12 15C16.74 15 20.59 18.13 20.59 22" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                    </div>
-                    <div className="message-bubble">
-                      <div className="placeholder-line"></div>
-                      <div className="placeholder-line short"></div>
-                    </div>
-                  </div>
-                </div>
-                <div className="emoji-reaction-left">
-                  <div className="emoji-reaction-bar">
-                    <span>👍</span>
-                    <span>❤️</span>
-                    <span>😂</span>
-                    <span>😍</span>
-                    <span>😮</span>
-                  </div>
+                  ))}
                 </div>
                 <div className="liked-overlap">
-                  <div className="message-bubble liked-bubble">
+                  <div 
+                    className="message-bubble liked-bubble"
+                    onClick={handleLikeClick}
+                    style={{ cursor: 'pointer' }}
+                  >
                     <span className="heart-icon">❤️</span> Liked
                   </div>
                 </div>
                 <div className="chat-input-container">
-                  <input type="text" placeholder="Type Your Text" className="chat-input" />
-                  <button className="send-button">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </button>
+                  <div className="emoji-reaction-bar">
+                    <span onClick={() => setInputValue(prev => prev + '👍')}>👍</span>
+                    <span onClick={() => setInputValue(prev => prev + '❤️')}>❤️</span>
+                    <span onClick={() => setInputValue(prev => prev + '😂')}>😂</span>
+                    <span onClick={() => setInputValue(prev => prev + '😍')}>😍</span>
+                    <span onClick={() => setInputValue(prev => prev + '😮')}>😮</span>
+                  </div>
+                  <form onSubmit={handleSendMessage}>
+                    <input 
+                      type="text" 
+                      placeholder="Type Your Text" 
+                      className="chat-input" 
+                      value={inputValue}
+                      onChange={(e) => setInputValue(e.target.value)}
+                    />
+                    <button type="submit" className="send-button">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </button>
+                  </form>
                 </div>
               </div>
             </div>
