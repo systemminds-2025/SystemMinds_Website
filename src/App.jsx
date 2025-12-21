@@ -756,8 +756,8 @@ function App() {
       {/* STAY CONNECTED SECTION */}
       <section className="connected-section">
         <div className="connected-container">
-          {/* Left Column - Text and CTA */}
-          <div className="connected-col connected-left">
+          {/* Content Box - Text and Social Icons (No visible box UI) */}
+          <div className="connected-content-box">
             <p className="connected-tagline">CONNECT WITH US</p>
             <h2 className="connected-title">
               Stay connected across every place your audience exists.
@@ -781,20 +781,20 @@ function App() {
                   <circle cx="17.5" cy="6.5" r="1" fill="white"/>
                 </svg>
               </a>
-              <a href="#" className="social-link-item" aria-label="LinkedIn">
+              <a href="https://www.linkedin.com/company/systemminds/" target="_blank" rel="noopener noreferrer" className="social-link-item" aria-label="LinkedIn">
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <rect width="24" height="24" rx="4" fill="#0077B5"/>
                   <path d="M8 9H5V19H8V9ZM6.5 7C7.32843 7 8 6.32843 8 5.5C8 4.67157 7.32843 4 6.5 4C5.67157 4 5 4.67157 5 5.5C5 6.32843 5.67157 7 6.5 7Z" fill="white"/>
                   <path d="M10 9H13V10.5C13.5 9.5 14.5 9 15.5 9C17.5 9 19 10.5 19 13V19H16V13.5C16 12.5 15.5 12 14.5 12C13.5 12 13 12.5 13 13.5V19H10V9Z" fill="white"/>
                 </svg>
               </a>
-              <a href="#" className="social-link-item" aria-label="WhatsApp">
+              <a href="https://chat.whatsapp.com/CJy8YPpWarEGzi9uAfbnoT" target="_blank" rel="noopener noreferrer" className="social-link-item" aria-label="WhatsApp">
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <circle cx="12" cy="12" r="11" fill="#25D366"/>
                   <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" fill="white"/>
                 </svg>
               </a>
-              <a href="#" className="social-link-item" aria-label="Telegram">
+              <a href="https://t.me/+g8kOiqBYvXE3NzJl" target="_blank" rel="noopener noreferrer" className="social-link-item" aria-label="Telegram">
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <circle cx="12" cy="12" r="11" fill="#0088CC"/>
                   <path d="M17.47 7.28L5.74 12.07C5.16 12.29 5.17 12.64 5.64 12.76L8.28 13.5L15.64 9.06C15.95 8.87 16.23 8.97 16 9.19L9.74 15.14L9.52 17.28C9.76 17.28 9.87 17.18 10.02 17.04L11.48 15.65L14.74 18.01C15.21 18.26 15.5 18.13 15.63 17.57L17.95 8.15C18.13 7.45 17.75 7.16 17.47 7.28Z" fill="white"/>
@@ -803,28 +803,41 @@ function App() {
             </div>
           </div>
 
-          {/* Middle Column - Instagram Card with Horizontal Scroll (Mobile) */}
-          <div className="connected-col platform-card platform-card-instagram">
+          {/* Cards Box - All 4 Social Media Cards */}
+          <div className="connected-cards-box">
             {/* Desktop View - Static Cards */}
             <div className="platform-cards-desktop">
-              <div className="platform-icon platform-icon-instagram">
-                <a href="https://www.instagram.com/systemminds.tech/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit', display: 'block', width: '100%' }}>
-                  <div className="platform-logo-container">
-                    <img src={logoImage} alt="SystemMinds Logo" className="platform-logo" />
-                    <div className="platform-logo-text">
-                      <div className="platform-handle">systemminds.tech</div>
-                      <span className="platform-company">SystemMinds IT Solutions</span>
-                    </div>
+              <a href="https://www.linkedin.com/company/systemminds" target="_blank" rel="noopener noreferrer" className="platform-icon platform-icon-linkedin" style={{ textDecoration: 'none', color: 'inherit', display: 'block', width: '100%' }}>
+                <div className="platform-logo-container">
+                  <div className="platform-linkedin-icon">
+                    <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="12" cy="12" r="11" fill="#0077B5"/>
+                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" fill="white"/>
+                    </svg>
                   </div>
-                  <p className="platform-bio">
-                    We turn your ideas into powerful digital solutions. With creativity and innovation, we bring your vision to life and help your business grow smartly.
-                  </p>
-                  <div className="platform-buttons">
-                    <button className="platform-btn platform-btn-follow">Follow</button>
-                    <button className="platform-btn platform-btn-message">Message</button>
+                  <div className="platform-logo-text">
+                    <div className="platform-handle">SystemMinds</div>
+                    <span className="platform-company">LinkedIn Company Page</span>
                   </div>
-                </a>
-              </div>
+                </div>
+                <p className="platform-bio">
+                  Connect with us on LinkedIn to stay updated with our latest innovations, projects, and professional insights. Join our network for industry updates.
+                </p>
+                <div className="platform-buttons">
+                  <button className="platform-btn platform-btn-connect">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ marginRight: '6px' }}>
+                      <path d="M19 13h-3v3h-2v-3H11v-2h3V8h2v3h3v2zM20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4V6h16v12z" fill="currentColor"/>
+                    </svg>
+                    Connect
+                  </button>
+                  <button className="platform-btn platform-btn-follow">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ marginRight: '6px' }}>
+                      <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" fill="currentColor"/>
+                    </svg>
+                    Follow
+                  </button>
+                </div>
+              </a>
               <a href="https://chat.whatsapp.com/CJy8YPpWarEGzi9uAfbnoT" target="_blank" rel="noopener noreferrer" className="platform-icon platform-icon-tiktok" style={{ textDecoration: 'none', color: 'inherit', display: 'block', width: '100%' }}>
                 <div className="platform-logo-container">
                   <div className="platform-whatsapp-icon">
@@ -843,6 +856,44 @@ function App() {
                 </p>
                 <div className="platform-buttons">
                   <button className="platform-btn platform-btn-join">Join Chat</button>
+                </div>
+              </a>
+              <div className="platform-icon platform-icon-instagram">
+                <a href="https://www.instagram.com/systemminds.tech/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit', display: 'block', width: '100%' }}>
+                  <div className="platform-logo-container">
+                    <img src={logoImage} alt="SystemMinds Logo" className="platform-logo" />
+                    <div className="platform-logo-text">
+                      <div className="platform-handle">systemminds.tech</div>
+                      <span className="platform-company">SystemMinds IT Solutions</span>
+                    </div>
+                  </div>
+                  <p className="platform-bio">
+                    We turn your ideas into powerful digital solutions. With creativity and innovation, we bring your vision to life and help your business grow smartly.
+                  </p>
+                  <div className="platform-buttons">
+                    <button className="platform-btn platform-btn-follow">Follow</button>
+                    <button className="platform-btn platform-btn-message">Message</button>
+                  </div>
+                </a>
+              </div>
+              <a href="https://t.me/+g8kOiqBYvXE3NzJl" target="_blank" rel="noopener noreferrer" className="platform-icon platform-icon-telegram" style={{ textDecoration: 'none', color: 'inherit', display: 'block', width: '100%' }}>
+                <div className="platform-logo-container">
+                  <div className="platform-telegram-icon">
+                    <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="12" cy="12" r="11" fill="#0088cc"/>
+                      <path d="M17.47 7.28L5.74 12.07C5.16 12.29 5.17 12.64 5.64 12.76L8.28 13.5L15.64 9.06C15.95 8.87 16.23 8.97 16 9.19L9.74 15.14L9.52 17.28C9.76 17.28 9.87 17.18 10.02 17.04L11.48 15.65L14.74 18.01C15.21 18.26 15.5 18.13 15.63 17.57L17.95 8.15C18.13 7.45 17.75 7.16 17.47 7.28Z" fill="white"/>
+                    </svg>
+                  </div>
+                  <div className="platform-logo-text">
+                    <div className="platform-handle">SystemMinds</div>
+                    <span className="platform-company">Telegram Channel</span>
+                  </div>
+                </div>
+                <p className="platform-bio">
+                  Join our Telegram channel for instant updates, quick announcements, and direct communication. Stay connected with real-time notifications.
+                </p>
+                <div className="platform-buttons">
+                  <button className="platform-btn platform-btn-join">Join Channel</button>
                 </div>
               </a>
             </div>
@@ -865,24 +916,37 @@ function App() {
               >
                 {/* First Set */}
                 <div className="platform-card-mobile-item">
-                  <div className="platform-icon platform-icon-instagram">
-                    <a href="https://www.instagram.com/systemminds.tech/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit', display: 'block', width: '100%' }}>
-                      <div className="platform-logo-container">
-                        <img src={logoImage} alt="SystemMinds Logo" className="platform-logo" />
-                        <div className="platform-logo-text">
-                          <div className="platform-handle">systemminds.tech</div>
-                          <span className="platform-company">SystemMinds IT Solutions</span>
-                        </div>
+                  <a href="https://www.linkedin.com/company/systemminds" target="_blank" rel="noopener noreferrer" className="platform-icon platform-icon-linkedin" style={{ textDecoration: 'none', color: 'inherit', display: 'block', width: '100%' }}>
+                    <div className="platform-logo-container">
+                      <div className="platform-linkedin-icon">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <circle cx="12" cy="12" r="11" fill="#0077B5"/>
+                          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" fill="white"/>
+                        </svg>
                       </div>
-                      <p className="platform-bio">
-                        We turn your ideas into powerful digital solutions. With creativity and innovation, we bring your vision to life and help your business grow smartly.
-                      </p>
-                      <div className="platform-buttons">
-                        <button className="platform-btn platform-btn-follow">Follow</button>
-                        <button className="platform-btn platform-btn-message">Message</button>
+                      <div className="platform-logo-text">
+                        <div className="platform-handle">SystemMinds</div>
+                        <span className="platform-company">LinkedIn Company Page</span>
                       </div>
-                    </a>
-                  </div>
+                    </div>
+                    <p className="platform-bio">
+                      Connect with us on LinkedIn to stay updated with our latest innovations, projects, and professional insights. Join our network for industry updates.
+                    </p>
+                    <div className="platform-buttons">
+                      <button className="platform-btn platform-btn-connect">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ marginRight: '6px' }}>
+                          <path d="M19 13h-3v3h-2v-3H11v-2h3V8h2v3h3v2zM20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4V6h16v12z" fill="currentColor"/>
+                        </svg>
+                        Connect
+                      </button>
+                      <button className="platform-btn platform-btn-follow">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ marginRight: '6px' }}>
+                          <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" fill="currentColor"/>
+                        </svg>
+                        Follow
+                      </button>
+                    </div>
+                  </a>
                 </div>
                 <div className="platform-card-mobile-item">
                   <a href="https://chat.whatsapp.com/CJy8YPpWarEGzi9uAfbnoT" target="_blank" rel="noopener noreferrer" className="platform-icon platform-icon-tiktok" style={{ textDecoration: 'none', color: 'inherit', display: 'block', width: '100%' }}>
@@ -906,7 +970,28 @@ function App() {
                     </div>
                   </a>
                 </div>
-                {/* Duplicate Set for Seamless Loop */}
+                <div className="platform-card-mobile-item">
+                  <a href="https://t.me/+g8kOiqBYvXE3NzJl" target="_blank" rel="noopener noreferrer" className="platform-icon platform-icon-telegram" style={{ textDecoration: 'none', color: 'inherit', display: 'block', width: '100%' }}>
+                    <div className="platform-logo-container">
+                      <div className="platform-telegram-icon">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <circle cx="12" cy="12" r="11" fill="#0088cc"/>
+                          <path d="M17.47 7.28L5.74 12.07C5.16 12.29 5.17 12.64 5.64 12.76L8.28 13.5L15.64 9.06C15.95 8.87 16.23 8.97 16 9.19L9.74 15.14L9.52 17.28C9.76 17.28 9.87 17.18 10.02 17.04L11.48 15.65L14.74 18.01C15.21 18.26 15.5 18.13 15.63 17.57L17.95 8.15C18.13 7.45 17.75 7.16 17.47 7.28Z" fill="white"/>
+                        </svg>
+                      </div>
+                      <div className="platform-logo-text">
+                        <div className="platform-handle">SystemMinds</div>
+                        <span className="platform-company">Telegram Channel</span>
+                      </div>
+                    </div>
+                    <p className="platform-bio">
+                      Join our Telegram channel for instant updates, quick announcements, and direct communication. Stay connected with real-time notifications.
+                    </p>
+                    <div className="platform-buttons">
+                      <button className="platform-btn platform-btn-join">Join Channel</button>
+                    </div>
+                  </a>
+                </div>
                 <div className="platform-card-mobile-item">
                   <div className="platform-icon platform-icon-instagram">
                     <a href="https://www.instagram.com/systemminds.tech/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit', display: 'block', width: '100%' }}>
@@ -926,6 +1011,40 @@ function App() {
                       </div>
                     </a>
                   </div>
+                </div>
+                {/* Second Set - Duplicate for seamless loop */}
+                <div className="platform-card-mobile-item">
+                  <a href="https://www.linkedin.com/company/systemminds" target="_blank" rel="noopener noreferrer" className="platform-icon platform-icon-linkedin" style={{ textDecoration: 'none', color: 'inherit', display: 'block', width: '100%' }}>
+                    <div className="platform-logo-container">
+                      <div className="platform-linkedin-icon">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <circle cx="12" cy="12" r="11" fill="#0077B5"/>
+                          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" fill="white"/>
+                        </svg>
+                      </div>
+                      <div className="platform-logo-text">
+                        <div className="platform-handle">SystemMinds</div>
+                        <span className="platform-company">LinkedIn Company Page</span>
+                      </div>
+                    </div>
+                    <p className="platform-bio">
+                      Connect with us on LinkedIn to stay updated with our latest innovations, projects, and professional insights. Join our network for industry updates.
+                    </p>
+                    <div className="platform-buttons">
+                      <button className="platform-btn platform-btn-connect">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ marginRight: '6px' }}>
+                          <path d="M19 13h-3v3h-2v-3H11v-2h3V8h2v3h3v2zM20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4V6h16v12z" fill="currentColor"/>
+                        </svg>
+                        Connect
+                      </button>
+                      <button className="platform-btn platform-btn-follow">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ marginRight: '6px' }}>
+                          <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" fill="currentColor"/>
+                        </svg>
+                        Follow
+                      </button>
+                    </div>
+                  </a>
                 </div>
                 <div className="platform-card-mobile-item">
                   <a href="https://chat.whatsapp.com/CJy8YPpWarEGzi9uAfbnoT" target="_blank" rel="noopener noreferrer" className="platform-icon platform-icon-tiktok" style={{ textDecoration: 'none', color: 'inherit', display: 'block', width: '100%' }}>
@@ -948,23 +1067,53 @@ function App() {
                       <button className="platform-btn platform-btn-join">Join Chat</button>
                     </div>
                   </a>
+                </div>
+                <div className="platform-card-mobile-item">
+                  <a href="https://t.me/+g8kOiqBYvXE3NzJl" target="_blank" rel="noopener noreferrer" className="platform-icon platform-icon-telegram" style={{ textDecoration: 'none', color: 'inherit', display: 'block', width: '100%' }}>
+                    <div className="platform-logo-container">
+                      <div className="platform-telegram-icon">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <circle cx="12" cy="12" r="11" fill="#0088cc"/>
+                          <path d="M17.47 7.28L5.74 12.07C5.16 12.29 5.17 12.64 5.64 12.76L8.28 13.5L15.64 9.06C15.95 8.87 16.23 8.97 16 9.19L9.74 15.14L9.52 17.28C9.76 17.28 9.87 17.18 10.02 17.04L11.48 15.65L14.74 18.01C15.21 18.26 15.5 18.13 15.63 17.57L17.95 8.15C18.13 7.45 17.75 7.16 17.47 7.28Z" fill="white"/>
+                        </svg>
+                      </div>
+                      <div className="platform-logo-text">
+                        <div className="platform-handle">SystemMinds</div>
+                        <span className="platform-company">Telegram Channel</span>
+                      </div>
+                    </div>
+                    <p className="platform-bio">
+                      Join our Telegram channel for instant updates, quick announcements, and direct communication. Stay connected with real-time notifications.
+                    </p>
+                    <div className="platform-buttons">
+                      <button className="platform-btn platform-btn-join">Join Channel</button>
+                    </div>
+                  </a>
+                </div>
+                <div className="platform-card-mobile-item">
+                  <div className="platform-icon platform-icon-instagram">
+                    <a href="https://www.instagram.com/systemminds.tech/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit', display: 'block', width: '100%' }}>
+                      <div className="platform-logo-container">
+                        <img src={logoImage} alt="SystemMinds Logo" className="platform-logo" />
+                        <div className="platform-logo-text">
+                          <div className="platform-handle">systemminds.tech</div>
+                          <span className="platform-company">SystemMinds IT Solutions</span>
+                        </div>
+                      </div>
+                      <p className="platform-bio">
+                        We turn your ideas into powerful digital solutions. With creativity and innovation, we bring your vision to life and help your business grow smartly.
+                      </p>
+                      <div className="platform-buttons">
+                        <button className="platform-btn platform-btn-follow">Follow</button>
+                        <button className="platform-btn platform-btn-message">Message</button>
+                      </div>
+                    </a>
+                  </div>
                 </div>
               </motion.div>
             </div>
           </div>
 
-          {/* Right Column - TikTok Card */}
-          <div className="connected-col platform-card platform-card-tiktok">
-            <h3 className="platform-name">Tiktok</h3>
-            <p className="platform-description">
-              Convert Fast-Moving Viral Moments Into Thoughtful, High-Value Conversations.
-            </p>
-            <div className="platform-icon platform-icon-tiktok">
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.88 2.89 2.89 0 0 1-2.88-2.88 2.89 2.89 0 0 1 2.88-2.88c.28 0 .54.04.79.11V9.4a6.25 6.25 0 0 0-.79-.05A6.34 6.34 0 0 0 3.14 15.7a6.34 6.34 0 0 0 6.35 6.35 6.34 6.34 0 0 0 6.35-6.35V9.15a8.16 8.16 0 0 0 4.75 1.52V7.22a4.83 4.83 0 0 1-1-.53z" fill="#000000"/>
-              </svg>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -988,34 +1137,27 @@ function App() {
             </svg>
           </a>
 
-          <div className="social-icon social-icon-whatsapp">
+          <a href="https://chat.whatsapp.com/CJy8YPpWarEGzi9uAfbnoT" target="_blank" rel="noopener noreferrer" className="social-icon social-icon-whatsapp">
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <circle cx="12" cy="12" r="12" fill="#25D366"/>
               <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" fill="white"/>
             </svg>
-          </div>
+          </a>
 
-          <div className="social-icon social-icon-tiktok">
+          <a href="https://t.me/+g8kOiqBYvXE3NzJl" target="_blank" rel="noopener noreferrer" className="social-icon social-icon-telegram">
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="24" height="24" rx="5" fill="#000000"/>
-              <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.88 2.89 2.89 0 0 1-2.88-2.88 2.89 2.89 0 0 1 2.88-2.88c.28 0 .54.04.79.11V9.4a6.25 6.25 0 0 0-.79-.05A6.34 6.34 0 0 0 3.14 15.7a6.34 6.34 0 0 0 6.35 6.35 6.34 6.34 0 0 0 6.35-6.35V9.15a8.16 8.16 0 0 0 4.75 1.52V7.22a4.83 4.83 0 0 1-1-.53z" fill="#ffffff"/>
+              <circle cx="12" cy="12" r="12" fill="#0088CC"/>
+              <path d="M17.47 7.28L5.74 12.07C5.16 12.29 5.17 12.64 5.64 12.76L8.28 13.5L15.64 9.06C15.95 8.87 16.23 8.97 16 9.19L9.74 15.14L9.52 17.28C9.76 17.28 9.87 17.18 10.02 17.04L11.48 15.65L14.74 18.01C15.21 18.26 15.5 18.13 15.63 17.57L17.95 8.15C18.13 7.45 17.75 7.16 17.47 7.28Z" fill="white"/>
             </svg>
-          </div>
+          </a>
 
-          <div className="social-icon social-icon-messenger">
+          <a href="https://www.linkedin.com/company/systemminds/" target="_blank" rel="noopener noreferrer" className="social-icon social-icon-linkedin">
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <linearGradient id="messengerGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#87CEEB" />
-                  <stop offset="100%" stopColor="#006AFF" />
-                </linearGradient>
-              </defs>
-              <path d="M12 2C6.48 2 2 5.58 2 10c0 2.14 1.08 4.05 2.78 5.41L4 20l4.9-2.61C10.17 17.85 11.05 18 12 18c5.52 0 10-3.58 10-8s-4.48-8-10-8z" fill="url(#messengerGradient)"/>
-              <path d="M8 13l3-4h2l-3 4" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-              <path d="M11 9h2" stroke="white" strokeWidth="2.5" strokeLinecap="round"/>
-              <path d="M8 13h6" stroke="white" strokeWidth="2.5" strokeLinecap="round"/>
+              <rect width="24" height="24" rx="5" fill="#0077B5"/>
+              <path d="M8 9H5V19H8V9ZM6.5 7C7.32843 7 8 6.32843 8 5.5C8 4.67157 7.32843 4 6.5 4C5.67157 4 5 4.67157 5 5.5C5 6.32843 5.67157 7 6.5 7Z" fill="white"/>
+              <path d="M10 9H13V10.5C13.5 9.5 14.5 9 15.5 9C17.5 9 19 10.5 19 13V19H16V13.5C16 12.5 15.5 12 14.5 12C13.5 12 13 12.5 13 13.5V19H10V9Z" fill="white"/>
             </svg>
-          </div>
+          </a>
 
           {/* UI Cards */}
           <div className="ui-card ui-card-cloud">

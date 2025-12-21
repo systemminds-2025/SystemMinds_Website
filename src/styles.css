@@ -1303,29 +1303,26 @@ input {
   max-width: 1200px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 2fr;
   gap: 24px;
   align-items: stretch;
 }
 
-.connected-col {
-  padding: 32px;
-  border-right: 1px solid #e5e7eb;
-}
-
-.connected-col:first-child {
-  border-right: 1px solid #e5e7eb;
-}
-
-.connected-col:last-child {
-  border-left: 1px solid #e5e7eb;
-  border-right: none;
-}
-
-.connected-left {
+.connected-content-box {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding: 32px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.connected-cards-box {
+  padding: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
 }
 
 .connected-tagline {
@@ -1455,6 +1452,15 @@ input {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
 }
 
+.platform-card-linkedin-telegram {
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 .platform-name {
   font-size: 18px;
   font-weight: 600;
@@ -1486,22 +1492,102 @@ input {
 
 .platform-card-instagram .platform-icon-tiktok {
   background: #ccfbf1;
-  padding: 20px 20px 16px 20px;
+  padding: 20px;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  height: auto;
-  min-height: 180px;
-  margin-top: 16px;
+  align-items: stretch;
+  justify-content: space-between;
+  height: 100%;
+  min-height: 200px;
+  margin-top: 0;
   width: 100%;
-  border-radius: 16px;
+  border-radius: 0;
+  box-sizing: border-box;
+}
+
+.platform-icon-linkedin {
+  background: #E3F2FD;
+  padding: 20px;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: space-between;
+  height: 100%;
+  min-height: 200px;
+  width: 100%;
+  border-radius: 0;
+  box-sizing: border-box;
+}
+
+.platform-icon-telegram {
+  background: #E0F7FA;
+  padding: 20px;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: space-between;
+  height: 100%;
+  min-height: 200px;
+  width: 100%;
+  border-radius: 0;
+  box-sizing: border-box;
+}
+
+.platform-cards-desktop .platform-icon-linkedin,
+.platform-cards-desktop .platform-icon-instagram,
+.platform-cards-desktop .platform-icon-tiktok,
+.platform-cards-desktop .platform-icon-telegram {
+  border-radius: 12px;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.platform-cards-desktop a.platform-icon-tiktok {
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.platform-linkedin-icon,
+.platform-telegram-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #ffffff;
+  padding: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Desktop/Mobile View Toggle */
 .platform-cards-desktop {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 8px;
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 8px;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  align-items: stretch;
+}
+
+.platform-cards-desktop > * {
+  height: 100%;
+  min-height: 0;
 }
 
 .platform-cards-mobile-wrapper {
@@ -1517,26 +1603,28 @@ input {
 .platform-cards-mobile-track {
   display: flex;
   flex-direction: row;
-  width: fit-content;
+  width: 200%;
+  height: 100%;
   will-change: transform;
-  gap: 0;
+  gap: 2px;
 }
 
 .platform-card-mobile-item {
-  flex: 0 0 auto;
-  width: 96vw;
-  max-width: 96vw;
-  min-width: 96vw;
+  flex: 0 0 calc(50% - 1px);
+  width: calc(50% - 1px);
+  flex-shrink: 0;
 }
 
 .platform-icon-instagram {
   background: #fce7f3;
-  padding: 20px 20px 16px 20px;
+  padding: 20px;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  height: auto;
-  min-height: 180px;
+  align-items: stretch;
+  justify-content: space-between;
+  height: 100%;
+  min-height: 200px;
+  border-radius: 0;
+  box-sizing: border-box;
 }
 
 .platform-logo-container {
@@ -1544,6 +1632,8 @@ input {
   align-items: center;
   gap: 16px;
   width: 100%;
+  margin-bottom: 0;
+  flex-shrink: 0;
 }
 
 .platform-logo {
@@ -1572,11 +1662,10 @@ input {
 
 .platform-logo-text {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 8px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
   flex: 1;
-  flex-wrap: wrap;
 }
 
 .platform-handle {
@@ -1591,23 +1680,29 @@ input {
   font-weight: 500;
   color: #6b7280;
   font-family: 'Arial', 'Helvetica', sans-serif;
+  display: block;
+  width: 100%;
 }
 
 .platform-bio {
   font-size: 10px;
   color: #6b7280;
   line-height: 1.4;
-  margin: 12px 0 8px 0;
+  margin: 12px 0 16px 0;
   font-family: 'Arial', 'Helvetica', sans-serif;
   font-weight: 400;
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
 }
 
 .platform-buttons {
   display: flex;
   gap: 8px;
   width: 100%;
-  margin-top: 0;
+  margin-top: auto;
   margin-bottom: 0;
+  flex-shrink: 0;
 }
 
 .platform-btn {
@@ -1616,6 +1711,9 @@ input {
   border-radius: 8px;
   font-size: 12px;
   font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-family: 'Arial', 'Helvetica', sans-serif;
   cursor: pointer;
   transition: all 0.2s;
@@ -1643,6 +1741,16 @@ input {
   border-color: #b2b2b2;
 }
 
+.platform-btn-connect {
+  background: #0077B5;
+  color: #ffffff;
+}
+
+.platform-btn-connect:hover {
+  background: #006399;
+  transform: translateY(-1px);
+}
+
 .platform-btn-join {
   background: #25D366;
   color: #ffffff;
@@ -1652,6 +1760,15 @@ input {
 .platform-btn-join:hover {
   background: #20BA5A;
   transform: translateY(-1px);
+}
+
+.platform-icon-telegram .platform-btn-join {
+  background: #0088cc !important;
+  color: #ffffff !important;
+}
+
+.platform-icon-telegram .platform-btn-join:hover {
+  background: #0077b3 !important;
 }
 
 /* ROBOT CENTER SECTION */
@@ -1726,16 +1843,16 @@ input {
   animation-delay: 0.5s;
 }
 
-.social-icon-tiktok {
-  top: 30%;
-  right: 38%;
-  animation-delay: 1s;
-}
-
-.social-icon-messenger {
+.social-icon-telegram {
   top: 58%;
   right: 38%;
   transform: translateY(-50%);
+  animation-delay: 1s;
+}
+
+.social-icon-linkedin {
+  top: 30%;
+  right: 38%;
   animation-delay: 1.5s;
 }
 
@@ -3127,20 +3244,38 @@ input {
   .connected-container {
     grid-template-columns: 1fr;
     gap: 0;
+    padding: 0;
+    margin: 0;
+    max-width: 100%;
+    width: 100%;
   }
 
   .connected-col {
     border-right: none;
-    border-bottom: 1px solid #e5e7eb;
-    padding: 32px 20px;
+    border-bottom: none;
+    border-left: none;
+    padding: 0;
   }
 
   .connected-col:last-child {
     border-bottom: none;
   }
 
+  .connected-col.connected-left {
+    padding: 32px 20px;
+  }
+
   .connected-left {
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .connected-social-links {
+    justify-content: center;
+    margin: 0 auto;
   }
 
   .connected-title {
@@ -3477,40 +3612,90 @@ input {
   body, html {
     overflow-x: hidden;
     width: 100%;
-    max-width: 100%;
+    max-width: 100vw;
     position: relative;
+    box-sizing: border-box;
+  }
+
+  * {
+    box-sizing: border-box;
   }
 
   .connected-section {
     padding: 60px 0;
     overflow-x: hidden;
     width: 100%;
-    max-width: 100%;
+    max-width: 100vw;
+    box-sizing: border-box;
+    margin: 0;
   }
 
   .connected-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    gap: 0;
     overflow-x: hidden;
     width: 100%;
-    max-width: 100%;
+    max-width: 100vw;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
   }
 
-  .connected-col {
-    padding: 28px 20px;
-    overflow-x: hidden;
+  .connected-content-box {
+    grid-row: 1;
+    padding: 32px 16px;
     width: 100%;
     max-width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    overflow-x: hidden;
+  }
+
+  .connected-cards-box {
+    grid-row: 2;
+    padding: 0;
+    width: 100%;
+    max-width: 100%;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    overflow-x: hidden;
+    box-sizing: border-box;
   }
 
   .connected-title {
     font-size: 26px;
+    text-align: center;
+    width: 100%;
+    max-width: 100%;
   }
 
   .connected-description {
     font-size: 13px;
+    text-align: center;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .connected-tagline {
+    text-align: center;
+    width: 100%;
   }
 
   .connected-social-links {
     justify-content: center;
+    align-items: center;
+    width: 100%;
+    flex-wrap: wrap;
   }
 
   .platform-card {
@@ -3536,15 +3721,22 @@ input {
     display: block;
   }
 
-  .connected-col.platform-card-instagram {
+  .platform-card-linkedin-telegram {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 16px;
-    margin: 0;
-    width: 100%;
     gap: 16px;
+    padding: 0;
+  }
+
+  .platform-icon-linkedin,
+  .platform-icon-telegram {
+    width: 100%;
+    border-radius: 16px;
+    padding: 20px 16px;
+    margin: 0;
     box-sizing: border-box;
   }
 
@@ -3554,41 +3746,88 @@ input {
   }
 
   .platform-cards-mobile-wrapper {
-    display: block;
+    display: block !important;
     width: 100%;
     max-width: 100%;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: hidden;
     padding: 0;
+    margin: 0;
     position: relative;
-    touch-action: none;
-    -webkit-overflow-scrolling: none;
     box-sizing: border-box;
+    height: auto;
+    min-height: 120px;
+    background: transparent;
+    border-radius: 0;
+    visibility: visible;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
   }
 
   .platform-cards-mobile-track {
-    display: flex;
+    display: flex !important;
     flex-direction: row;
     width: fit-content;
-    gap: 0;
+    min-width: 560vw;
+    height: 100%;
+    gap: 8px;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border-radius: 0;
+    visibility: visible;
+    box-sizing: border-box;
     will-change: transform;
   }
 
   .platform-card-mobile-item {
-    flex: 0 0 auto;
-    width: 85vw;
-    max-width: 85vw;
-    min-width: 85vw;
+    flex: 0 0 70vw;
+    width: 70vw;
+    max-width: 70vw;
+    min-width: 70vw;
+    height: auto;
+    min-height: 120px;
     flex-shrink: 0;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    overflow: hidden;
   }
 
   .platform-card-mobile-item .platform-icon-instagram,
-  .platform-card-mobile-item .platform-icon-tiktok {
+  .platform-card-mobile-item .platform-icon-tiktok,
+  .platform-card-mobile-item .platform-icon-linkedin,
+  .platform-card-mobile-item .platform-icon-telegram {
     width: 100%;
-    border-radius: 16px;
-    padding: 20px 16px;
+    max-width: 100%;
+    height: 100%;
+    min-height: 120px;
+    border-radius: 0;
+    padding: 12px 10px;
     margin: 0;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
   }
+
+  .platform-card-mobile-item .platform-logo-text {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .platform-card-mobile-item .platform-company {
+    display: block;
+    width: 100%;
+  }
+
+  .platform-card-mobile-item .platform-icon-instagram,
+  .platform-card-mobile-item .platform-icon-tiktok,
+  .platform-card-mobile-item .platform-icon-linkedin,
+  .platform-card-mobile-item .platform-icon-telegram {
+    border-radius: 12px;
+  }
+
 
   .platform-icon-instagram {
     width: 85%;
@@ -3791,13 +4030,13 @@ input {
     left: 30%;
   }
 
-  .social-icon-tiktok {
-    top: 30%;
+  .social-icon-telegram {
+    top: 58%;
     right: 30%;
   }
 
-  .social-icon-messenger {
-    top: 58%;
+  .social-icon-linkedin {
+    top: 30%;
     right: 30%;
   }
 
