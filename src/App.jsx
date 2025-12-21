@@ -14,6 +14,40 @@ function App() {
   const [userEmail, setUserEmail] = useState(null);
   const [isEmailCollected, setIsEmailCollected] = useState(false);
   const messagesInitialized = useRef(false);
+  const [activeImageIndex, setActiveImageIndex] = useState({
+    card1: 0,
+    card2: 0,
+    card3: 0
+  });
+  const intervalRefs = useRef({ card1: null, card2: null, card3: null });
+  
+  // Image arrays for each card
+  const card1Images = [
+    { bg: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', label: 'Real-time messaging platform' },
+    { bg: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)', label: 'Enterprise dashboard' },
+    { bg: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)', label: 'Team collaboration tools' }
+  ];
+  
+  const card2Images = [
+    { bg: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)', label: 'AI chatbot interface' },
+    { bg: 'linear-gradient(135deg, #30cfd0 0%, #330867 100%)', label: 'Machine learning models' },
+    { bg: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)', label: 'Natural language processing' }
+  ];
+  
+  const card3Images = [
+    { bg: 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)', label: 'Video conferencing system' },
+    { bg: 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)', label: 'Live streaming platform' },
+    { bg: 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)', label: 'Collaboration workspace' }
+  ];
+
+  // Helper function to group images in pairs
+  const groupImagesInPairs = (images) => {
+    const pairs = [];
+    for (let i = 0; i < images.length; i += 2) {
+      pairs.push([images[i], images[i + 1] || images[0]]); // If odd number, pair last with first
+    }
+    return pairs;
+  };
 
   useEffect(() => {
     // Automatically open the menu smoothly on page load
@@ -30,6 +64,45 @@ function App() {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Auto-slide images for each card with staggered delays
+  useEffect(() => {
+    // Card 1 changes every 3 seconds starting immediately
+    intervalRefs.current.card1 = setInterval(() => {
+      setActiveImageIndex(prev => ({
+        ...prev,
+        card1: (prev.card1 + 1) % 3
+      }));
+    }, 3000);
+
+    // Card 2 changes every 3 seconds but starts 1 second later
+    const timeout2 = setTimeout(() => {
+      intervalRefs.current.card2 = setInterval(() => {
+        setActiveImageIndex(prev => ({
+          ...prev,
+          card2: (prev.card2 + 1) % 3
+        }));
+      }, 3000);
+    }, 1000);
+
+    // Card 3 changes every 3 seconds but starts 2 seconds later
+    const timeout3 = setTimeout(() => {
+      intervalRefs.current.card3 = setInterval(() => {
+        setActiveImageIndex(prev => ({
+          ...prev,
+          card3: (prev.card3 + 1) % 3
+        }));
+      }, 3000);
+    }, 2000);
+
+    return () => {
+      if (intervalRefs.current.card1) clearInterval(intervalRefs.current.card1);
+      if (intervalRefs.current.card2) clearInterval(intervalRefs.current.card2);
+      if (intervalRefs.current.card3) clearInterval(intervalRefs.current.card3);
+      clearTimeout(timeout2);
+      clearTimeout(timeout3);
+    };
   }, []);
 
   // Auto-send greeting messages on page load
@@ -534,44 +607,162 @@ function App() {
       {/* TRANSFORM SECTION */}
       <section className="transform-section">
         <div className="transform-container">
-          <div className="transform-header">
-            <h2 className="transform-title">Transform Good Chats Into Great Ones</h2>
-            <p className="transform-subtitle">
-              Turn Ordinary Chats Into Truly Great Conversations By Adding Clarity, Context, And Smart Guidance That Helps You Express Ideas Better.
+          <div className="transform-content">
+            <p className="transform-tagline">PROJECTS WE'VE DELIVERED</p>
+            <h1 className="transform-title">
+              Transforming Businesses Through <span className="transform-title-underline">Innovative</span> Solutions
+            </h1>
+            <p className="transform-description">
+              We've successfully delivered cutting-edge projects that transform ordinary business processes into powerful, scalable solutions. Our expertise in full-stack development, AI integration, and cloud technologies has helped enterprises achieve remarkable growth and operational excellence.
             </p>
           </div>
 
           <div className="feature-cards">
-            {/* Card 01 */}
-            <div className="feature-card">
-              <span className="card-number">01/</span>
-              <h3 className="card-title">Convert Comments Fast</h3>
-              <p className="card-description">
-                Transform simple comments into meaningful conversations that drive results.
-              </p>
-            </div>
-
-            {/* Card 02 - Highlighted */}
-            <div className="feature-card-wrapper">
-              <div className="feature-card-layer layer-3"></div>
-              <div className="feature-card-layer layer-2"></div>
-              <div className="feature-card feature-card-active">
-                <span className="card-number">02/</span>
-                <h3 className="card-title">Instant Follower Connect</h3>
-                <p className="card-description">
-                  Instantly connect with your audience through smart, automated replies.
-                </p>
+            {/* Card 01 - Enterprise Chat Solutions */}
+            <motion.div 
+              className="project-card"
+              initial={{ opacity: 0, x: -50, y: 20 }}
+              whileInView={{ opacity: 1, x: 0, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
+              whileHover={{ 
+                y: -8,
+                transition: { duration: 0.3 }
+              }}
+            >
+              <h3 className="project-card-title">KareerGrowth</h3>
+              <div className="project-image-slider">
+                <motion.div
+                  className="project-image-track"
+                  animate={{
+                    x: ["0%", "-100%"]
+                  }}
+                  transition={{
+                    x: {
+                      repeat: Infinity,
+                      repeatType: "loop",
+                      duration: 12,
+                      ease: "linear",
+                    },
+                  }}
+                >
+                  {[...groupImagesInPairs(card1Images), ...groupImagesInPairs(card1Images)].map((pair, idx) => (
+                    <div key={idx} className="project-image-slide">
+                      {pair.map((img, imgIdx) => (
+                        <div key={imgIdx} className="project-image-item">
+                          <div className="project-image-placeholder" style={{ background: img.bg }}></div>
+                          <p className="project-image-label">{img.label}</p>
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                </motion.div>
               </div>
-            </div>
+              <div className="project-card-content">
+                <p className="project-card-description">
+                  A comprehensive career development platform that helps professionals grow their careers through personalized guidance, skill assessments, and career path recommendations.
+                </p>
+                <a href="#" className="project-card-link">View Project →</a>
+              </div>
+            </motion.div>
 
-            {/* Card 03 */}
-            <div className="feature-card">
-              <span className="card-number">03/</span>
-              <h3 className="card-title">Grow Your Digital Empire</h3>
-              <p className="card-description">
-                Take your empire to the next level by scaling your impact, increasing visibility.
-              </p>
-            </div>
+            {/* Card 02 - AI-Powered Conversation Systems */}
+            <motion.div 
+              className="project-card featured-project-card"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
+              whileHover={{ 
+                y: -8,
+                transition: { duration: 0.3 }
+              }}
+            >
+              <h3 className="project-card-title">ValidProfile</h3>
+              <div className="project-image-slider">
+                <motion.div
+                  className="project-image-track"
+                  animate={{
+                    x: ["0%", "-100%"]
+                  }}
+                  transition={{
+                    x: {
+                      repeat: Infinity,
+                      repeatType: "loop",
+                      duration: 12,
+                      ease: "linear",
+                      delay: 1
+                    },
+                  }}
+                >
+                  {[...groupImagesInPairs(card2Images), ...groupImagesInPairs(card2Images)].map((pair, idx) => (
+                    <div key={idx} className="project-image-slide">
+                      {pair.map((img, imgIdx) => (
+                        <div key={imgIdx} className="project-image-item">
+                          <div className="project-image-placeholder" style={{ background: img.bg }}></div>
+                          <p className="project-image-label">{img.label}</p>
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                </motion.div>
+              </div>
+              <div className="project-card-content">
+                <p className="project-card-description">
+                  An AI-powered profile validation system that verifies professional credentials, skills, and experience using advanced machine learning algorithms.
+                </p>
+                <a href="#" className="project-card-link">View Project →</a>
+              </div>
+            </motion.div>
+
+            {/* Card 03 - Real-Time Communication Platforms */}
+            <motion.div 
+              className="project-card"
+              initial={{ opacity: 0, x: 50, y: 20 }}
+              whileInView={{ opacity: 1, x: 0, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
+              whileHover={{ 
+                y: -8,
+                transition: { duration: 0.3 }
+              }}
+            >
+              <h3 className="project-card-title">AI Resume Generator</h3>
+              <div className="project-image-slider">
+                <motion.div
+                  className="project-image-track"
+                  animate={{
+                    x: ["0%", "-100%"]
+                  }}
+                  transition={{
+                    x: {
+                      repeat: Infinity,
+                      repeatType: "loop",
+                      duration: 12,
+                      ease: "linear",
+                      delay: 2
+                    },
+                  }}
+                >
+                  {[...groupImagesInPairs(card3Images), ...groupImagesInPairs(card3Images)].map((pair, idx) => (
+                    <div key={idx} className="project-image-slide">
+                      {pair.map((img, imgIdx) => (
+                        <div key={imgIdx} className="project-image-item">
+                          <div className="project-image-placeholder" style={{ background: img.bg }}></div>
+                          <p className="project-image-label">{img.label}</p>
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                </motion.div>
+              </div>
+              <div className="project-card-content">
+                <p className="project-card-description">
+                  An intelligent resume builder powered by AI that creates professional, ATS-friendly resumes tailored to job descriptions and industry standards.
+                </p>
+                <a href="#" className="project-card-link">View Project →</a>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
