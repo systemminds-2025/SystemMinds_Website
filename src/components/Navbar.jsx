@@ -1,8 +1,31 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import logoImage from '../img/logo.png';
 
 const Navbar = ({ isScrolled, isNavCollapsed, setIsNavCollapsed }) => {
+    const [activeSection, setActiveSection] = useState('home');
+
+    // Detect active section based on scroll position
+    useEffect(() => {
+        const handleScroll = () => {
+            const sections = ['home', 'about', 'projects', 'contact', 'services'];
+            const scrollPosition = window.scrollY + 100;
+
+            for (let i = sections.length - 1; i >= 0; i--) {
+                const section = document.getElementById(sections[i]);
+                if (section && section.offsetTop <= scrollPosition) {
+                    setActiveSection(sections[i]);
+                    break;
+                }
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        handleScroll();
+
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
     const handleMenuClick = () => {
         setIsNavCollapsed(!isNavCollapsed);
     };
@@ -43,24 +66,32 @@ const Navbar = ({ isScrolled, isNavCollapsed, setIsNavCollapsed }) => {
                     <AnimatePresence mode="popLayout">
                         {!isNavCollapsed && (
                             <>
-                                {['Home', 'About', 'Projects', 'Contact', 'Services'].map((item, index) => (
-                                    <a
-                                        key={item}
-                                        href={`#${item === 'Home' ? 'home' : item === 'Features' ? 'whyus' : item.toLowerCase()}`}
-                                        onClick={(e) => handleNavClick(item, e)}
-                                        className="no-underline"
-                                    >
-                                        <motion.div
-                                            className="border-none bg-transparent px-4 py-2 text-xs text-[#111827] cursor-pointer transition-opacity duration-200 rounded-full whitespace-nowrap hover:bg-black/5 inline-block"
-                                            initial={{ opacity: 0, y: -10, height: 0 }}
-                                            animate={{ opacity: 1, y: 0, height: 'auto' }}
-                                            exit={{ opacity: 0, y: -10, height: 0 }}
-                                            transition={{ duration: 0.3, ease: 'easeInOut', delay: index * 0.05 }}
+                                {['Home', 'About', 'Projects', 'Contact', 'Services'].map((item, index) => {
+                                    const itemId = item === 'Home' ? 'home' : item.toLowerCase();
+                                    const isActive = activeSection === itemId;
+
+                                    return (
+                                        <a
+                                            key={item}
+                                            href={`#${itemId}`}
+                                            onClick={(e) => handleNavClick(item, e)}
+                                            className="no-underline"
                                         >
-                                            {item}
-                                        </motion.div>
-                                    </a>
-                                ))}
+                                            <motion.div
+                                                className={`border-none px-4 py-2 text-xs cursor-pointer transition-all duration-200 rounded-full whitespace-nowrap inline-block ${isActive
+                                                        ? 'bg-purple-600 text-white shadow-[0_2px_8px_rgba(147,51,234,0.3)]'
+                                                        : 'bg-transparent text-[#111827] hover:bg-black/5'
+                                                    }`}
+                                                initial={{ opacity: 0, y: -10, height: 0 }}
+                                                animate={{ opacity: 1, y: 0, height: 'auto' }}
+                                                exit={{ opacity: 0, y: -10, height: 0 }}
+                                                transition={{ duration: 0.3, ease: 'easeInOut', delay: index * 0.05 }}
+                                            >
+                                                {item}
+                                            </motion.div>
+                                        </a>
+                                    );
+                                })}
                             </>
                         )}
                     </AnimatePresence>
