@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
@@ -6,6 +5,12 @@ const ConnectSection = () => {
     const [activeSocialIndex, setActiveSocialIndex] = useState(0);
     const [isHoveringSocial, setIsHoveringSocial] = useState(false);
     const [isMobileSocial, setIsMobileSocial] = useState(false);
+    const [formData, setFormData] = useState({
+        fullName: '',
+        email: '',
+        phone: '',
+        projectDetails: ''
+    });
 
     // Social Media Cards Data
     const socialCards = [
@@ -63,6 +68,18 @@ const ConnectSection = () => {
         }
     ];
 
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log('Form submitted:', formData);
+    };
+
     useEffect(() => {
         const checkMobileSocial = () => {
             setIsMobileSocial(window.innerWidth < 768);
@@ -96,7 +113,7 @@ const ConnectSection = () => {
         >
             <div className="max-w-[1920px] mx-auto px-[6vw] relative z-10 w-full">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-                    {/* Left Column - Text */}
+                    {/* Left Column - Text and Form */}
                     <div className="text-left z-20">
                         <motion.span
                             initial={{ opacity: 0, y: 20 }}
@@ -115,15 +132,94 @@ const ConnectSection = () => {
                         >
                             Stay connected across every place your audience exists.
                         </motion.h2>
-                        <motion.p
+
+                        {/* Contact Form */}
+                        <motion.form
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: 0.2 }}
-                            className="text-sm md:text-base text-[#4b5563] leading-[1.6] mb-6 md:mb-8 font-montserrat font-normal max-w-xl"
+                            onSubmit={handleSubmit}
+                            className="space-y-4"
                         >
-                            Reach out and connect with us on social media. Follow us to stay updated with our latest innovations, projects, and insights. We'd love to hear from you!
-                        </motion.p>
+                            {/* Full Name and Work Email in Same Row */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {/* Full Name */}
+                                <div>
+                                    <label htmlFor="fullName" className="block text-xs font-semibold text-gray-600 mb-1.5 font-montserrat">
+                                        Full name
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="fullName"
+                                        name="fullName"
+                                        value={formData.fullName}
+                                        onChange={handleChange}
+                                        placeholder="How should we address you?"
+                                        className="w-full px-4 py-2.5 rounded-lg border border-gray-300 bg-white text-gray-900 placeholder:text-gray-400 focus:border-purple-light focus:ring-2 focus:ring-purple-light/20 outline-none transition-all duration-200 text-sm font-montserrat"
+                                        required
+                                    />
+                                </div>
+
+                                {/* Work Email */}
+                                <div>
+                                    <label htmlFor="email" className="block text-xs font-semibold text-gray-600 mb-1.5 font-montserrat">
+                                        Work email
+                                    </label>
+                                    <input
+                                        type="email"
+                                        id="email"
+                                        name="email"
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        placeholder="you@company.com"
+                                        className="w-full px-4 py-2.5 rounded-lg border border-gray-300 bg-white text-gray-900 placeholder:text-gray-400 focus:border-purple-light focus:ring-2 focus:ring-purple-light/20 outline-none transition-all duration-200 text-sm font-montserrat"
+                                        required
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Phone (Optional) */}
+                            <div>
+                                <label htmlFor="phone" className="block text-xs font-semibold text-gray-600 mb-1.5 font-montserrat">
+                                    Phone (optional)
+                                </label>
+                                <input
+                                    type="tel"
+                                    id="phone"
+                                    name="phone"
+                                    value={formData.phone}
+                                    onChange={handleChange}
+                                    placeholder="+91 98765 43210"
+                                    className="w-full px-4 py-2.5 rounded-lg border border-gray-300 bg-white text-gray-900 placeholder:text-gray-400 focus:border-purple-light focus:ring-2 focus:ring-purple-light/20 outline-none transition-all duration-200 text-sm font-montserrat"
+                                />
+                            </div>
+
+                            {/* Project Details */}
+                            <div>
+                                <label htmlFor="projectDetails" className="block text-xs font-semibold text-gray-600 mb-1.5 font-montserrat">
+                                    Project details
+                                </label>
+                                <textarea
+                                    id="projectDetails"
+                                    name="projectDetails"
+                                    value={formData.projectDetails}
+                                    onChange={handleChange}
+                                    placeholder="Share goals, timelines, or links. The more detail, the better we can prepare."
+                                    rows="4"
+                                    className="w-full px-4 py-2.5 rounded-lg border border-gray-300 bg-white text-gray-900 placeholder:text-gray-400 focus:border-purple-light focus:ring-2 focus:ring-purple-light/20 outline-none transition-all duration-200 text-sm font-montserrat resize-none"
+                                    required
+                                ></textarea>
+                            </div>
+
+                            {/* Submit Button */}
+                            <button
+                                type="submit"
+                                className="w-full bg-black text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 hover:bg-gray-900 hover:shadow-lg hover:-translate-y-0.5 font-montserrat text-sm"
+                            >
+                                Request consultation
+                            </button>
+                        </motion.form>
                     </div>
 
                     {/* Right Column - Social Cards Fan Area */}
@@ -145,7 +241,7 @@ const ConnectSection = () => {
                                 const scale = 1 - Math.abs(position) * 0.15;
                                 const zIndex = 50 - Math.abs(position);
                                 const rotate = position * (isMobileSocial ? 5 : 10);
-                                const isVisible = Math.abs(position) <= 1; // Only show active and 1 neighbor on each side (total 3)
+                                const isVisible = Math.abs(position) <= 1;
                                 const opacity = isVisible ? 1 : 0;
                                 const brightness = isActive ? 100 : 95;
 
