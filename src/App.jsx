@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import smartbotImage from './img/PhotoshopExtension_Image.png';
 import logoImage from './img/logo.png';
+import imgInterview from './img/about-interview.png';
+import imgAssessment from './img/about-assessment.png';
 import './index.css';
 
 function App() {
@@ -1152,11 +1154,14 @@ function App() {
         <div className="max-w-[1920px] mx-auto px-[6vw] grid grid-cols-1 lg:grid-cols-2 gap-[clamp(20px,5vw,60px)] items-center">
           {/* Left Column - Text and CTA */}
           <div className="col-span-1 lg:col-span-1 py-10 lg:pr-14">
-            <h2 className="text-[clamp(28px,5vw,42px)] font-bold leading-[1.2] text-[#111827] mb-5 tracking-[-0.02em] font-oswald capitalize">
-              Make BUsiness Decision That help you grow
-            </h2>
+            <div className="mb-6">
+              <p className="text-xs font-semibold text-purple-light uppercase tracking-widest mb-2 font-montserrat">WHY CHOOSE US</p>
+              <h2 className="text-[clamp(28px,5vw,42px)] font-bold text-[#111827] leading-[1.2] mb-4 tracking-tight font-oswald">
+                We Drive Real Results That Accelerate Your <span className="relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-gradient-to-r after:from-purple-light after:to-purple-dark">Business Growth</span>
+              </h2>
+            </div>
             <p className="text-[15px] leading-[1.6] text-[#6b7280] mb-8 font-montserrat">
-              Manage All Your Social Channels, Ensure Customer Supremacy Engagement, Track Your Performance And More—All From A Single Platform
+              We bring your dream project from scratch to live with robustness and success. As expert full-stack developers, we craft high-performance applications using optimized code and strictly follow Agile methodology. We handle the entire lifecycle, ensuring your vision is executed perfectly from concept to deployment.
             </p>
             <button className="bg-gradient-to-b from-gray-800 to-gray-900 text-white border-none py-3.5 pl-6 pr-5 rounded-full text-base font-semibold cursor-pointer shadow-lg flex items-center gap-2 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl group font-montserrat">
               Get Started
@@ -1164,65 +1169,52 @@ function App() {
             </button>
           </div>
 
-          {/* Right Column - Dashboard Graphic */}
+          {/* Right Column - Image Grid */}
           <div className="col-span-1 lg:col-span-1 relative">
-            <div className="bg-[#f9fafb] rounded-[24px] p-6 lg:p-8 w-full max-w-[500px] shadow-[0_8px_24px_rgba(0,0,0,0.06)] mx-auto lg:ml-auto">
-              <div className="flex flex-col sm:flex-row gap-6 items-center mb-0">
-                <div className="flex items-start gap-3 flex-1 w-full sm:w-auto">
-                  <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shrink-0 shadow-[0_2px_8px_rgba(0,0,0,0.05)] text-[#111827]">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M7 4V2C7 1.45 7.45 1 8 1H16C16.55 1 17 1.45 17 2V4H20C20.55 4 21 4.45 21 5S20.55 6 20 6H19V19C19 20.1 18.1 21 17 21H7C5.9 21 5 20.1 5 19V6H4C3.45 6 3 5.55 3 5S3.45 4 4 4H7ZM9 3V4H15V3H9ZM7 6V19H17V6H7Z" fill="#111827" />
-                      <path d="M9 8H15V10H9V8ZM9 12H15V14H9V12ZM9 16H13V18H9V16Z" fill="#111827" />
-                    </svg>
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    <div className="text-lg font-bold text-[#111827] font-oswald tracking-tight">25000 USD</div>
-                    <div className="text-xs text-[#6b7280] font-semibold uppercase tracking-wider font-montserrat">Total Sales</div>
-                  </div>
-                </div>
-                <div className="hidden sm:block w-[1px] h-[50px] bg-[#e5e7eb] shrink-0"></div>
-                <div className="flex items-start gap-3 flex-1 w-full sm:w-auto">
-                  <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shrink-0 shadow-[0_2px_8px_rgba(0,0,0,0.05)] text-[#111827]">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <circle cx="12" cy="12" r="10" stroke="#111827" strokeWidth="1.5" fill="none" />
-                      <path d="M12 2L12 12L20 12" stroke="#111827" strokeWidth="1.5" strokeLinecap="round" fill="none" />
-                      <path d="M12 12L12 22L4 22" stroke="#111827" strokeWidth="1.5" strokeLinecap="round" fill="none" />
-                    </svg>
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    <div className="text-lg font-bold text-[#111827] font-oswald tracking-tight">22000 USD</div>
-                    <div className="text-xs text-[#6b7280] font-semibold uppercase tracking-wider font-montserrat">Total Expenses</div>
-                  </div>
-                </div>
-              </div>
+            <div className="grid grid-cols-2 gap-4 md:gap-6">
 
-              {/* Revenue Chart Box */}
-              {/* Revenue Chart Box */}
-              <div className="bg-white rounded-2xl p-6 mt-6 shadow-[0_2px_12px_rgba(0,0,0,0.03)] border border-gray-100/50">
-                <div className="flex items-center justify-between mb-5">
-                  <span className="text-base font-bold text-[#111827] font-oswald">Revenue</span>
-                  <span className="text-xs font-bold text-green-500 bg-green-50 px-2 py-1 rounded-full">(+13%)</span>
-                  <span className="flex items-center gap-2 text-xs text-[#6b7280] font-medium font-montserrat">
-                    <span className="w-2 h-2 rounded-full bg-[#111827]"></span>
-                    This Year
-                  </span>
+              {/* Column 1 */}
+              <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                viewport={{ once: true }}
+                className="space-y-4 md:space-y-6 mt-12 md:mt-24" // Offset down
+              >
+                {/* Image Card */}
+                <div className="rounded-2xl overflow-hidden h-40 md:h-56 relative group">
+                  <img src={imgAssessment} alt="AI Technology" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                 </div>
-                <div className="relative h-[150px] w-full flex items-end justify-between px-2 pb-5 border-b border-[#f3f4f6]">
-                  <div className="flex items-end justify-between w-full h-full gap-2 sm:gap-4">
-                    <div className="w-full bg-[#f3f4f6] rounded-t-sm hover:bg-[#e5e7eb] transition-colors" style={{ height: '50%' }}></div>
-                    <div className="w-full bg-[#f3f4f6] rounded-t-sm hover:bg-[#e5e7eb] transition-colors" style={{ height: '60%' }}></div>
-                    <div className="w-full bg-[#f3f4f6] rounded-t-sm hover:bg-[#e5e7eb] transition-colors" style={{ height: '45%' }}></div>
-                    <div className="w-full bg-[#111827] rounded-t-sm relative group cursor-pointer" style={{ height: '100%' }}>
-                      <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-2 h-2 bg-[#111827] rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    </div>
-                    <div className="w-full bg-[#f3f4f6] rounded-t-sm hover:bg-[#e5e7eb] transition-colors" style={{ height: '55%' }}></div>
-                    <div className="w-full bg-[#f3f4f6] rounded-t-sm hover:bg-[#e5e7eb] transition-colors" style={{ height: '65%' }}></div>
-                  </div>
-                  <div className="absolute top-1/2 left-0 w-full h-[1px] bg-[#e5e7eb] border-t border-dashed border-[#9ca3af]/50 -z-10 flex items-center">
-                    <div className="bg-white pr-2 text-[10px] text-[#9ca3af] font-medium pl-1">2025 Avg</div>
-                  </div>
+
+                {/* Stats Card - Total Sales */}
+                <div className="bg-[#1a1a1a] rounded-2xl p-5 md:p-6 flex flex-col justify-center items-start shadow-xl border border-white/5">
+                  <span className="text-purple-light font-oswald font-bold text-3xl md:text-4xl mb-1">25k+</span>
+                  <span className="text-gray-500 text-[10px] uppercase tracking-widest font-bold">Total Sales</span>
                 </div>
-              </div>
+              </motion.div>
+
+              {/* Column 2 */}
+              <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+                viewport={{ once: true }}
+                className="space-y-4 md:space-y-6"
+              >
+                {/* Stats Card - Total Expenses */}
+                <div className="bg-[#1a1a1a] rounded-2xl p-5 md:p-6 flex flex-col justify-center items-end text-right shadow-xl border border-white/5">
+                  <span className="text-purple-light font-oswald font-bold text-3xl md:text-4xl mb-1">22k+</span>
+                  <span className="text-gray-500 text-[10px] uppercase tracking-widest font-bold">Total Expenses</span>
+                </div>
+
+                {/* Image Card */}
+                <div className="rounded-2xl overflow-hidden h-56 md:h-72 relative group">
+                  <img src={imgInterview} alt="Mentorship" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                </div>
+              </motion.div>
+
             </div>
           </div>
         </div>
