@@ -1857,98 +1857,107 @@ function App() {
         </div>
       </section >
 
-      {/* FOOTER SECTION */}
-      < footer className="bg-[#2c2c2c] py-[80px] px-5 pb-10 text-white overflow-hidden relative" >
-        <div className="max-w-[1920px] mx-auto px-[6vw]">
-          {/* Top Section */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 mb-10">
-            {/* Left Side - Company & Products */}
-            <div className="flex flex-col sm:flex-row gap-10 sm:gap-16">
-              <div className="flex flex-col">
-                <h4 className="text-base font-semibold text-white mb-5 font-oswald tracking-wide uppercase">Company</h4>
-                <ul className="flex flex-col gap-3 font-montserrat p-0 m-0 list-none">
-                  <li><a href="#" className="text-gray-300 text-sm hover:text-white transition-colors no-underline">About</a></li>
-                  <li><a href="#" className="text-gray-300 text-sm hover:text-white transition-colors no-underline">Careers</a></li>
-                  <li><a href="#" className="text-gray-300 text-sm hover:text-white transition-colors no-underline">Press</a></li>
-                  <li><a href="#" className="text-gray-300 text-sm hover:text-white transition-colors no-underline">Contact Us</a></li>
-                  <li><a href="#" className="text-gray-300 text-sm hover:text-white transition-colors no-underline">System Status</a></li>
-                </ul>
+      {/* FOOTER SECTION (Refined & Responsive) */}
+      <footer className="bg-[#111827] pt-[80px] pb-10 text-white overflow-hidden relative font-montserrat">
+        <div className="max-w-[1200px] mx-auto px-6 relative z-10">
+
+          {/* Main Footer Grid */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8 mb-16">
+
+            {/* Col 1: Brand & About (Full width on mobile) */}
+            <div className="col-span-2 md:col-span-1 flex flex-col gap-6">
+              <div>
+                <h3 className="text-2xl font-bold font-oswald text-white mb-2">SystemMinds</h3>
+                <p className="text-gray-400 text-sm leading-relaxed">
+                  Empowering businesses with cutting-edge AI, Cloud, and Digital solutions. Your partner in digital transformation.
+                </p>
               </div>
-              <div className="flex flex-col">
-                <h4 className="text-base font-semibold text-white mb-5 font-oswald tracking-wide uppercase">Products</h4>
-                <ul className="flex flex-col gap-3 font-montserrat p-0 m-0 list-none">
-                  <li><a href="#" className="text-gray-300 text-sm hover:text-white transition-colors no-underline">Live Chat</a></li>
-                  <li><a href="#" className="text-gray-300 text-sm hover:text-white transition-colors no-underline">Jiogram</a></li>
-                  <li><a href="#" className="text-gray-300 text-sm hover:text-white transition-colors no-underline">Datasetico</a></li>
-                  <li><a href="#" className="text-gray-300 text-sm hover:text-white transition-colors no-underline">Underline</a></li>
-                  <li><a href="#" className="text-gray-300 text-sm hover:text-white transition-colors no-underline">Keyword</a></li>
-                </ul>
+              {/* Social Icons */}
+              <div className="flex gap-3">
+                {[
+                  { icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>, link: "#" },
+                  { icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>, link: "#" },
+                  { icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>, link: "#" },
+                  { icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>, link: "#" }
+                ].map((social, idx) => (
+                  <a key={idx} href={social.link} className="w-9 h-9 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-purple-600 hover:text-white transition-all duration-300">
+                    {social.icon}
+                  </a>
+                ))}
               </div>
             </div>
 
-            {/* Right Side - Newsletter */}
-            <div className="lg:items-start flex flex-col">
-              <div className="w-full max-w-md">
-                <h4 className="text-base font-semibold text-white mb-5 font-oswald tracking-wide uppercase">Newsletter</h4>
-                <div className="flex gap-2">
-                  <input type="email" placeholder="Enter Your Email" className="bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder:text-gray-400 focus:outline-none focus:border-white/40 flex-1 font-montserrat text-sm" />
-                  <button className="bg-white text-[#2c2c2c] px-4 py-2 rounded-lg font-semibold cursor-pointer hover:bg-gray-100 transition-colors font-montserrat text-sm">Submit</button>
-                </div>
+            {/* Col 2: Quick Links (Left on Mobile) */}
+            <div className="col-span-1">
+              <h4 className="text-lg font-bold font-oswald text-white mb-6 uppercase tracking-wide">Quick Links</h4>
+              <ul className="space-y-3">
+                {['Home', 'About Us', 'Services', 'Our Work', 'Contact'].map((item) => (
+                  <li key={item}>
+                    <a href="#" className="text-gray-400 hover:text-purple-400 text-sm transition-colors flex items-center gap-2 group">
+                      <span className="w-1 h-1 rounded-full bg-gray-600 group-hover:bg-purple-400 transition-colors"></span>
+                      {item}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Col 3: Services (Right on Mobile) */}
+            <div className="col-span-1">
+              <h4 className="text-lg font-bold font-oswald text-white mb-6 uppercase tracking-wide">Our Services</h4>
+              <ul className="space-y-3">
+                {['Web Development', 'Cloud Solutions', 'AI Integration', 'Mobile Apps', 'Data Analytics'].map((item) => (
+                  <li key={item}>
+                    <a href="#" className="text-gray-400 hover:text-purple-400 text-sm transition-colors flex items-center gap-2 group">
+                      <span className="w-1 h-1 rounded-full bg-gray-600 group-hover:bg-purple-400 transition-colors"></span>
+                      {item}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Col 4: Newsletter (Full width on mobile) */}
+            <div className="col-span-2 md:col-span-1">
+              <h4 className="text-lg font-bold font-oswald text-white mb-6 uppercase tracking-wide">Newsletter</h4>
+              <p className="text-gray-400 text-sm mb-4">Subscribe to get the latest news and updates.</p>
+              <div className="flex flex-col gap-3">
+                <input
+                  type="email"
+                  placeholder="Your Email Address"
+                  className="bg-gray-800/50 border border-gray-700 text-white text-sm rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors w-full"
+                />
+                <button className="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-4 rounded-lg text-sm transition-colors w-full">
+                  Subscribe Now
+                </button>
               </div>
             </div>
+
           </div>
 
-          {/* Social Media Icons */}
-          <div className="flex gap-4 mb-10">
-            <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-white/20 transition-all">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" fill="currentColor" />
-              </svg>
-            </a>
-            <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-white/20 transition-all">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2C6.48 2 2 5.58 2 10c0 2.14 1.08 4.05 2.78 5.41L4 20l4.9-2.61C10.17 17.85 11.05 18 12 18c5.52 0 10-3.58 10-8s-4.48-8-10-8z" fill="currentColor" />
-                <path d="M9.5 9h5v1.5h-5V9zm0 2.5h5V13h-5v-1.5z" fill="white" />
-              </svg>
-            </a>
-            <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-white/20 transition-all">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="none" />
-                <path d="M9 7h3.5c2 0 3.5 1.5 3.5 3.5S14.5 14 12.5 14H9V7zm0 0v10" stroke="white" strokeWidth="2" strokeLinecap="round" />
-              </svg>
-            </a>
-            <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-white/20 transition-all">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" strokeWidth="2" fill="none" />
-                <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="2" fill="none" />
-                <circle cx="18" cy="6" r="1.5" fill="currentColor" />
-              </svg>
-            </a>
-          </div>
-
-          {/* Main Logo */}
-          <div className="relative py-10 md:py-20 overflow-hidden">
-            <h1 className="text-[clamp(60px,12vw,180px)] font-bold font-oswald leading-none tracking-tighter text-white/5 select-none relative z-0 flex items-center justify-center lg:justify-start whitespace-nowrap">
-              SYSTEM MIN<span className="text-white/10">D</span>
-              <div className="relative w-[80px] md:w-[150px] mx-2 md:mx-4">
-                <img src={smartbotImage} alt="SmartBot Character" className="w-full h-auto object-contain animate-float" />
-              </div>
-              <span className="text-white/10">S</span><sup className="text-2xl md:text-5xl mt-4 md:mt-10 ml-2">®</sup>
+          {/* Large Stylized Text with Bot */}
+          <div className="relative py-10 border-t border-gray-800/50">
+            <h1 className="text-[clamp(50px,13vw,160px)] font-bold font-oswald leading-none tracking-tighter text-white/5 select-none flex flex-wrap items-center justify-center pointer-events-none">
+              SYSTEM
+              <span className="relative w-[60px] md:w-[120px] h-[60px] md:h-[120px] mx-2 -mt-4 md:-mt-8">
+                <img src={smartbotImage} alt="SmartBot" className="w-full h-full object-contain animate-float drop-shadow-2xl opacity-80" />
+              </span>
+              MINDS
             </h1>
           </div>
 
-          {/* Bottom Footer */}
-          <div className="flex flex-col md:flex-row justify-between items-center gap-6 pt-8 border-t border-white/10">
-            <div className="flex flex-col sm:flex-row gap-4 sm:gap-8">
-              <a href="#" className="text-sm text-gray-400 hover:text-white transition-colors no-underline font-montserrat">Term & Condition</a>
-              <a href="#" className="text-sm text-gray-400 hover:text-white transition-colors no-underline font-montserrat">Privacy Policy</a>
-            </div>
-            <div className="text-right">
-              <p className="text-sm text-gray-400 m-0 font-montserrat">© 2025, Smartbot. All rights reserved.</p>
+          {/* Bottom Bar */}
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 pt-8 border-t border-gray-800">
+            <p className="text-gray-500 text-xs md:text-sm">© 2025 SystemMinds. All rights reserved.</p>
+            <div className="flex gap-6">
+              <a href="#" className="text-gray-500 hover:text-white text-xs md:text-sm transition-colors">Privacy Policy</a>
+              <a href="#" className="text-gray-500 hover:text-white text-xs md:text-sm transition-colors">Terms of Service</a>
+              <a href="#" className="text-gray-500 hover:text-white text-xs md:text-sm transition-colors">Cookies</a>
             </div>
           </div>
+
         </div>
-      </footer >
+      </footer>
 
       {/* Mobile Bottom Navigation Bar */}
       < nav className="fixed lg:hidden bottom-0 left-0 right-0 bg-[#020617] px-6 py-3 flex justify-between items-end z-50 rounded-t-[24px] shadow-[0_-4px_24px_rgba(0,0,0,0.25)] min-h-[70px] pb-5" >
