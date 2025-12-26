@@ -14,6 +14,93 @@ function App() {
   const [userEmail, setUserEmail] = useState(null);
   const [isEmailCollected, setIsEmailCollected] = useState(false);
   const messagesInitialized = useRef(false);
+
+  // Social Cards State
+  const [activeSocialIndex, setActiveSocialIndex] = useState(0);
+  const [isHoveringSocial, setIsHoveringSocial] = useState(false);
+  const [isMobileSocial, setIsMobileSocial] = useState(false);
+
+  // Social Media Cards Data
+  const socialCards = [
+    {
+      title: "SystemMinds",
+      description: "Follow our LinkedIn Company Page for latest innovations and industry updates.",
+      icon: (
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+        </svg>
+      ),
+      link: "https://www.linkedin.com/company/systemminds",
+      color: "#0077b5",
+      buttonText: "Connect",
+      gradient: "linear-gradient(145deg, #111827 0%, #1f2937 100%)"
+    },
+    {
+      title: "SystemMinds",
+      description: "Join our WhatsApp Community for latest news, updates and team engagement.",
+      icon: (
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+        </svg>
+      ),
+      link: "https://chat.whatsapp.com/CJy8YPpWarEGzi9uAfbnoT",
+      color: "#25d366",
+      buttonText: "Join Chat",
+      gradient: "linear-gradient(145deg, #111827 0%, #1f2937 100%)"
+    },
+    {
+      title: "systemminds.tech",
+      description: "Follow us on Instagram. We bring your vision to life with creativity and innovation.",
+      icon: (
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+        </svg>
+      ),
+      link: "https://www.instagram.com/systemminds.tech/",
+      color: "#d62976",
+      buttonText: "Follow",
+      gradient: "linear-gradient(145deg, #111827 0%, #1f2937 100%)"
+    },
+    {
+      title: "SystemMinds",
+      description: "Join our Telegram Channel for instant updates and direct communication.",
+      icon: (
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
+        </svg>
+      ),
+      link: "https://t.me/+g8kOiqBYvXE3NzJl",
+      color: "#0088cc",
+      buttonText: "Join Channel",
+      gradient: "linear-gradient(145deg, #111827 0%, #1f2937 100%)"
+    }
+  ];
+
+  useEffect(() => {
+    const checkMobileSocial = () => {
+      setIsMobileSocial(window.innerWidth < 768);
+    };
+    checkMobileSocial();
+    window.addEventListener('resize', checkMobileSocial);
+    return () => window.removeEventListener('resize', checkMobileSocial);
+  }, []);
+
+  // Auto-swap functionality for Social Cards
+  useEffect(() => {
+    if (isHoveringSocial) return;
+    const interval = setInterval(() => {
+      setActiveSocialIndex((prev) => (prev + 1) % socialCards.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [isHoveringSocial, socialCards.length]);
+
+  const getSocialPosition = (index) => {
+    let position = index - activeSocialIndex;
+    const halfLength = Math.floor(socialCards.length / 2);
+    if (position > halfLength) position -= socialCards.length;
+    if (position < -halfLength) position += socialCards.length;
+    return position;
+  };
   // Image arrays for each card
   const card1Images = [
     { bg: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', label: 'Real-time messaging platform' },
@@ -324,7 +411,7 @@ function App() {
   return (
     <div className="min-h-screen flex flex-col font-montserrat">
       {/* HERO SECTION */}
-      <section className="bg-gradient-to-b from-[#f5f5f7] to-[#e5e7eb] flex items-center justify-center py-10 px-5 min-h-[auto]">
+      <section className="bg-gradient-to-b from-[#f5f5f7] to-[#e5e7eb] flex items-center justify-center py-10 px-5 min-h-screen">
         <div className="max-w-[1920px] w-full px-[6vw] py-10 pb-20 relative mx-auto">
           {/* Navigation Container */}
           <div className={`flex items-center justify-between gap-6 m-0 px-5 md:px-12 fixed top-0 left-0 right-0 w-full z-[1000] py-5 transition-all duration-300 ${isScrolled ? 'bg-[#f5f5f7]/98 backdrop-blur-[40px] shadow-[0_4px_12px_rgba(0,0,0,0.08)] border-b border-black/10 py-3' : 'bg-transparent'}`}>
@@ -427,7 +514,7 @@ function App() {
               <img src={smartbotImage} alt="SmartBot Character" className="w-[140px] sm:w-[200px] md:w-[280px] h-auto object-contain transition-[width] duration-300" />
             </motion.div>
             <motion.div
-              className="max-w-[800px] flex-1 mt-0 md:mt-5 w-full px-5 md:px-0"
+              className="max-w-[800px] flex-1 mt-0 md:mt-5 w-full md:px-0"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
@@ -436,14 +523,14 @@ function App() {
                 delay: 0.3
               }}
             >
-              <p className="text-[11px] sm:text-xs md:text-sm font-semibold text-purple-light uppercase tracking-wider md:tracking-widest mb-3 md:mb-6 font-montserrat text-center md:text-left">TRANSFORM YOUR IDEAS INTO REALITY</p>
-              <h1 className="text-[28px] sm:text-[32px] md:text-[clamp(32px,5vw,48px)] font-bold text-black leading-[1.2] mb-4 md:mb-8 font-oswald text-center md:text-left">
+              <p className="text-[11px] sm:text-xs md:text-sm font-semibold text-purple-light uppercase tracking-wider md:tracking-widest mb-3 md:mb-6 font-montserrat text-left">TRANSFORM YOUR IDEAS INTO REALITY</p>
+              <h1 className="text-[28px] sm:text-[32px] md:text-[clamp(32px,5vw,48px)] font-bold text-black leading-[1.2] mb-4 md:mb-8 font-oswald text-left">
                 Professional <span className="relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-gradient-to-r after:from-purple-light after:to-purple-dark">Services</span> & Innovative Products
               </h1>
-              <p className="text-[13px] sm:text-sm md:text-sm text-[#6b7280] leading-[1.6] mb-3 md:mb-5 font-montserrat font-normal text-center md:text-left">
+              <p className="text-[13px] sm:text-sm md:text-sm text-[#6b7280] leading-[1.6] mb-3 md:mb-5 font-sans font-normal text-left">
                 SystemMinds is a full-stack digital studio delivering robust products, future-ready platforms, and tailor-made enterprise solutions. We blend strategy, UI engineering, and cloud-native development to accelerate growth for ambitious brands. Our comprehensive approach ensures seamless integration of cutting-edge technologies with business objectives.
               </p>
-              <p className="text-xs text-[#6b7280] leading-[1.5] mb-4 md:mb-5 font-montserrat font-normal hidden md:block">
+              <p className="text-[13px] sm:text-sm md:text-sm text-[#6b7280] leading-[1.6] mb-4 md:mb-5 font-sans font-normal">
                 With expertise spanning React.js, Spring Boot, Python, and modern cloud technologies, we transform complex business challenges into elegant, scalable digital solutions. Our team combines technical excellence with creative problem-solving to deliver products that not only meet today's needs but are built to evolve with your business. From initial consultation to post-launch support, we provide end-to-end services that drive measurable results and sustainable growth.
               </p>
             </motion.div>
@@ -756,252 +843,140 @@ function App() {
         </div>
       </section>
 
-      {/* STAY CONNECTED SECTION */}
-      <section className="bg-white py-20 flex items-center justify-center min-h-[50vh] border-none">
-        <div className="max-w-[1920px] mx-auto px-5 md:px-[6vw] grid grid-cols-12 gap-6 items-stretch w-full">
-          {/* Content Box - Text and Social Icons (No visible box UI) */}
-          <div className="col-span-12 lg:col-span-4 flex flex-col justify-start">
-            <p className="text-sm font-semibold text-purple-light uppercase tracking-widest mb-6 font-montserrat">CONNECT WITH US</p>
-            <h2 className="text-[clamp(32px,5vw,36px)] font-bold text-[#111827] leading-[1.2] mb-5 tracking-tight font-oswald">
-              Stay connected across every place your audience exists.
-            </h2>
-            <p className="text-base text-[#4b5563] leading-[1.6] mb-8 font-montserrat font-normal max-w-[400px]">
-              Reach out and connect with us on social media. Follow us to stay updated with our latest innovations, projects, and insights. We'd love to hear from you!
-            </p>
-            <div className="flex items-center gap-4 mb-10">
-              <a href="https://www.instagram.com/systemminds.tech/" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-110" aria-label="Instagram">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <defs>
-                    <linearGradient id="instagramGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="#833AB4" />
-                      <stop offset="50%" stopColor="#FD1D1D" />
-                      <stop offset="100%" stopColor="#FCB045" />
-                    </linearGradient>
-                  </defs>
-                  <rect width="24" height="24" rx="6" fill="url(#instagramGradient)" />
-                  <rect x="5" y="5" width="14" height="14" rx="3" stroke="white" strokeWidth="1.5" fill="none" />
-                  <circle cx="12" cy="12" r="3.5" stroke="white" strokeWidth="1.5" fill="none" />
-                  <circle cx="17.5" cy="6.5" r="1" fill="white" />
-                </svg>
-              </a>
-              <a href="https://www.linkedin.com/company/systemminds/" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-110" aria-label="LinkedIn">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect width="24" height="24" rx="4" fill="#0077B5" />
-                  <path d="M8 9H5V19H8V9ZM6.5 7C7.32843 7 8 6.32843 8 5.5C8 4.67157 7.32843 4 6.5 4C5.67157 4 5 4.67157 5 5.5C5 6.32843 5.67157 7 6.5 7Z" fill="white" />
-                  <path d="M10 9H13V10.5C13.5 9.5 14.5 9 15.5 9C17.5 9 19 10.5 19 13V19H16V13.5C16 12.5 15.5 12 14.5 12C13.5 12 13 12.5 13 13.5V19H10V9Z" fill="white" />
-                </svg>
-              </a>
-              <a href="https://chat.whatsapp.com/CJy8YPpWarEGzi9uAfbnoT" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-110" aria-label="WhatsApp">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="12" cy="12" r="11" fill="#25D366" />
-                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" fill="white" />
-                </svg>
-              </a>
-              <a href="https://t.me/+g8kOiqBYvXE3NzJl" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-110" aria-label="Telegram">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="12" cy="12" r="11" fill="#0088CC" />
-                  <path d="M17.47 7.28L5.74 12.07C5.16 12.29 5.17 12.64 5.64 12.76L8.28 13.5L15.64 9.06C15.95 8.87 16.23 8.97 16 9.19L9.74 15.14L9.52 17.28C9.76 17.28 9.87 17.18 10.02 17.04L11.48 15.65L14.74 18.01C15.21 18.26 15.5 18.13 15.63 17.57L17.95 8.15C18.13 7.45 17.75 7.16 17.47 7.28Z" fill="white" />
-                </svg>
-              </a>
-            </div>
-          </div>
-
-          {/* Cards Box - All 4 Social Media Cards */}
-          <div className="col-span-12 lg:col-span-8">
-            {/* Desktop View - Static Cards */}
-            <div className="hidden lg:grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <a href="https://www.linkedin.com/company/systemminds" target="_blank" rel="noopener noreferrer" className="bg-white rounded-[24px] p-6 shadow-[0_4px_20px_rgba(0,0,0,0.06)] border border-black/[0.03] transition-all duration-300 flex flex-col gap-5 h-full hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.12)] hover:border-purple-light/20" style={{ textDecoration: 'none', color: 'inherit', display: 'block', width: '100%' }}>
-                <div className="flex items-center gap-4">
-                  <div className="w-[48px] h-[48px] rounded-2xl bg-[#0077b5]/10 flex items-center justify-center text-[#0077b5]">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <circle cx="12" cy="12" r="11" fill="#0077B5" />
-                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" fill="white" />
-                    </svg>
-                  </div>
-                  <div className="flex flex-col gap-0.5">
-                    <div className="text-base font-bold text-[#111827] tracking-tight font-oswald">SystemMinds</div>
-                    <span className="text-[11px] font-semibold text-[#6b7280] uppercase tracking-wider">LinkedIn Company Page</span>
-                  </div>
-                </div>
-                <p className="text-sm text-[#4b5563] leading-[1.6] m-0 font-sans py-2">
-                  Connect with us on LinkedIn for latest innovations and industry updates.
-                </p>
-                <div className="flex items-center gap-3 mt-auto">
-                  <button className="bg-[#0077b5] text-white hover:bg-[#00669c] shadow-[0_4px_12px_rgba(0,119,181,0.2)] border-none rounded-full px-5 py-2 text-xs font-semibold cursor-pointer transition-all duration-200 font-montserrat flex items-center justify-center">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ marginRight: '6px' }}>
-                      <path d="M19 13h-3v3h-2v-3H11v-2h3V8h2v3h3v2zM20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4V6h16v12z" fill="currentColor" />
-                    </svg>
-                    Connect
-                  </button>
-                  <button className="bg-[#f3f4f6] text-[#4b5563] hover:bg-[#e5e7eb] border-none rounded-full px-5 py-2 text-xs font-semibold cursor-pointer transition-all duration-200 font-montserrat flex items-center justify-center">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ marginRight: '6px' }}>
-                      <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" fill="currentColor" />
-                    </svg>
-                    Follow
-                  </button>
-                </div>
-              </a>
-              <a href="https://chat.whatsapp.com/CJy8YPpWarEGzi9uAfbnoT" target="_blank" rel="noopener noreferrer" className="bg-white rounded-[24px] p-6 shadow-[0_4px_20px_rgba(0,0,0,0.06)] border border-black/[0.03] transition-all duration-300 flex flex-col gap-5 h-full hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.12)] hover:border-purple-light/20" style={{ textDecoration: 'none', color: 'inherit', display: 'block', width: '100%' }}>
-                <div className="flex items-center gap-4">
-                  <div className="w-[48px] h-[48px] rounded-2xl bg-[#25d366]/10 flex items-center justify-center text-[#25d366]">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <circle cx="12" cy="12" r="11" fill="#25D366" />
-                      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" fill="white" />
-                    </svg>
-                  </div>
-                  <div className="flex flex-col gap-0.5">
-                    <div className="text-base font-bold text-[#111827] tracking-tight font-oswald">SystemMinds</div>
-                    <span className="text-[11px] font-semibold text-[#6b7280] uppercase tracking-wider">WhatsApp Group Invite</span>
-                  </div>
-                </div>
-                <p className="text-sm text-[#4b5563] leading-[1.6] m-0 font-sans py-2">
-                  Join our WhatsApp community for latest news, updates and team engagement.
-                </p>
-                <div className="flex items-center gap-3 mt-auto">
-                  <button className="bg-[#25d366] text-white hover:bg-[#20bd5a] shadow-[0_4px_12px_rgba(37,211,102,0.2)] border-none rounded-full px-5 py-2 text-xs font-semibold cursor-pointer transition-all duration-200 font-montserrat flex items-center justify-center">Join Chat</button>
-                </div>
-              </a>
-              <div className="bg-white rounded-[24px] p-6 shadow-[0_4px_20px_rgba(0,0,0,0.06)] border border-black/[0.03] transition-all duration-300 flex flex-col gap-5 h-full hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.12)] hover:border-purple-light/20">
-                <a href="https://www.instagram.com/systemminds.tech/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit', display: 'block', width: '100%' }}>
-                  <div className="flex items-center gap-4">
-                    <img src={logoImage} alt="SystemMinds Logo" className="w-10 h-10 rounded-xl object-contain border border-black/5" />
-                    <div className="flex flex-col gap-0.5">
-                      <div className="text-base font-bold text-[#111827] tracking-tight font-oswald">systemminds.tech</div>
-                      <span className="text-[11px] font-semibold text-[#6b7280] uppercase tracking-wider">SystemMinds IT Solutions</span>
-                    </div>
-                  </div>
-                  <p className="text-sm text-[#4b5563] leading-[1.6] m-0 font-sans py-2">
-                    We bring your vision to life with creativity and innovation, helping your business grow.
-                  </p>
-                  <div className="flex items-center gap-3 mt-auto">
-                    <button className="bg-[#f3f4f6] text-[#4b5563] hover:bg-[#e5e7eb] border-none rounded-full px-5 py-2 text-xs font-semibold cursor-pointer transition-all duration-200 font-montserrat flex items-center justify-center">Follow</button>
-                    <button className="bg-purple-light text-white hover:bg-purple-dark shadow-[0_4px_12px_rgba(139,92,246,0.2)] border-none rounded-full px-5 py-2 text-xs font-semibold cursor-pointer transition-all duration-200 font-montserrat flex items-center justify-center">Message</button>
-                  </div>
-                </a>
-              </div>
-              <a href="https://t.me/+g8kOiqBYvXE3NzJl" target="_blank" rel="noopener noreferrer" className="bg-white rounded-[24px] p-6 shadow-[0_4px_20px_rgba(0,0,0,0.06)] border border-black/[0.03] transition-all duration-300 flex flex-col gap-5 h-full hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.12)] hover:border-purple-light/20" style={{ textDecoration: 'none', color: 'inherit', display: 'block', width: '100%' }}>
-                <div className="flex items-center gap-4">
-                  <div className="w-[48px] h-[48px] rounded-2xl bg-[#0088cc]/10 flex items-center justify-center text-[#0088cc]">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <circle cx="12" cy="12" r="11" fill="#0088cc" />
-                      <path d="M17.47 7.28L5.74 12.07C5.16 12.29 5.17 12.64 5.64 12.76L8.28 13.5L15.64 9.06C15.95 8.87 16.23 8.97 16 9.19L9.74 15.14L9.52 17.28C9.76 17.28 9.87 17.18 10.02 17.04L11.48 15.65L14.74 18.01C15.21 18.26 15.5 18.13 15.63 17.57L17.95 8.15C18.13 7.45 17.75 7.16 17.47 7.28Z" fill="white" />
-                    </svg>
-                  </div>
-                  <div className="flex flex-col gap-0.5">
-                    <div className="text-base font-bold text-[#111827] tracking-tight font-oswald">SystemMinds</div>
-                    <span className="text-[11px] font-semibold text-[#6b7280] uppercase tracking-wider">Telegram Channel</span>
-                  </div>
-                </div>
-                <p className="text-sm text-[#4b5563] leading-[1.6] m-0 font-sans py-2">
-                  Join our Telegram channel for instant updates and direct communication.
-                </p>
-                <div className="flex items-center gap-3 mt-auto">
-                  <button className="bg-[#25d366] text-white hover:bg-[#20bd5a] shadow-[0_4px_12px_rgba(37,211,102,0.2)] border-none rounded-full px-5 py-2 text-xs font-semibold cursor-pointer transition-all duration-200 font-montserrat flex items-center justify-center">Join Channel</button>
-                </div>
-              </a>
+      {/* CONNECT WITH US SECTION */}
+      <section
+        className="relative py-24 md:py-32 bg-white overflow-hidden flex flex-col items-center justify-center min-h-screen"
+        id="contact"
+      >
+        <div className="max-w-[1920px] mx-auto px-[6vw] relative z-10 w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            {/* Left Column - Text */}
+            <div className="text-left z-20">
+              <motion.span
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="text-xs sm:text-sm font-semibold text-purple-light uppercase tracking-widest mb-4 md:mb-6 font-montserrat block"
+              >
+                CONNECT WITH US
+              </motion.span>
+              <motion.h2
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 }}
+                className="text-[clamp(28px,5vw,42px)] font-bold text-[#111827] leading-[1.2] mb-6 md:mb-8 font-oswald"
+              >
+                Stay connected across every place your audience exists.
+              </motion.h2>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+                className="text-sm md:text-base text-[#4b5563] leading-[1.6] mb-6 md:mb-8 font-montserrat font-normal max-w-xl"
+              >
+                Reach out and connect with us on social media. Follow us to stay updated with our latest innovations, projects, and insights. We'd love to hear from you!
+              </motion.p>
             </div>
 
-            {/* Mobile View - Vertical Stacked Cards */}
-            <div className="lg:hidden mt-10 flex flex-col gap-6">
-              {/* LinkedIn Card */}
-              <a href="https://www.linkedin.com/company/systemminds" target="_blank" rel="noopener noreferrer" className="bg-white rounded-[24px] p-6 shadow-[0_4px_20px_rgba(0,0,0,0.06)] border border-black/[0.03] transition-all duration-300 flex flex-col gap-5 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.12)] hover:border-purple-light/20" style={{ textDecoration: 'none', color: 'inherit', display: 'block', width: '100%' }}>
-                <div className="flex items-center gap-4">
-                  <div className="w-[60px] h-[60px] rounded-2xl bg-[#0077b5]/10 flex items-center justify-center text-[#0077b5]">
-                    <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <circle cx="12" cy="12" r="11" fill="#0077B5" />
-                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" fill="white" />
-                    </svg>
-                  </div>
-                  <div className="flex flex-col gap-0.5">
-                    <div className="text-base font-bold text-[#111827] tracking-tight font-oswald">SystemMinds</div>
-                    <span className="text-[11px] font-semibold text-[#6b7280] uppercase tracking-wider">LinkedIn Company Page</span>
-                  </div>
-                </div>
-                <p className="text-sm text-[#4b5563] leading-[1.6] m-0 font-sans py-2">
-                  Connect with us on LinkedIn to stay updated with our latest innovations, projects, and professional insights.
-                </p>
-                <div className="flex items-center gap-3 mt-auto">
-                  <button className="bg-[#0077b5] text-white hover:bg-[#00669c] shadow-[0_4px_12px_rgba(0,119,181,0.2)] border-none rounded-full px-5 py-2 text-xs font-semibold cursor-pointer transition-all duration-200 font-montserrat flex items-center justify-center">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ marginRight: '6px' }}>
-                      <path d="M19 13h-3v3h-2v-3H11v-2h3V8h2v3h3v2zM20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4V6h16v12z" fill="currentColor" />
-                    </svg>
-                    Connect
-                  </button>
-                  <button className="bg-[#f3f4f6] text-[#4b5563] hover:bg-[#e5e7eb] border-none rounded-full px-5 py-2 text-xs font-semibold cursor-pointer transition-all duration-200 font-montserrat flex items-center justify-center">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ marginRight: '6px' }}>
-                      <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" fill="currentColor" />
-                    </svg>
-                    Follow
-                  </button>
-                </div>
-              </a>
+            {/* Right Column - Social Cards Fan Area */}
+            <div className="relative flex flex-col items-center justify-center">
+              <div
+                className="relative w-full h-[360px] md:h-[450px] flex justify-center items-start perspective-1000"
+                onMouseEnter={() => setIsHoveringSocial(true)}
+                onMouseLeave={() => setIsHoveringSocial(false)}
+              >
+                {socialCards.map((card, index) => {
+                  const position = getSocialPosition(index);
+                  const isActive = index === activeSocialIndex;
 
-              {/* WhatsApp Card */}
-              <a href="https://chat.whatsapp.com/CJy8YPpWarEGzi9uAfbnoT" target="_blank" rel="noopener noreferrer" className="bg-white rounded-[24px] p-6 shadow-[0_4px_20px_rgba(0,0,0,0.06)] border border-black/[0.03] transition-all duration-300 flex flex-col gap-5 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.12)] hover:border-purple-light/20" style={{ textDecoration: 'none', color: 'inherit', display: 'block', width: '100%' }}>
-                <div className="flex items-center gap-4">
-                  <div className="w-[60px] h-[60px] rounded-2xl bg-[#25d366]/10 flex items-center justify-center text-[#25d366]">
-                    <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <circle cx="12" cy="12" r="11" fill="#25D366" />
-                      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" fill="white" />
-                    </svg>
-                  </div>
-                  <div className="flex flex-col gap-0.5">
-                    <div className="text-base font-bold text-[#111827] tracking-tight font-oswald">SystemMinds</div>
-                    <span className="text-[11px] font-semibold text-[#6b7280] uppercase tracking-wider">WhatsApp Group Invite</span>
-                  </div>
-                </div>
-                <p className="text-sm text-[#4b5563] leading-[1.6] m-0 font-sans py-2">
-                  Join our WhatsApp community to stay connected, get updates, and engage with our team.
-                </p>
-                <div className="flex items-center gap-3 mt-auto">
-                  <button className="bg-[#25d366] text-white hover:bg-[#20bd5a] shadow-[0_4px_12px_rgba(37,211,102,0.2)] border-none rounded-full px-5 py-2 text-xs font-semibold cursor-pointer transition-all duration-200 font-montserrat flex items-center justify-center">Join Chat</button>
-                </div>
-              </a>
+                  // Fan layout calculations
+                  const spread = isMobileSocial ? 35 : 180;
+                  const spreadY = isMobileSocial ? 25 : 50;
+                  const yOffset = Math.abs(position) * spreadY;
+                  const xOffset = position * spread;
+                  const scale = 1 - Math.abs(position) * 0.15;
+                  const zIndex = 50 - Math.abs(position);
+                  const rotate = position * (isMobileSocial ? 5 : 10);
+                  const isVisible = Math.abs(position) <= 1; // Only show active and 1 neighbor on each side (total 3)
+                  const opacity = isVisible ? 1 : 0;
+                  const brightness = isActive ? 100 : 95;
 
-              {/* Instagram Card */}
-              <div className="bg-white rounded-[24px] p-6 shadow-[0_4px_20px_rgba(0,0,0,0.06)] border border-black/[0.03] transition-all duration-300 flex flex-col gap-5 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.12)] hover:border-purple-light/20">
-                <a href="https://www.instagram.com/systemminds.tech/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit', display: 'block', width: '100%' }}>
-                  <div className="flex items-center gap-4">
-                    <img src={logoImage} alt="SystemMinds Logo" className="w-12 h-12 rounded-xl object-contain border border-black/5" />
-                    <div className="flex flex-col gap-0.5">
-                      <div className="text-base font-bold text-[#111827] tracking-tight font-oswald">systemminds.tech</div>
-                      <span className="text-[11px] font-semibold text-[#6b7280] uppercase tracking-wider">SystemMinds IT Solutions</span>
-                    </div>
-                  </div>
-                  <p className="text-sm text-[#4b5563] leading-[1.6] m-0 font-sans py-2">
-                    We turn your ideas into powerful digital solutions with creativity and innovation.
-                  </p>
-                  <div className="flex items-center gap-3 mt-auto">
-                    <button className="bg-[#f3f4f6] text-[#4b5563] hover:bg-[#e5e7eb] border-none rounded-full px-5 py-2 text-xs font-semibold cursor-pointer transition-all duration-200 font-montserrat flex items-center justify-center">Follow</button>
-                    <button className="bg-purple-light text-white hover:bg-purple-dark shadow-[0_4px_12px_rgba(139,92,246,0.2)] border-none rounded-full px-5 py-2 text-xs font-semibold cursor-pointer transition-all duration-200 font-montserrat flex items-center justify-center">Message</button>
-                  </div>
-                </a>
+                  return (
+                    <motion.div
+                      key={index}
+                      animate={{
+                        x: xOffset,
+                        y: yOffset,
+                        scale,
+                        zIndex,
+                        rotate,
+                        opacity,
+                        filter: `brightness(${brightness}%)`,
+                        boxShadow: isActive ? "0 20px 40px rgba(0,0,0,0.1)" : "none",
+                        borderColor: isActive ? "#e5e7eb" : "transparent"
+                      }}
+                      transition={{
+                        duration: 0.8,
+                        ease: "easeInOut"
+                      }}
+                      className="absolute top-0 w-full max-w-[240px] md:max-w-[280px] h-[320px] md:h-[400px] rounded-3xl overflow-hidden origin-bottom bg-white border"
+                      style={{
+                        left: isMobileSocial ? 'calc(50% - 120px)' : 'calc(50% - 140px)',
+                      }}
+                    >
+                      {/* Content Container */}
+                      <div className={`absolute inset-0 z-30 p-5 md:p-6 flex flex-col justify-end transition-all duration-500 ${isActive ? 'opacity-100 translate-y-0' : 'opacity-40 translate-y-4'}`}>
+                        {/* Icon */}
+                        <div className="w-12 h-12 md:w-14 md:h-14 mb-3 md:mb-4" style={{ color: card.color }}>
+                          {card.icon}
+                        </div>
+
+                        {/* Title and Description */}
+                        <div>
+                          <h3 className="text-[#111827] font-display font-bold text-xl md:text-2xl leading-tight mb-2">
+                            {card.title}
+                          </h3>
+                          <p className="text-[#6b7280] text-[10px] md:text-xs leading-relaxed line-clamp-3 font-montserrat font-medium">
+                            {card.description}
+                          </p>
+                        </div>
+
+                        {/* Action Button */}
+                        <a
+                          href={card.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="mt-4 inline-flex items-center gap-2 text-white font-semibold text-sm px-4 py-2 rounded-full transition-all duration-200 hover:scale-105 shadow-md"
+                          style={{ backgroundColor: card.color }}
+                        >
+                          {card.buttonText}
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M5 12h14M12 5l7 7-7 7" />
+                          </svg>
+                        </a>
+
+                        {/* Decorative Element */}
+                        <div className="w-1/3 h-1 mt-3 md:mt-4 rounded-full opacity-20" style={{ backgroundColor: card.color }} />
+                      </div>
+                    </motion.div>
+                  );
+                })}
               </div>
 
-              {/* Telegram Card */}
-              <a href="https://t.me/+g8kOiqBYvXE3NzJl" target="_blank" rel="noopener noreferrer" className="bg-white rounded-[24px] p-6 shadow-[0_4px_20px_rgba(0,0,0,0.06)] border border-black/[0.03] transition-all duration-300 flex flex-col gap-5 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.12)] hover:border-purple-light/20" style={{ textDecoration: 'none', color: 'inherit', display: 'block', width: '100%' }}>
-                <div className="flex items-center gap-4">
-                  <div className="w-[60px] h-[60px] rounded-2xl bg-[#0088cc]/10 flex items-center justify-center text-[#0088cc]">
-                    <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <circle cx="12" cy="12" r="11" fill="#0088cc" />
-                      <path d="M17.47 7.28L5.74 12.07C5.16 12.29 5.17 12.64 5.64 12.76L8.28 13.5L15.64 9.06C15.95 8.87 16.23 8.97 16 9.19L9.74 15.14L9.52 17.28C9.76 17.28 9.87 17.18 10.02 17.04L11.48 15.65L14.74 18.01C15.21 18.26 15.5 18.13 15.63 17.57L17.95 8.15C18.13 7.45 17.75 7.16 17.47 7.28Z" fill="white" />
-                    </svg>
-                  </div>
-                  <div className="flex flex-col gap-0.5">
-                    <div className="text-base font-bold text-[#111827] tracking-tight font-oswald">SystemMinds</div>
-                    <span className="text-[11px] font-semibold text-[#6b7280] uppercase tracking-wider">Telegram Channel</span>
-                  </div>
-                </div>
-                <p className="text-sm text-[#4b5563] leading-[1.6] m-0 font-sans py-2">
-                  Join our Telegram channel for instant updates and direct communication.
-                </p>
-                <div className="flex items-center gap-3 mt-auto">
-                  <button className="bg-[#25d366] text-white hover:bg-[#20bd5a] shadow-[0_4px_12px_rgba(37,211,102,0.2)] border-none rounded-full px-5 py-2 text-xs font-semibold cursor-pointer transition-all duration-200 font-montserrat flex items-center justify-center">Join Channel</button>
-                </div>
-              </a>
+              {/* Progress Indicators */}
+              <div className="flex gap-3 mt-4 md:mt-6 z-20">
+                {socialCards.map((_, idx) => (
+                  <div
+                    key={idx}
+                    onClick={() => setActiveSocialIndex(idx)}
+                    className={`rounded-full cursor-pointer transition-all duration-500 ${idx === activeSocialIndex ? 'bg-purple-light w-3 h-3 scale-125' : 'bg-gray-300 w-3 h-3 hover:bg-gray-400'}`}
+                  />
+                ))}
+              </div>
             </div>
           </div>
-
         </div>
       </section>
 
@@ -1120,7 +1095,7 @@ function App() {
             />
           </div>
         </div>
-      </section>
+      </section >
 
       {/* BUSINESS DASHBOARD SECTION */}
       <section className="bg-white py-[100px] px-5 border-t border-[#e5e7eb] overflow-hidden">
@@ -1201,7 +1176,7 @@ function App() {
             </div>
           </div>
         </div>
-      </section>
+      </section >
 
       {/* LAUNCH JOURNEY SECTION */}
       <section className="bg-white py-[100px] px-5 border-t border-[#e5e7eb]">
@@ -1279,7 +1254,7 @@ function App() {
             </div>
           </div>
         </div>
-      </section>
+      </section >
 
       {/* AUTOMATION FEATURES SECTION */}
       <section className="bg-white py-[100px] px-5 border-t border-[#e5e7eb]">
@@ -1419,7 +1394,7 @@ function App() {
             </div>
           </div>
         </div>
-      </section>
+      </section >
 
       {/* CTA BANNER SECTION */}
       <section className="bg-[#4b5563] py-20 px-5">
@@ -1435,10 +1410,10 @@ function App() {
             </span>
           </button>
         </div>
-      </section>
+      </section >
 
       {/* FOOTER SECTION */}
-      <footer className="bg-[#2c2c2c] py-[80px] px-5 pb-10 text-white overflow-hidden relative">
+      < footer className="bg-[#2c2c2c] py-[80px] px-5 pb-10 text-white overflow-hidden relative" >
         <div className="max-w-[1920px] mx-auto px-[6vw]">
           {/* Top Section */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 mb-10">
@@ -1528,10 +1503,10 @@ function App() {
             </div>
           </div>
         </div>
-      </footer>
+      </footer >
 
       {/* Mobile Bottom Navigation Bar */}
-      <nav className="fixed lg:hidden bottom-0 left-0 right-0 bg-[#020617] px-6 py-3 flex justify-between items-end z-50 rounded-t-[24px] shadow-[0_-4px_24px_rgba(0,0,0,0.25)] min-h-[70px] pb-5">
+      < nav className="fixed lg:hidden bottom-0 left-0 right-0 bg-[#020617] px-6 py-3 flex justify-between items-end z-50 rounded-t-[24px] shadow-[0_-4px_24px_rgba(0,0,0,0.25)] min-h-[70px] pb-5" >
         <button
           className={`flex flex-col items-center gap-1 p-2 transition-colors ${activeMobileNav === 'Home' ? 'text-white' : 'text-gray-500 hover:text-gray-300'}`}
           onClick={() => setActiveMobileNav('Home')}
@@ -1589,8 +1564,8 @@ function App() {
             </svg>
           </div>
         </button>
-      </nav>
-    </div>
+      </nav >
+    </div >
   );
 }
 
