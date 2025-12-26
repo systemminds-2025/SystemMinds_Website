@@ -18,6 +18,155 @@ function App() {
   const [isEmailCollected, setIsEmailCollected] = useState(false);
   const messagesInitialized = useRef(false);
 
+  // Chat Carousel State & Data
+  const [currentChatIndex, setCurrentChatIndex] = useState(0);
+  const [visibleChatMessages, setVisibleChatMessages] = useState([]);
+  const [isChatTyping, setIsChatTyping] = useState(false);
+
+  const mockChatData = [
+    {
+      user: "Sarah Jenkins",
+      avatar: "https://i.pravatar.cc/150?u=30",
+      messages: [
+        { text: "Hey! Just checking the new dashboard 📊", isSender: false },
+        { text: "It looks amazing! Great job team.", isSender: false },
+        { text: "Thanks Sarah! Glad you like it.", isSender: true },
+        { text: "Any specific feedback?", isSender: true },
+        { text: "The loading speed is incredible now 🚀", isSender: false },
+        { text: "We optimized the database queries.", isSender: true },
+        { text: "It shows! Huge difference.", isSender: false },
+        { text: "Question about the export feature...", isSender: false },
+        { text: "Can we export to PDF yet?", isSender: false },
+        { text: "Yes! Check the top right menu.", isSender: true },
+        { text: "Found it! Perfect. Thanks! 🙏", isSender: false }
+      ]
+    },
+    {
+      user: "Mike Ross",
+      avatar: "https://i.pravatar.cc/150?u=31",
+      messages: [
+        { text: "Project update meeting in 10?", isSender: false },
+        { text: "Sure, let me grab a coffee ☕", isSender: true },
+        { text: "Cool. I have the slides ready.", isSender: false },
+        { text: "Did you add the Q3 stats?", isSender: true },
+        { text: "Yes, just finished them.", isSender: false },
+        { text: "Perfect. See you there!", isSender: true }
+      ]
+    },
+    {
+      user: "Jessica Lee",
+      avatar: "https://i.pravatar.cc/150?u=32",
+      messages: [
+        { text: "Quick question on the API docs.", isSender: false },
+        { text: "Go ahead, I'm listening.", isSender: true },
+        { text: "Is the auth token required for GET?", isSender: false },
+        { text: "Yes, for all v2 endpoints.", isSender: true },
+        { text: "Got it. Changing my request.", isSender: false },
+        { text: "Let me know if it works.", isSender: true },
+        { text: "Works perfectly now! ✅", isSender: false }
+      ]
+    },
+    {
+      user: "David Kim",
+      avatar: "https://i.pravatar.cc/150?u=33",
+      messages: [
+        { text: "Client loved the prototype! 🎉", isSender: false },
+        { text: "That is fantastic news!", isSender: true },
+        { text: "They want to move to dev phase.", isSender: false },
+        { text: "When do they want to start?", isSender: true },
+        { text: "Next Monday ideally.", isSender: false },
+        { text: "We can make that happen.", isSender: true }
+      ]
+    },
+    {
+      user: "Emma Watson",
+      avatar: "https://i.pravatar.cc/150?u=34",
+      messages: [
+        { text: "Running late for standup 😓", isSender: false },
+        { text: "No worries, we can wait.", isSender: true },
+        { text: "Traffic is crazy today.", isSender: false },
+        { text: "Drive safe!", isSender: true },
+        { text: "Be there in 5 mins.", isSender: false },
+        { text: "See ya!", isSender: true }
+      ]
+    }
+  ];
+
+  // Chat Auto-Play Logic
+  useEffect(() => {
+    let messageTimeout;
+    let transitionTimeout;
+
+    const currentFullConversation = mockChatData[currentChatIndex].messages;
+
+    if (visibleChatMessages.length < currentFullConversation.length) {
+      // Typing simulation
+      setIsChatTyping(true);
+      messageTimeout = setTimeout(() => {
+        setVisibleChatMessages(prev => [...prev, currentFullConversation[prev.length]]);
+        setIsChatTyping(false);
+      }, 1500); // 1.5s per message
+    } else {
+      // Conversation finished, wait then switch
+      transitionTimeout = setTimeout(() => {
+        setVisibleChatMessages([]); // Clear
+        setCurrentChatIndex(prev => (prev + 1) % mockChatData.length); // Next user
+      }, 3000); // 3s wait before next chat
+    }
+
+    return () => {
+      clearTimeout(messageTimeout);
+      clearTimeout(transitionTimeout);
+    };
+  }, [currentChatIndex, visibleChatMessages]);
+
+  useEffect(() => {
+    // Auto-scroll to bottom
+    const chatContainer = document.getElementById('chat-scroll-container');
+    if (chatContainer) {
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+  }, [visibleChatMessages]);
+
+  // Question Carousel State & Data
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+
+  const mockQuestionData = [
+    {
+      id: 1,
+      question: "How would you like to make change happen?",
+      options: ["Launch a new digital product", "Optimize existing processes", "Migrate to the cloud", "Implement AI solutions"]
+    },
+    {
+      id: 2,
+      question: "What is your primary project goal?",
+      options: ["Increase user engagement", "Drive more sales", "Improve operational efficiency", "Scale market reach"]
+    },
+    {
+      id: 3,
+      question: "Which platform are you targeting?",
+      options: ["Web Application", "Mobile App (iOS/Android)", "Cross-platform Solution", "Desktop Software"]
+    },
+    {
+      id: 4,
+      question: "What is your preferred timeline?",
+      options: ["Less than 1 month", "1-3 months", "3-6 months", "6+ months"]
+    },
+    {
+      id: 5,
+      question: "Do you have existing design assets?",
+      options: ["Yes, full designs ready", "Wireframes only", "Just a concept/idea", "Need full design services"]
+    }
+  ];
+
+  // Question Auto-Play Logic
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentQuestionIndex(prev => (prev + 1) % mockQuestionData.length);
+    }, 4000); // 4 seconds per question
+    return () => clearInterval(timer);
+  }, []);
+
   // Social Cards State
   const [activeSocialIndex, setActiveSocialIndex] = useState(0);
   const [isHoveringSocial, setIsHoveringSocial] = useState(false);
@@ -1302,7 +1451,8 @@ function App() {
       < section className="bg-white py-[100px] px-5 border-t border-[#e5e7eb]" >
         <div className="max-w-[1920px] mx-auto px-[6vw]">
           <div className="text-center max-w-[800px] mx-auto mb-16">
-            <h2 className="text-[clamp(28px,5vw,42px)] font-bold leading-[1.2] text-[#111827] mb-4 tracking-tight font-oswald">From Hello to High Conversions</h2>
+            <p className="text-xs font-semibold text-purple-light uppercase tracking-widest mb-2 font-montserrat">AUTOMATION FEATURES</p>
+            <h2 className="text-[clamp(28px,5vw,42px)] font-bold leading-[1.2] text-[#111827] mb-4 tracking-tight font-oswald">From Hello to <span className="relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-gradient-to-r after:from-purple-light after:to-purple-dark">High Conversions</span></h2>
             <p className="text-[16px] leading-[1.6] text-[#6b7280] font-montserrat">
               Launch Fast With Ready Automations Or Build Your Own Flows.
             </p>
@@ -1311,44 +1461,89 @@ function App() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Feature 1 */}
             <div className="flex flex-col gap-6">
-              <div className="bg-[#f9fafb] rounded-[24px] p-6 shadow-[0_12px_32px_rgba(0,0,0,0.12),0_4px_12px_rgba(0,0,0,0.08)] mb-0 flex-1 flex flex-col items-stretch overflow-hidden border border-black/[0.03] min-h-[360px]">
+              <div className="bg-[#f9fafb] rounded-[24px] p-6 shadow-[0_12px_32px_rgba(0,0,0,0.12),0_4px_12px_rgba(0,0,0,0.08)] mb-0 flex flex-col items-stretch overflow-hidden border border-black/[0.03] h-[400px] min-h-0">
                 <div className="bg-[#f9fafb] rounded-2xl border border-[#e5e7eb] overflow-hidden flex-1 flex flex-col shadow-sm relative h-full">
-                  <div className="bg-white border-b border-[#e5e7eb] px-4 py-3 flex items-center justify-between">
-                    <span className="text-xs font-bold text-[#111827] uppercase tracking-wider">Today</span>
+                  <div className="bg-white border-b border-[#e5e7eb] px-4 py-3 flex items-center justify-between z-10 relative">
+                    <span className="text-xs font-bold text-[#111827] uppercase tracking-wider">New Followers</span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-green-500"></span>
                   </div>
-                  <div className="p-4 flex flex-col gap-3 h-full bg-white overflow-y-auto">
-                    <div className="flex items-center gap-3 w-full">
-                      <div className="w-10 h-10 rounded-full bg-gray-200 shrink-0"></div>
-                      <div className="h-3 bg-gray-200 rounded flex-1"></div>
-                      <button className="bg-gray-200 text-gray-900 border-none px-4 py-1.5 rounded-md text-xs font-medium cursor-pointer shrink-0 whitespace-nowrap">Follow Back</button>
-                    </div>
-                    <div className="flex items-center gap-3 w-full">
-                      <div className="w-10 h-10 rounded-full bg-gray-200 shrink-0"></div>
-                      <div className="flex flex-col gap-2 flex-1">
-                        <div className="h-3 bg-gray-200 rounded flex-1"></div>
-                        <div className="h-3 bg-gray-200 rounded w-3/5"></div>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3 w-full">
-                      <div className="w-10 h-10 rounded-full bg-gray-200 shrink-0"></div>
-                      <div className="flex flex-col gap-2 flex-1">
-                        <div className="h-3 bg-gray-200 rounded flex-1"></div>
-                        <div className="today-text-placeholder short"></div>
-                      </div>
-                      <div className="w-6 h-6 bg-gray-200 rounded shrink-0"></div>
-                    </div>
-                    <div className="today-list-item">
-                      <div className="today-avatar-placeholder"></div>
-                      <div className="today-text-placeholder-group">
-                        <div className="today-text-placeholder"></div>
-                        <div className="today-text-placeholder short"></div>
-                      </div>
-                    </div>
-                    <div className="today-list-item">
-                      <div className="today-avatar-placeholder"></div>
-                      <div className="today-text-placeholder"></div>
-                      <div className="w-6 h-6 bg-gray-200 rounded shrink-0"></div>
-                    </div>
+                  <div className="p-0 flex flex-col flex-1 h-full bg-white overflow-hidden relative">
+                    <motion.div
+                      className="flex flex-col"
+                      animate={{
+                        y: ["-50%", "0%"]
+                      }}
+                      transition={{
+                        y: {
+                          repeat: Infinity,
+                          repeatType: "loop",
+                          duration: 40,
+                          ease: "linear",
+                        },
+                      }}
+                    >
+                      {[
+                        { name: "alex_designs", img: "https://i.pravatar.cc/150?u=1" },
+                        { name: "sarah.creative", img: "https://i.pravatar.cc/150?u=2" },
+                        { name: "mike_codes", img: "https://i.pravatar.cc/150?u=3" },
+                        { name: "emma_studio", img: "https://i.pravatar.cc/150?u=4" },
+                        { name: "luke_dev", img: "https://i.pravatar.cc/150?u=5" },
+                        { name: "nana_art", img: "https://i.pravatar.cc/150?u=6" },
+                        { name: "david.tech", img: "https://i.pravatar.cc/150?u=7" },
+                        { name: "lisa_ux", img: "https://i.pravatar.cc/150?u=8" },
+                        { name: "james_web", img: "https://i.pravatar.cc/150?u=9" },
+                        { name: "sophia_ui", img: "https://i.pravatar.cc/150?u=10" },
+                        { name: "ryan_pm", img: "https://i.pravatar.cc/150?u=11" },
+                        { name: "kelly_marketing", img: "https://i.pravatar.cc/150?u=12" },
+                        { name: "kevin_photo", img: "https://i.pravatar.cc/150?u=13" },
+                        { name: "jess_writer", img: "https://i.pravatar.cc/150?u=14" },
+                        { name: "tom_travel", img: "https://i.pravatar.cc/150?u=15" },
+                        { name: "anna_fashion", img: "https://i.pravatar.cc/150?u=16" },
+                        { name: "chris_music", img: "https://i.pravatar.cc/150?u=17" },
+                        { name: "megan_food", img: "https://i.pravatar.cc/150?u=18" },
+                        { name: "steve_gym", img: "https://i.pravatar.cc/150?u=19" },
+                        { name: "laura_blog", img: "https://i.pravatar.cc/150?u=20" },
+                        // Duplicate for loop
+                        { name: "alex_designs", img: "https://i.pravatar.cc/150?u=1" },
+                        { name: "sarah.creative", img: "https://i.pravatar.cc/150?u=2" },
+                        { name: "mike_codes", img: "https://i.pravatar.cc/150?u=3" },
+                        { name: "emma_studio", img: "https://i.pravatar.cc/150?u=4" },
+                        { name: "luke_dev", img: "https://i.pravatar.cc/150?u=5" },
+                        { name: "nana_art", img: "https://i.pravatar.cc/150?u=6" },
+                        { name: "david.tech", img: "https://i.pravatar.cc/150?u=7" },
+                        { name: "lisa_ux", img: "https://i.pravatar.cc/150?u=8" },
+                        { name: "james_web", img: "https://i.pravatar.cc/150?u=9" },
+                        { name: "sophia_ui", img: "https://i.pravatar.cc/150?u=10" },
+                        { name: "ryan_pm", img: "https://i.pravatar.cc/150?u=11" },
+                        { name: "kelly_marketing", img: "https://i.pravatar.cc/150?u=12" },
+                        { name: "kevin_photo", img: "https://i.pravatar.cc/150?u=13" },
+                        { name: "jess_writer", img: "https://i.pravatar.cc/150?u=14" },
+                        { name: "tom_travel", img: "https://i.pravatar.cc/150?u=15" },
+                        { name: "anna_fashion", img: "https://i.pravatar.cc/150?u=16" },
+                        { name: "chris_music", img: "https://i.pravatar.cc/150?u=17" },
+                        { name: "megan_food", img: "https://i.pravatar.cc/150?u=18" },
+                        { name: "steve_gym", img: "https://i.pravatar.cc/150?u=19" },
+                        { name: "laura_blog", img: "https://i.pravatar.cc/150?u=20" },
+                      ].map((user, idx) => (
+                        <div key={idx} className="flex items-center gap-3 px-4 py-3 border-b border-gray-50 hover:bg-gray-50 transition-colors">
+                          <img src={user.img} alt={user.name} className="w-10 h-10 rounded-full object-cover border border-gray-100" />
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-semibold text-gray-900 truncate">{user.name}</p>
+                            <p className="text-[10px] text-gray-500 truncate">Suggested for you</p>
+                          </div>
+                          <button className="bg-blue-500 text-white text-xs font-semibold px-4 py-1.5 rounded-[8px] hover:bg-blue-600 transition-colors">
+                            Follow
+                          </button>
+                          <button className="text-gray-400 hover:text-gray-600 p-1">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <circle cx="12" cy="5" r="1.5" fill="currentColor" />
+                              <circle cx="12" cy="12" r="1.5" fill="currentColor" />
+                              <circle cx="12" cy="19" r="1.5" fill="currentColor" />
+                            </svg>
+                          </button>
+                        </div>
+                      ))}
+                    </motion.div>
                   </div>
                 </div>
               </div>
@@ -1358,27 +1553,71 @@ function App() {
               </p>
             </div>
 
-            {/* Feature 2 */}
+            {/* Feature 2: Messages Carousel */}
             <div className="flex flex-col gap-6">
-              <div className="bg-[#f9fafb] rounded-[24px] p-6 shadow-[0_12px_32px_rgba(0,0,0,0.12),0_4px_12px_rgba(0,0,0,0.08)] mb-0 flex-1 flex flex-col items-stretch overflow-hidden border border-black/[0.03] min-h-[360px]">
+              <div className="bg-[#f9fafb] rounded-[24px] p-6 shadow-[0_12px_32px_rgba(0,0,0,0.12),0_4px_12px_rgba(0,0,0,0.08)] mb-0 flex flex-col items-stretch overflow-hidden border border-black/[0.03] h-[400px] min-h-0">
                 <div className="bg-[#f9fafb] rounded-2xl border border-[#e5e7eb] overflow-hidden flex-1 flex flex-col shadow-sm relative h-full">
-                  <div className="bg-white border-b border-[#e5e7eb] px-4 py-3 flex items-center justify-between">
-                    <span className="text-xs font-bold text-[#111827] uppercase tracking-wider">Messages</span>
+                  <div className="bg-white border-b border-[#e5e7eb] px-4 py-4 flex items-center justify-between z-20 relative">
+                    <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-2">
+                        <img src={mockChatData[currentChatIndex].avatar} alt="" className="w-6 h-6 rounded-full object-cover border border-gray-100" />
+                        <span className="text-sm font-bold text-[#111827] truncate max-w-[150px]">{mockChatData[currentChatIndex].user}</span>
+                      </div>
+                    </div>
+                    <div className="flex gap-1">
+                      <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                    </div>
                   </div>
-                  <div className="p-4 flex flex-col gap-3 h-full bg-white justify-end">
-                    <div className="flex mb-2 gap-2.5 items-start justify-end">
-                      <div className="max-w-[70%] py-2.5 px-3.5 rounded-2xl text-[13px] leading-[1.4] bg-slate-950 text-white rounded-br-sm">Hello!</div>
+                  <div className="flex-1 bg-white relative overflow-hidden flex flex-col">
+                    <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-3" id="chat-scroll-container">
+                      <AnimatePresence mode="wait">
+                        <motion.div
+                          key={currentChatIndex}
+                          initial={{ x: 50, opacity: 0 }}
+                          animate={{ x: 0, opacity: 1 }}
+                          exit={{ x: -50, opacity: 0 }}
+                          transition={{ duration: 0.4, ease: "easeInOut" }}
+                          className="flex flex-col gap-3 min-h-full justify-end"
+                        >
+                          {visibleChatMessages.map((msg, idx) => (
+                            <motion.div
+                              key={idx}
+                              initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                              animate={{ opacity: 1, y: 0, scale: 1 }}
+                              transition={{ duration: 0.3 }}
+                              className={`flex w-full ${msg.isSender ? 'justify-end' : 'justify-start'}`}
+                            >
+                              <div className={`max-w-[85%] py-2.5 px-3.5 rounded-2xl text-[13px] leading-[1.4] shadow-sm ${msg.isSender ? 'bg-slate-950 text-white rounded-br-sm' : 'bg-gray-100 text-gray-900 rounded-bl-sm border border-gray-100'}`}>
+                                {msg.text}
+                              </div>
+                            </motion.div>
+                          ))}
+                          {isChatTyping && (
+                            <motion.div
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: 1 }}
+                              className="flex w-full justify-start"
+                            >
+                              <div className="bg-gray-100 rounded-2xl rounded-bl-sm py-3 px-4 flex gap-1 items-center border border-gray-100">
+                                <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce"></span>
+                                <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce delay-75"></span>
+                                <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce delay-150"></span>
+                              </div>
+                            </motion.div>
+                          )}
+                        </motion.div>
+                      </AnimatePresence>
                     </div>
-                    <div className="flex mb-2 gap-2.5 items-start justify-start">
-                      <div className="max-w-[70%] py-2.5 px-3.5 rounded-2xl text-[13px] leading-[1.4] bg-gray-100 text-gray-900 rounded-bl-sm">Hi! Welcome! 😊</div>
-                    </div>
-                    <div className="flex gap-2 mt-auto pt-3 border-t border-[#f3f4f6]">
-                      <input type="text" placeholder="Type Your Text" className="flex-1 border border-[#e5e7eb] rounded-lg px-3 py-2 text-[13px] bg-white text-[#111827] placeholder:text-gray-400 focus:outline-none focus:border-gray-400" />
-                      <button className="w-9 h-9 rounded-lg bg-slate-950 text-white border-none cursor-pointer flex items-center justify-center hover:bg-slate-900 transition-colors">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                      </button>
+
+                    <div className="p-3 border-t border-[#f3f4f6] bg-white z-20">
+                      <div className="flex gap-2">
+                        <input type="text" placeholder="Type Your Text" className="flex-1 border border-[#e5e7eb] rounded-lg px-3 py-2 text-[13px] bg-white text-[#111827] placeholder:text-gray-400 focus:outline-none focus:border-gray-400" disabled />
+                        <button className="w-9 h-9 rounded-lg bg-slate-950 text-white border-none cursor-pointer flex items-center justify-center hover:bg-slate-900 transition-colors">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1388,55 +1627,56 @@ function App() {
                 Send Personalised Welcome Messages That Make Every New Follower Feel Valued.
               </p>
             </div>
-
-            {/* Feature 3 */}
+            {/* Feature 3: Questions Carousel */}
             <div className="flex flex-col gap-6">
-              <div className="bg-[#f9fafb] rounded-[24px] p-6 shadow-[0_12px_32px_rgba(0,0,0,0.12),0_4px_12px_rgba(0,0,0,0.08)] mb-0 flex-1 flex flex-col items-stretch overflow-hidden border border-black/[0.03] min-h-[360px]">
+              <div className="bg-[#f9fafb] rounded-[24px] p-6 shadow-[0_12px_32px_rgba(0,0,0,0.12),0_4px_12px_rgba(0,0,0,0.08)] mb-0 flex flex-col items-stretch overflow-hidden border border-black/[0.03] h-[400px] min-h-0">
                 <div className="bg-[#f9fafb] rounded-2xl border border-[#e5e7eb] overflow-hidden flex-1 flex flex-col shadow-sm relative h-full">
-                  <div className="flex gap-1 mb-4 px-6 pt-6">
-                    <div className="h-1 flex-1 bg-gray-900 rounded-full"></div>
-                    <div className="h-1 flex-1 bg-gray-100 rounded-full"></div>
-                    <div className="h-1 flex-1 bg-gray-100 rounded-full"></div>
-                    <div className="h-1 flex-1 bg-gray-100 rounded-full"></div>
-                    <div className="h-1 flex-1 bg-gray-100 rounded-full"></div>
+                  <div className="flex gap-1.5 mb-2 px-6 pt-6">
+                    {mockQuestionData.map((_, idx) => (
+                      <div key={idx} className={`h-1 flex-1 rounded-full transition-colors duration-300 ${idx === currentQuestionIndex ? 'bg-slate-900' : 'bg-gray-200'}`}></div>
+                    ))}
                   </div>
-                  <div className="px-6 mb-4 text-center">
-                    <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">Question 01</span>
-                  </div>
-                  <div className="p-6 flex flex-col h-full bg-white justify-center items-center text-center">
-                    <div className="bg-gray-50 px-4 py-3 rounded-xl mb-4 max-w-[80%]">
-                      <p className="text-sm font-semibold text-gray-900 m-0">How would you like to make change happen?</p>
-                    </div>
-                    <p className="text-[10px] uppercase font-bold text-gray-400 tracking-wider mb-3">Select Only One</p>
-                    <div className="flex flex-col gap-3 w-full max-w-[90%]">
-                      <div className="flex items-center gap-3">
-                        <div className="w-[18px] h-[18px] rounded-full bg-gray-200 border-2 border-gray-300 shrink-0"></div>
-                        <div className="h-3 bg-gray-200 rounded w-full"></div>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <div className="w-[18px] h-[18px] rounded-full bg-gray-200 border-2 border-gray-300 shrink-0"></div>
-                        <div className="h-3 bg-gray-200 rounded w-3/4"></div>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <div className="w-[18px] h-[18px] rounded-full bg-gray-200 border-2 border-gray-300 shrink-0"></div>
-                        <div className="h-3 bg-gray-200 rounded w-full"></div>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <div className="w-[18px] h-[18px] rounded-full bg-gray-200 border-2 border-gray-300 shrink-0"></div>
-                        <div className="h-3 bg-gray-200 rounded w-1/2"></div>
-                      </div>
-                    </div>
+
+                  <div className="flex-1 flex flex-col items-center justify-center p-6 text-center relative overflow-hidden">
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={currentQuestionIndex + "-content"}
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -20 }}
+                        transition={{ duration: 0.4 }}
+                        className="w-full flex flex-col items-center pointer-events-auto"
+                      >
+                        <div className="bg-gray-100 text-black font-bold px-3 py-1 rounded text-[10px] tracking-widest uppercase mb-3 inline-block">
+                          Question 0{currentQuestionIndex + 1}
+                        </div>
+                        <h4 className="text-lg font-bold text-slate-900 mb-4 leading-tight max-w-[90%] min-h-[54px] flex items-center justify-center">
+                          {mockQuestionData[currentQuestionIndex].question}
+                        </h4>
+
+                        <div className="w-full flex flex-col gap-2 max-w-[90%]">
+                          {mockQuestionData[currentQuestionIndex].options.map((option, optIdx) => (
+                            <div key={optIdx} className="flex items-center gap-3 w-full group cursor-pointer">
+                              <div className="w-5 h-5 rounded-full border-2 border-gray-200 group-hover:border-blue-500 transition-colors flex-shrink-0"></div>
+                              <div className="py-2 px-3 w-full bg-gray-50 rounded-lg text-xs font-medium text-gray-600 text-left group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors truncate">
+                                {option}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </motion.div>
+                    </AnimatePresence>
                   </div>
                 </div>
               </div>
-              <h3 className="feature-title">Automate your FAQs with fast, Intelligent</h3>
-              <p className="feature-description">
+              <h3 className="text-xl font-bold text-[#111827] font-oswald mb-2">Automate your FAQs with fast, Intelligent</h3>
+              <p className="text-sm text-[#6b7280] leading-[1.6] font-montserrat">
                 Give Your Customers Instant Clarity With AI-Powered FAQ Automation.
               </p>
             </div>
           </div>
         </div>
-      </section >
+      </section>
 
       {/* CTA BANNER SECTION */}
       < section className="bg-[#4b5563] py-20 px-5" >
