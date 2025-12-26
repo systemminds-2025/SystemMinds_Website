@@ -11,6 +11,8 @@ const ConnectSection = () => {
         phone: '',
         projectDetails: ''
     });
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitStatus, setSubmitStatus] = useState(''); // 'success' or 'error'
 
     // Social Media Cards Data
     const socialCards = [
@@ -75,9 +77,89 @@ const ConnectSection = () => {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Form submitted:', formData);
+        setIsSubmitting(true);
+        setSubmitStatus('');
+
+        try {
+            // Prepare email content
+            const emailBody = `
+                <div style="font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: 0 auto;">
+                    <h2 style="color: #8b5cf6; border-bottom: 2px solid #8b5cf6; padding-bottom: 10px;">
+                        New Contact Form Submission
+                    </h2>
+                    <div style="margin-top: 20px; padding: 15px; background-color: #f9fafb; border-radius: 8px;">
+                        <p style="font-size: 16px; line-height: 1.6; color: #111827;">
+                            <strong>Full Name:</strong><br/>
+                            ${formData.fullName}
+                        </p>
+                        <p style="font-size: 16px; line-height: 1.6; color: #111827;">
+                            <strong>Email:</strong><br/>
+                            ${formData.email}
+                        </p>
+                        ${formData.phone ? `
+                        <p style="font-size: 16px; line-height: 1.6; color: #111827;">
+                            <strong>Phone:</strong><br/>
+                            ${formData.phone}
+                        </p>
+                        ` : ''}
+                        <p style="font-size: 16px; line-height: 1.6; color: #111827;">
+                            <strong>Project Details:</strong><br/>
+                            ${formData.projectDetails.replace(/\n/g, '<br/>')}
+                        </p>
+                    </div>
+                    <div style="margin-top: 20px; padding: 15px; background-color: #f3f4f6; border-radius: 8px; font-size: 14px; color: #6b7280;">
+                        <p><strong>Timestamp:</strong> ${new Date().toLocaleString()}</p>
+                        <p><strong>Source:</strong> Contact Us Form - SystemMinds Website</p>
+                    </div>
+                </div>
+            `;
+
+            // Send email via API
+            const response = await fetch('/api/send-email.js', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    subject: `New Contact Form Submission from ${formData.fullName}`,
+                    body: emailBody,
+                    replyTo: formData.email,
+                    fromName: formData.fullName,
+                    fromEmail: formData.email,
+                    to: 'info.systemminds@gmail.com'
+                })
+            });
+
+            const result = await response.json();
+
+            if (result.ok) {
+                // Show success message
+                setSubmitStatus('success');
+
+                // Reset form
+                setFormData({
+                    fullName: '',
+                    email: '',
+                    phone: '',
+                    projectDetails: ''
+                });
+
+                // Reset success message after 5 seconds
+                setTimeout(() => setSubmitStatus(''), 5000);
+            } else {
+                throw new Error(result.error || 'Failed to send email');
+            }
+        } catch (error) {
+            console.error('Form submission error:', error);
+            setSubmitStatus('error');
+
+            // Reset error message after 5 seconds
+            setTimeout(() => setSubmitStatus(''), 5000);
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     useEffect(() => {
@@ -215,10 +297,61 @@ const ConnectSection = () => {
                             {/* Submit Button */}
                             <button
                                 type="submit"
-                                className="w-full bg-black text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 hover:bg-gray-900 hover:shadow-lg hover:-translate-y-0.5 font-montserrat text-sm"
+                                disabled={isSubmitting}
+                                className={`w-full font-semibold py-3 px-6 rounded-lg transition-all duration-300 font-montserrat text-sm flex items-center justify-center gap-2 ${isSubmitting
+                                        ? 'bg-gray-400 cursor-not-allowed'
+                                        : 'bg-black text-white hover:bg-gray-900 hover:shadow-lg hover:-translate-y-0.5'
+                                    }`}
                             >
-                                Request consultation
+                                {isSubmitting ? (
+                                    <>
+                                        <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                        Sending...
+                                    </>
+                                ) : (
+                                    'Request consultation'
+                                )}
                             </button>
+
+                            {/* Success/Error Message */}
+                            {submitStatus === 'success' && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: -10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    className="p-4 bg-green-50 border border-green-200 rounded-lg"
+                                >
+                                    <div className="flex items-start gap-3">
+                                        <svg className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                                        </svg>
+                                        <div>
+                                            <h4 className="text-sm font-semibold text-green-800 font-montserrat">Thank you for reaching out!</h4>
+                                            <p className="text-xs text-green-700 mt-1 font-montserrat">We've received your message and will get back to you soon.</p>
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            )}
+
+                            {submitStatus === 'error' && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: -10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    className="p-4 bg-red-50 border border-red-200 rounded-lg"
+                                >
+                                    <div className="flex items-start gap-3">
+                                        <svg className="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                                        </svg>
+                                        <div>
+                                            <h4 className="text-sm font-semibold text-red-800 font-montserrat">Oops! Something went wrong</h4>
+                                            <p className="text-xs text-red-700 mt-1 font-montserrat">Please try again or contact us directly.</p>
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            )}
                         </motion.form>
                     </div>
 

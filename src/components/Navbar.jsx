@@ -43,7 +43,7 @@ const Navbar = ({ isScrolled, isNavCollapsed, setIsNavCollapsed }) => {
                     <AnimatePresence mode="popLayout">
                         {!isNavCollapsed && (
                             <>
-                                {['Home', 'About', 'Projects', 'Contact', 'Services', 'Features'].map((item, index) => (
+                                {['Home', 'About', 'Projects', 'Contact', 'Services'].map((item, index) => (
                                     <a
                                         key={item}
                                         href={`#${item === 'Home' ? 'home' : item === 'Features' ? 'whyus' : item.toLowerCase()}`}
@@ -65,11 +65,28 @@ const Navbar = ({ isScrolled, isNavCollapsed, setIsNavCollapsed }) => {
                         )}
                     </AnimatePresence>
                 </div>
-                <button className="bg-[#020617] text-white border-none p-2 px-3 rounded-full text-xs font-medium cursor-pointer flex items-center gap-2 shadow-[0_4px_12px_rgba(0,0,0,0.15)] transition-all duration-200 hover:translate-y-[-1px] hover:shadow-[0_6px_16px_rgba(0,0,0,0.2)] shrink-0 relative z-10" onClick={handleMenuClick}>
-                    <span className="inline-block">Menu</span>
+                <button
+                    className="bg-[#020617] text-white border-none p-2 px-3 rounded-full text-xs font-medium cursor-pointer flex items-center gap-2 shadow-[0_4px_12px_rgba(0,0,0,0.15)] transition-all duration-200 hover:translate-y-[-1px] hover:shadow-[0_6px_16px_rgba(0,0,0,0.2)] shrink-0 relative z-10"
+                >
+                    <span
+                        className="inline-block cursor-pointer"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            // Scroll to Features section
+                            const element = document.getElementById('whyus');
+                            if (element) {
+                                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            }
+                        }}
+                    >
+                        Features
+                    </span>
                     <motion.span
                         className="flex items-center justify-center cursor-pointer"
-                        onClick={handleArrowClick}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            handleMenuClick();
+                        }}
                         animate={{ rotate: isNavCollapsed ? 180 : 0 }}
                         transition={{ duration: 0.3, ease: 'easeInOut' }}
                     >
