@@ -130,42 +130,78 @@ function App() {
 
   // Question Carousel State & Data
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [selectedOption, setSelectedOption] = useState(null); // { index: number, isCorrect: boolean } | null
+  const [showConfetti, setShowConfetti] = useState(false);
 
   const mockQuestionData = [
     {
       id: 1,
-      question: "How would you like to make change happen?",
-      options: ["Launch a new digital product", "Optimize existing processes", "Migrate to the cloud", "Implement AI solutions"]
+      question: "What does 'AI' stand for?",
+      options: ["Automated Internet", "Artificial Intelligence", "Advanced Input", "Apple Interface"],
+      correctIndex: 1 // Artificial Intelligence
     },
     {
       id: 2,
-      question: "What is your primary project goal?",
-      options: ["Increase user engagement", "Drive more sales", "Improve operational efficiency", "Scale market reach"]
+      question: "Which language runs in a web browser?",
+      options: ["Python", "Java", "C++", "JavaScript"],
+      correctIndex: 3 // JavaScript
     },
     {
       id: 3,
-      question: "Which platform are you targeting?",
-      options: ["Web Application", "Mobile App (iOS/Android)", "Cross-platform Solution", "Desktop Software"]
+      question: "What is the main purpose of a Cloud?",
+      options: ["To rain water", "To store data online", "To cool the computer", "To block the sun"],
+      correctIndex: 1 // To store data online
     },
     {
       id: 4,
-      question: "What is your preferred timeline?",
-      options: ["Less than 1 month", "1-3 months", "3-6 months", "6+ months"]
+      question: "What does 'UI' stand for in design?",
+      options: ["User Internet", "Unique Interface", "User Interface", "Under Index"],
+      correctIndex: 2 // User Interface
     },
     {
       id: 5,
-      question: "Do you have existing design assets?",
-      options: ["Yes, full designs ready", "Wireframes only", "Just a concept/idea", "Need full design services"]
+      question: "Which one is a mobile operating system?",
+      options: ["Windows", "MacOS", "Android", "Linux"],
+      correctIndex: 2 // Android
     }
   ];
 
   // Question Auto-Play Logic
   useEffect(() => {
+    if (selectedOption !== null) return; // Pause auto-rotation if user interacted
+
     const timer = setInterval(() => {
       setCurrentQuestionIndex(prev => (prev + 1) % mockQuestionData.length);
     }, 4000); // 4 seconds per question
     return () => clearInterval(timer);
-  }, []);
+  }, [selectedOption]);
+
+  const handleOptionClick = (optionIndex) => {
+    if (selectedOption !== null) return; // Prevent multiple clicks
+
+    const currentQuestion = mockQuestionData[currentQuestionIndex];
+    const isCorrect = optionIndex === currentQuestion.correctIndex;
+
+    setSelectedOption({ index: optionIndex, isCorrect });
+
+    if (isCorrect) {
+      setShowConfetti(true);
+      // Wait then next question
+      setTimeout(() => {
+        setShowConfetti(false);
+        setSelectedOption(null);
+        setCurrentQuestionIndex(prev => (prev + 1) % mockQuestionData.length);
+      }, 3000);
+    } else {
+      // Incorrect - just show error state for a bit then reset or move on? 
+      // User said: "if its wrong then u need to make it some differnt animated" -> e.g. shake.
+      // We'll reset after 1.5s to let them try again or auto-move? Let's auto-move to keep flow.
+      setTimeout(() => {
+        setSelectedOption(null);
+        setCurrentQuestionIndex(prev => (prev + 1) % mockQuestionData.length);
+      }, 1500);
+    }
+  };
 
   // Social Cards State
   const [activeSocialIndex, setActiveSocialIndex] = useState(0);
@@ -1654,15 +1690,51 @@ function App() {
                           {mockQuestionData[currentQuestionIndex].question}
                         </h4>
 
-                        <div className="w-full flex flex-col gap-2 max-w-[90%]">
-                          {mockQuestionData[currentQuestionIndex].options.map((option, optIdx) => (
-                            <div key={optIdx} className="flex items-center gap-3 w-full group cursor-pointer">
-                              <div className="w-5 h-5 rounded-full border-2 border-gray-200 group-hover:border-blue-500 transition-colors flex-shrink-0"></div>
-                              <div className="py-2 px-3 w-full bg-gray-50 rounded-lg text-xs font-medium text-gray-600 text-left group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors truncate">
-                                {option}
-                              </div>
-                            </div>
-                          ))}
+                        <div className="w-full flex flex-col gap-2 max-w-[90%] relative">
+                          {mockQuestionData[currentQuestionIndex].options.map((option, optIdx) => {
+                            const isSelected = selectedOption?.index === optIdx;
+                            const isCorrectAnswer = optIdx === mockQuestionData[currentQuestionIndex].correctIndex;
+
+                            // Visual State Logic
+                            let containerClass = "bg-gray-50 border-gray-200 text-gray-600 group-hover:bg-blue-50 group-hover:text-blue-600 group-hover:border-blue-200";
+                            let circleClass = "border-gray-200 group-hover:border-blue-500";
+
+                            if (selectedOption) {
+                              if (isSelected) {
+                                if (selectedOption.isCorrect) {
+                                  containerClass = "bg-green-50 border-green-200 text-green-700";
+                                  circleClass = "border-green-500 bg-green-500";
+                                } else {
+                                  containerClass = "bg-red-50 border-red-200 text-red-700";
+                                  circleClass = "border-red-500 bg-red-500";
+                                }
+                              } else if (isCorrectAnswer && !selectedOption.isCorrect) {
+                                // Show correct answer if user got it wrong? Maybe specific request? 
+                                // User didn't ask to reveal correct if wrong, just "if its wrong then u need to make it some differnt animated".
+                                // I will keep it simple for now, only animate the wrong one.
+                              }
+                            }
+
+                            return (
+                              <motion.div
+                                key={optIdx}
+                                className={`flex items-center gap-3 w-full group cursor-pointer p-2 rounded-lg border transition-all ${containerClass} ${selectedOption?.index === optIdx && !selectedOption.isCorrect ? 'shake-animation' : ''}`}
+                                onClick={() => handleOptionClick(optIdx)}
+                                animate={selectedOption?.index === optIdx && !selectedOption.isCorrect ? { x: [-10, 10, -10, 10, 0] } : {}}
+                                transition={{ duration: 0.4 }}
+                              >
+                                <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors flex-shrink-0 ${circleClass}`}>
+                                  {isSelected && selectedOption.isCorrect && <div className="w-2 h-2 bg-white rounded-full" />}
+                                  {isSelected && !selectedOption.isCorrect && <div className="w-2 h-2 bg-white rounded-full" />}
+                                </div>
+                                <div className="text-xs font-medium text-left truncate flex-1">
+                                  {option}
+                                </div>
+                              </motion.div>
+                            );
+                          })}
+
+
                         </div>
                       </motion.div>
                     </AnimatePresence>
@@ -1847,6 +1919,52 @@ function App() {
           </div>
         </button>
       </nav >
+
+      {/* Global Confetti Overlay */}
+      <AnimatePresence>
+        {showConfetti && (
+          <div key={currentQuestionIndex} className="fixed inset-0 z-[100] pointer-events-none overflow-hidden">
+            {[...Array(50)].map((_, i) => {
+              const randomLeft = Math.random() * 100;
+              const randomDelay = Math.random() * 0.5;
+              const isPaper = Math.random() > 0.3; // 70% paper, 30% emojis
+              const colors = ['#EF4444', '#3B82F6', '#10B981', '#F59E0B', '#8B5CF6', '#EC4899'];
+              const randomColor = colors[Math.floor(Math.random() * colors.length)];
+
+              return (
+                <motion.div
+                  key={i}
+                  initial={{ y: -50, x: 0, opacity: 1, rotate: 0 }}
+                  animate={{
+                    y: 1200,
+                    x: (Math.random() - 0.5) * 200, // Drifting
+                    rotate: 720,
+                    opacity: 0
+                  }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 2.5 + Math.random(), ease: "easeOut", delay: randomDelay }}
+                  className="absolute"
+                  style={{
+                    left: `${randomLeft}%`,
+                    top: '-50px'
+                  }}
+                >
+                  {isPaper ? (
+                    <div
+                      style={{ backgroundColor: randomColor }}
+                      className="w-3 h-3 md:w-4 md:h-4 rounded-[2px]"
+                    />
+                  ) : (
+                    <span className="text-xl md:text-3xl">
+                      {['🎉', '✨', '🔥', '💯'][Math.floor(Math.random() * 4)]}
+                    </span>
+                  )}
+                </motion.div>
+              )
+            })}
+          </div>
+        )}
+      </AnimatePresence>
     </div >
   );
 }
