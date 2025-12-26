@@ -984,247 +984,72 @@ function App() {
       <section className="bg-[#e5e7eb] py-[100px] px-5 min-h-[80vh] relative overflow-hidden flex items-center justify-center">
         <div className="max-w-[1920px] mx-auto px-[6vw] relative h-[600px] flex items-center justify-center w-full">
 
-          {/* UI Service Cards with Floating Animations */}
-          {/* 1. API Implementation - Top Left */}
-          <motion.div
-            className="absolute top-[5%] left-[8%] sm:left-[12%] md:left-[18%] bg-white p-2 sm:p-3 lg:p-4 rounded-lg sm:rounded-xl shadow-lg flex items-center gap-2 sm:gap-3 z-[1] -rotate-[5deg]"
-            animate={{
-              y: [0, -15, 0],
-              rotate: [-5, -3, -5]
-            }}
-            transition={{
-              duration: 4,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          >
-            <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-blue-50 rounded-lg flex items-center justify-center text-blue-600">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M13 10V3L4 14h7v7l9-11h-7z" fill="currentColor" />
-              </svg>
-            </div>
-            <span className="text-[10px] sm:text-xs font-semibold text-gray-700 font-montserrat">API Implementation</span>
-          </motion.div>
+          {/* Top Scrolling Service Bar - Behind Robot */}
+          <div className="absolute top-[35%] left-0 right-[50%] w-1/2 overflow-hidden z-[1] bg-[#e5e7eb] py-3">
+            <motion.div
+              className="flex gap-6 whitespace-nowrap"
+              animate={{ x: [0, -1920] }}
+              transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+            >
+              {[...Array(3)].map((_, setIndex) => (
+                <div key={setIndex} className="flex gap-6 items-center">
+                  <span className="bg-[#8b5cf6] px-4 py-2 text-white text-xs tracking-wider shadow-[0_0_15px_rgba(139,92,246,0.3)] border border-gray-200 rounded-full">API Implementation</span>
+                  <span className="bg-[#8b5cf6] px-4 py-2 text-white text-xs tracking-wider shadow-[0_0_15px_rgba(139,92,246,0.3)] border border-gray-200 rounded-full">UI/UX Design</span>
+                  <span className="bg-[#8b5cf6] px-4 py-2 text-white text-xs tracking-wider shadow-[0_0_15px_rgba(139,92,246,0.3)] border border-gray-200 rounded-full">Web Application</span>
+                  <span className="bg-[#8b5cf6] px-4 py-2 text-white text-xs tracking-wider shadow-[0_0_15px_rgba(139,92,246,0.3)] border border-gray-200 rounded-full">Mobile Development</span>
+                  <span className="bg-[#8b5cf6] px-4 py-2 text-white text-xs tracking-wider shadow-[0_0_15px_rgba(139,92,246,0.3)] border border-gray-200 rounded-full">Database Management</span>
+                  <span className="bg-[#8b5cf6] px-4 py-2 text-white text-xs tracking-wider shadow-[0_0_15px_rgba(139,92,246,0.3)] border border-gray-200 rounded-full">Cloud Deployment</span>
+                  <span className="bg-[#8b5cf6] px-4 py-2 text-white text-xs tracking-wider shadow-[0_0_15px_rgba(139,92,246,0.3)] border border-gray-200 rounded-full">AI Integration</span>
+                  <span className="bg-[#8b5cf6] px-4 py-2 text-white text-xs tracking-wider shadow-[0_0_15px_rgba(139,92,246,0.3)] border border-gray-200 rounded-full">DevOps</span>
+                  <span className="bg-[#8b5cf6] px-4 py-2 text-white text-xs tracking-wider shadow-[0_0_15px_rgba(139,92,246,0.3)] border border-gray-200 rounded-full">Security Solutions</span>
+                  <span className="bg-[#8b5cf6] px-4 py-2 text-white text-xs tracking-wider shadow-[0_0_15px_rgba(139,92,246,0.3)] border border-gray-200 rounded-full">Scalable Architecture</span>
+                </div>
+              ))}
+            </motion.div>
+          </div>
 
-          {/* 2. UI/UX Design - Top Center */}
-          <motion.div
-            className="absolute top-[3%] left-1/2 -translate-x-1/2 bg-white p-2 sm:p-3 lg:p-4 rounded-lg sm:rounded-xl shadow-lg flex items-center gap-2 sm:gap-3 z-[1] rotate-[3deg]"
-            animate={{
-              y: [0, -20, 0],
-              rotate: [3, 6, 3]
-            }}
-            transition={{
-              duration: 5.5,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: 0.5
-            }}
-          >
-            <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-purple-50 rounded-lg flex items-center justify-center text-purple-600">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z" fill="currentColor" />
-                <path d="M9 12l2 2 4-4" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </div>
-            <span className="text-[10px] sm:text-xs font-semibold text-gray-700 font-montserrat">UI/UX Design</span>
-          </motion.div>
+          {/* Bottom Scrolling Service Bar - Behind Robot */}
+          <div className="absolute top-[65%] left-[50%] right-0 w-1/2 overflow-hidden z-[1] bg-[#e5e7eb] py-3">
+            <motion.div
+              className="flex gap-6 whitespace-nowrap"
+              animate={{ x: [-1920, 0] }}
+              transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+            >
+              {[...Array(3)].map((_, setIndex) => (
+                <div key={setIndex} className="flex gap-6 items-center">
+                  <span className="bg-[#8b5cf6] px-4 py-2 text-white text-xs tracking-wider shadow-[0_0_15px_rgba(139,92,246,0.3)] border border-gray-200 rounded-full">API Implementation</span>
+                  <span className="bg-[#8b5cf6] px-4 py-2 text-white text-xs tracking-wider shadow-[0_0_15px_rgba(139,92,246,0.3)] border border-gray-200 rounded-full">UI/UX Design</span>
+                  <span className="bg-[#8b5cf6] px-4 py-2 text-white text-xs tracking-wider shadow-[0_0_15px_rgba(139,92,246,0.3)] border border-gray-200 rounded-full">Web Application</span>
+                  <span className="bg-[#8b5cf6] px-4 py-2 text-white text-xs tracking-wider shadow-[0_0_15px_rgba(139,92,246,0.3)] border border-gray-200 rounded-full">Mobile Development</span>
+                  <span className="bg-[#8b5cf6] px-4 py-2 text-white text-xs tracking-wider shadow-[0_0_15px_rgba(139,92,246,0.3)] border border-gray-200 rounded-full">Database Management</span>
+                  <span className="bg-[#8b5cf6] px-4 py-2 text-white text-xs tracking-wider shadow-[0_0_15px_rgba(139,92,246,0.3)] border border-gray-200 rounded-full">Cloud Deployment</span>
+                  <span className="bg-[#8b5cf6] px-4 py-2 text-white text-xs tracking-wider shadow-[0_0_15px_rgba(139,92,246,0.3)] border border-gray-200 rounded-full">AI Integration</span>
+                  <span className="bg-[#8b5cf6] px-4 py-2 text-white text-xs tracking-wider shadow-[0_0_15px_rgba(139,92,246,0.3)] border border-gray-200 rounded-full">DevOps</span>
+                  <span className="bg-[#8b5cf6] px-4 py-2 text-white text-xs tracking-wider shadow-[0_0_15px_rgba(139,92,246,0.3)] border border-gray-200 rounded-full">Security Solutions</span>
+                  <span className="bg-[#8b5cf6] px-4 py-2 text-white text-xs tracking-wider shadow-[0_0_15px_rgba(139,92,246,0.3)] border border-gray-200 rounded-full">Scalable Architecture</span>
+                </div>
+              ))}
+            </motion.div>
+          </div>
 
-          {/* 3. Web Application - Top Right */}
-          <motion.div
-            className="absolute top-[5%] right-[8%] sm:right-[12%] md:right-[18%] bg-white p-2 sm:p-3 lg:p-4 rounded-lg sm:rounded-xl shadow-lg flex items-center gap-2 sm:gap-3 z-[1] rotate-[5deg]"
-            animate={{
-              y: [0, -12, 0],
-              rotate: [5, 2, 5]
-            }}
-            transition={{
-              duration: 4.5,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: 1
-            }}
-          >
-            <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-green-50 rounded-lg flex items-center justify-center text-green-600">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="2" y="3" width="20" height="14" rx="2" stroke="currentColor" strokeWidth="2" fill="none" />
-                <path d="M8 21h8M12 17v4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                <path d="M7 7l3 3-3 3M11 13h6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </div>
-            <span className="text-[10px] sm:text-xs font-semibold text-gray-700 font-montserrat">Web Application</span>
-          </motion.div>
-
-          {/* 4. Mobile Development - Right Top */}
-          <motion.div
-            className="absolute top-[25%] right-[5%] sm:right-[8%] md:right-[12%] bg-white p-2 sm:p-3 lg:p-4 rounded-lg sm:rounded-xl shadow-lg flex items-center gap-2 sm:gap-3 z-[1] -rotate-[3deg]"
-            animate={{
-              y: [0, -18, 0],
-              rotate: [-3, -6, -3]
-            }}
-            transition={{
-              duration: 5,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: 0.3
-            }}
-          >
-            <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-pink-50 rounded-lg flex items-center justify-center text-pink-600">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="5" y="2" width="14" height="20" rx="2" stroke="currentColor" strokeWidth="2" fill="none" />
-                <path d="M12 18h.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                <path d="M8 5h8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-              </svg>
-            </div>
-            <span className="text-[10px] sm:text-xs font-semibold text-gray-700 font-montserrat">Mobile Development</span>
-          </motion.div>
-
-          {/* 5. Database Management - Right Bottom */}
-          <motion.div
-            className="absolute bottom-[25%] right-[5%] sm:right-[8%] md:right-[12%] bg-white p-2 sm:p-3 lg:p-4 rounded-lg sm:rounded-xl shadow-lg flex items-center gap-2 sm:gap-3 z-[1] rotate-[4deg]"
-            animate={{
-              y: [0, -14, 0],
-              rotate: [4, 7, 4]
-            }}
-            transition={{
-              duration: 4.8,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: 1.2
-            }}
-          >
-            <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-indigo-50 rounded-lg flex items-center justify-center text-indigo-600">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <ellipse cx="12" cy="5" rx="9" ry="3" stroke="currentColor" strokeWidth="2" fill="none" />
-                <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" stroke="currentColor" strokeWidth="2" />
-                <path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3" stroke="currentColor" strokeWidth="2" />
-              </svg>
-            </div>
-            <span className="text-[10px] sm:text-xs font-semibold text-gray-700 font-montserrat">Database Management</span>
-          </motion.div>
-
-          {/* 6. Cloud Deployment - Bottom Right */}
-          <motion.div
-            className="absolute bottom-[5%] right-[8%] sm:right-[12%] md:right-[18%] bg-white p-2 sm:p-3 lg:p-4 rounded-lg sm:rounded-xl shadow-lg flex items-center gap-2 sm:gap-3 z-[1] -rotate-[5deg]"
-            animate={{
-              y: [0, -16, 0],
-              rotate: [-5, -8, -5]
-            }}
-            transition={{
-              duration: 5.2,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: 0.8
-            }}
-          >
-            <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-cyan-50 rounded-lg flex items-center justify-center text-cyan-600">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M19.36 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.64-4.96z" fill="currentColor" />
-                <path d="M12 11v6m0 0l-2-2m2 2l2-2" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </div>
-            <span className="text-[10px] sm:text-xs font-semibold text-gray-700 font-montserrat">Cloud Deployment</span>
-          </motion.div>
-
-          {/* 7. AI Integration - Bottom Center */}
-          <motion.div
-            className="absolute bottom-[3%] left-1/2 -translate-x-1/2 bg-white p-2 sm:p-3 lg:p-4 rounded-lg sm:rounded-xl shadow-lg flex items-center gap-2 sm:gap-3 z-[1] rotate-[2deg]"
-            animate={{
-              y: [0, -22, 0],
-              rotate: [2, -2, 2]
-            }}
-            transition={{
-              duration: 6,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: 1.5
-            }}
-          >
-            <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-amber-50 rounded-lg flex items-center justify-center text-amber-600">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" fill="none" />
-                <path d="M12 2l2 5-2 5-2-5 2-5zM12 12l5 2-5 2-5-2 5-2zM12 12l2 5-2 5-2-5 2-5z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </div>
-            <span className="text-[10px] sm:text-xs font-semibold text-gray-700 font-montserrat">AI Integration</span>
-          </motion.div>
-
-          {/* 8. DevOps - Bottom Left */}
-          <motion.div
-            className="absolute bottom-[5%] left-[8%] sm:left-[12%] md:left-[18%] bg-white p-2 sm:p-3 lg:p-4 rounded-lg sm:rounded-xl shadow-lg flex items-center gap-2 sm:gap-3 z-[1] rotate-[5deg]"
-            animate={{
-              y: [0, -13, 0],
-              rotate: [5, 8, 5]
-            }}
-            transition={{
-              duration: 4.3,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: 0.6
-            }}
-          >
-            <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-orange-50 rounded-lg flex items-center justify-center text-orange-600">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" stroke="currentColor" strokeWidth="2" fill="none" />
-                <polyline points="7.5 4.21 12 6.81 16.5 4.21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M12 12l0 9.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-              </svg>
-            </div>
-            <span className="text-[10px] sm:text-xs font-semibold text-gray-700 font-montserrat">DevOps</span>
-          </motion.div>
-
-          {/* 9. Security Solutions - Left Bottom */}
-          <motion.div
-            className="absolute bottom-[25%] left-[5%] sm:left-[8%] md:left-[12%] bg-white p-2 sm:p-3 lg:p-4 rounded-lg sm:rounded-xl shadow-lg flex items-center gap-2 sm:gap-3 z-[1] -rotate-[4deg]"
-            animate={{
-              y: [0, -17, 0],
-              rotate: [-4, -7, -4]
-            }}
-            transition={{
-              duration: 5.8,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: 1.8
-            }}
-          >
-            <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-red-50 rounded-lg flex items-center justify-center text-red-600">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z" stroke="currentColor" strokeWidth="2" fill="none" />
-                <path d="M9 11l2 2 4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </div>
-            <span className="text-[10px] sm:text-xs font-semibold text-gray-700 font-montserrat">Security Solutions</span>
-          </motion.div>
-
-          {/* 10. Scalable Architecture - Left Top */}
-          <motion.div
-            className="absolute top-[25%] left-[5%] sm:left-[8%] md:left-[12%] bg-white p-2 sm:p-3 lg:p-4 rounded-lg sm:rounded-xl shadow-lg flex items-center gap-2 sm:gap-3 z-[1] rotate-[3deg]"
-            animate={{
-              y: [0, -19, 0],
-              rotate: [3, 0, 3]
-            }}
-            transition={{
-              duration: 5.5,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: 0.2
-            }}
-          >
-            <div className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 bg-teal-50 rounded-lg flex items-center justify-center text-teal-600">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" strokeWidth="2" fill="none" />
-                <rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" strokeWidth="2" fill="none" />
-                <rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" strokeWidth="2" fill="none" />
-                <rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" strokeWidth="2" fill="none" />
-              </svg>
-            </div>
-            <span className="text-[10px] sm:text-xs font-semibold text-gray-700 font-montserrat">Scalable Architecture</span>
-          </motion.div>
+          {/* Circular Text Around Robot */}
+          <svg className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] pointer-events-none z-[2]" viewBox="0 0 500 500">
+            <defs>
+              <path id="circlePath" d="M 250,250 m -200,0 a 200,200 0 1,1 400,0 a 200,200 0 1,1 -400,0" fill="none" />
+            </defs>
+            <text className="fill-black text-xl font-semibold tracking-wide" style={{ fontSize: '20px', letterSpacing: '0.1em' }}>
+              <textPath href="#circlePath" startOffset="10%">
+                We transform your ideas into powerful digital solutions.
+              </textPath>
+            </text>
+          </svg>
 
           {/* Robot Character */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[2]">
             <motion.img
               src={smartbotImage}
               alt="Robot Character"
-              className="w-[180px] sm:w-[220px] lg:w-[320px] h-auto object-contain block"
+              className="w-[200px] sm:w-[260px] lg:w-[380px] h-auto object-contain block"
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
             />
