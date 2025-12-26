@@ -1405,86 +1405,177 @@ function App() {
         </div>
       </section >
 
-      {/* LAUNCH JOURNEY SECTION */}
-      < section className="bg-white py-[100px] px-5 border-t border-[#e5e7eb]" >
-        <div className="max-w-[1920px] mx-auto px-[6vw]">
-          <div className="text-center max-w-[800px] mx-auto mb-16">
-            <h2 className="text-[clamp(28px,5vw,48px)] font-bold leading-[1.2] text-[#111827] mb-6 tracking-tight font-oswald">Launch your journey in three quick and simple steps</h2>
-            <p className="text-[16px] leading-[1.6] text-[#6b7280] font-montserrat">
-              Begin Your Journey In Three Easy Steps That Guide You From Setup To Full Usage In Minutes, Giving You A Fast, Intuitive Start Without The Typical..
-            </p>
+      {/* COMPANY JOURNEY SECTION (Official & Professional) */}
+      <section className="bg-white py-[100px] px-5 border-t border-[#e5e7eb] relative overflow-hidden">
+        <div className="max-w-[1200px] mx-auto relative z-10">
+          <div className="text-center max-w-[800px] mx-auto mb-20">
+            <p className="text-xs font-semibold text-purple-light uppercase tracking-widest mb-2 font-montserrat">OUR STORY</p>
+            <h2 className="text-[clamp(28px,5vw,42px)] font-bold leading-[1.2] text-[#111827] mb-6 tracking-tight font-oswald">
+              From a startup vision to a trusted technology partner—<span className="relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-gradient-to-r after:from-purple-light after:to-purple-dark">here's how SystemMinds came to be</span>
+            </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-            {/* Card 1 */}
-            <div className="bg-[#f9fafb] rounded-[24px] p-8 lg:p-10 shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_24px_rgba(0,0,0,0.1)] border border-transparent hover:border-black/5">
-              <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-6 bg-[#bfdbfe] text-blue-700">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="12" cy="8" r="4" stroke="white" strokeWidth="2" fill="none" />
-                  <path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                  <path d="M16 8h4M18 6v4" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold text-[#111827] mb-3 font-oswald">Create Your Free Account</h3>
-              <p className="text-base text-[#6b7280] leading-[1.6] font-montserrat">
-                Sign Up For Free And Unlock Instant Access..
-              </p>
+          {/* DESKTOP: Snake Infographic Roadmap */}
+          <div className="hidden md:block relative h-[600px] w-full max-w-[1100px] mx-auto mt-10">
+            {/* SVG Snake Path */}
+            <svg className="absolute top-0 left-0 w-full h-full p-10 overflow-visible" viewBox="0 0 1000 500" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="snakeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#374151" /> {/* Dark Gray */}
+                  <stop offset="50%" stopColor="#1f2937" /> {/* Darker Gray */}
+                  <stop offset="100%" stopColor="#000000" /> {/* Black */}
+                </linearGradient>
+                <filter id="shadow">
+                  <feDropShadow dx="0" dy="4" stdDeviation="4" floodOpacity="0.1" />
+                </filter>
+              </defs>
+
+              {/* 1. Main Snake Body (Border/Shadow) */}
+              <path
+                d="M50,150 C300,150 300,400 550,400 C800,400 800,150 1050,150"
+                fill="none"
+                stroke="#e5e7eb"
+                strokeWidth="102"
+                strokeLinecap="round"
+              />
+
+              {/* 2. Inner Snake Body (White Road) */}
+              <path
+                d="M50,150 C300,150 300,400 550,400 C800,400 800,150 1050,150"
+                fill="none"
+                stroke="#ffffff"
+                strokeWidth="90"
+                strokeLinecap="round"
+              />
+
+              {/* 3. Animated Fill (Black Progress) */}
+              <motion.path
+                d="M50,150 C300,150 300,400 550,400 C800,400 800,150 1050,150"
+                fill="none"
+                stroke="url(#snakeGradient)"
+                strokeWidth="70"
+                strokeLinecap="round"
+                initial={{ pathLength: 0 }}
+                whileInView={{ pathLength: 1 }}
+                transition={{ duration: 2.5, ease: "easeInOut" }}
+                viewport={{ once: true }}
+                filter="url(#shadow)"
+                className="opacity-100"
+              />
+
+              {/* 4. Dashed Center Line */}
+              {/* Visible on White (gray dashes) AND Black (white dashes)? Hard to do one path. */}
+              {/* Let's make it white translucent - shows on Black fill (finished road), hidden on White (empty road) -> clean build effect */}
+              <path
+                d="M50,150 C300,150 300,400 550,400 C800,400 800,150 1050,150"
+                fill="none"
+                stroke="rgba(255,255,255,0.4)"
+                strokeWidth="2"
+                strokeDasharray="10,10"
+                strokeLinecap="round"
+                className="z-10"
+              />
+            </svg>
+
+            {/* NODES & CONTENT (Positioned along the Snake Path) */}
+
+            {/* Node 1: 2024 (Start - On Top Curve) */}
+            {/* Path starts at Y=150. Node centered at 150. Text below. */}
+            <div className="absolute top-[100px] left-[5%] w-[300px] z-20">
+              <motion.div
+                initial={{ scale: 0, opacity: 0 }}
+                whileInView={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 0.5, type: "spring" }}
+                viewport={{ once: true }}
+                className="flex flex-col items-center"
+              >
+                {/* Node Circle */}
+                <div className="w-24 h-24 rounded-full bg-white border-8 border-purple-200 flex items-center justify-center shadow-xl mb-6 relative z-20">
+                  <span className="text-2xl font-bold text-gray-800 font-oswald">2024</span>
+                </div>
+
+                {/* Text Card (Below) */}
+                <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 text-center w-full relative z-10">
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-4 h-4 bg-white rotate-45 border-l border-t border-gray-100"></div>
+                  <h3 className="text-lg font-bold text-purple-600 mb-2 font-oswald uppercase">The Idea</h3>
+                  <p className="text-sm text-gray-600 leading-relaxed font-montserrat">Bridging gaps with innovative digital visions.</p>
+                </div>
+              </motion.div>
             </div>
 
-            {/* Card 2 */}
-            <div className="bg-[#f9fafb] rounded-[24px] p-8 lg:p-10 shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_24px_rgba(0,0,0,0.1)] border border-transparent hover:border-black/5">
-              <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-6 bg-[#fde68a] text-yellow-700">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="12" cy="12" r="2" fill="white" />
-                  <circle cx="6" cy="6" r="2" fill="white" />
-                  <circle cx="18" cy="6" r="2" fill="white" />
-                  <circle cx="6" cy="18" r="2" fill="white" />
-                  <circle cx="18" cy="18" r="2" fill="white" />
-                  <path d="M12 10L6 6M12 10L18 6M12 14L6 18M12 14L18 18M10 12L6 6M14 12L18 6M10 12L6 18M14 12L18 18" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold text-[#111827] mb-3 font-oswald">Sync all your channels effortlessly</h3>
-              <p className="text-base text-[#6b7280] leading-[1.6] font-montserrat">
-                Link Every Channel You Use To Create A Smooth.
-              </p>
+            {/* Node 2: 2025 (Middle - On Bottom Curve) */}
+            {/* Path dips to Y=400. Node centered at 400. Text above. */}
+            <div className="absolute top-[350px] left-1/2 -translate-x-1/2 w-[300px] z-20">
+              <motion.div
+                initial={{ scale: 0, opacity: 0 }}
+                whileInView={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 1.5, type: "spring" }}
+                viewport={{ once: true }}
+                className="flex flex-col-reverse items-center"
+              >
+                {/* Node Circle */}
+                <div className="w-24 h-24 rounded-full bg-white border-8 border-purple-400 flex items-center justify-center shadow-xl mt-6 relative z-20">
+                  <span className="text-2xl font-bold text-gray-800 font-oswald">2025</span>
+                </div>
+
+                {/* Text Card (Above) */}
+                <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 text-center w-full relative z-10">
+                  <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-4 h-4 bg-white rotate-45 border-r border-b border-gray-100"></div>
+                  <h3 className="text-lg font-bold text-purple-600 mb-2 font-oswald uppercase">Launch</h3>
+                  <p className="text-sm text-gray-600 leading-relaxed font-montserrat">Turning vision into reality with global clients.</p>
+                </div>
+              </motion.div>
             </div>
 
-            {/* Card 3 */}
-            <div className="bg-[#f9fafb] rounded-[24px] p-8 lg:p-10 shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_24px_rgba(0,0,0,0.1)] border border-transparent hover:border-black/5">
-              <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-6 bg-[#bbf7d0] text-green-700">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="12" cy="12" r="10" stroke="white" strokeWidth="2" fill="none" />
-                  <circle cx="12" cy="12" r="3" fill="white" />
-                  <path d="M12 2L12 6M12 18L12 22M2 12L6 12M18 12L22 12" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                </svg>
-              </div>
-              <h3 className="journey-card-title">Launch your experience in minutes with a fast</h3>
-              <p className="journey-card-description">
-                Get Everything Ready And Go Live In Minutes.
-              </p>
+            {/* Node 3: 2026 (End - On Top Curve) */}
+            {/* Path rises back to Y=150. Node centered at 150. Text below. */}
+            <div className="absolute top-[100px] right-[5%] w-[300px] z-20">
+              <motion.div
+                initial={{ scale: 0, opacity: 0 }}
+                whileInView={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 2.5, type: "spring" }}
+                viewport={{ once: true }}
+                className="flex flex-col items-center"
+              >
+                {/* Node Circle */}
+                <div className="w-24 h-24 rounded-full bg-white border-8 border-purple-600 flex items-center justify-center shadow-xl mb-6 relative z-20">
+                  <span className="text-2xl font-bold text-gray-800 font-oswald">2026</span>
+                </div>
+
+                {/* Text Card (Below) */}
+                <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 text-center w-full relative z-10">
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-4 h-4 bg-white rotate-45 border-l border-t border-gray-100"></div>
+                  <h3 className="text-lg font-bold text-purple-600 mb-2 font-oswald uppercase">Growth</h3>
+                  <p className="text-sm text-gray-600 leading-relaxed font-montserrat">Scaling up with a solid corporate foundation.</p>
+                </div>
+              </motion.div>
             </div>
 
-            {/* Card 4 */}
-            <div className="journey-card">
-              <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-6 bg-[#e9d5ff] text-purple-700">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M8 10c0-2.21 1.79-4 4-4s4 1.79 4 4" stroke="white" strokeWidth="2" strokeLinecap="round" fill="none" />
-                  <path d="M8 14c0 2.21 1.79 4 4 4s4-1.79 4-4" stroke="white" strokeWidth="2" strokeLinecap="round" fill="none" />
-                  <circle cx="12" cy="12" r="8" stroke="white" strokeWidth="2" fill="none" />
-                  <path d="M12 8L14 10L12 12" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-                </svg>
-              </div>
-              <h3 className="journey-card-title">Transform the Way You Converse</h3>
-              <p className="journey-card-description">
-                Your Greatest Conversations By Transforming.
-              </p>
-            </div>
           </div>
+
+          {/* MOBILE: Vertical Stack (Responsive Fallback) */}
+          <div className="md:hidden relative border-l-2 border-purple-light/20 ml-4 space-y-12 pl-8">
+            {[
+              { year: "2024", title: "The Idea", desc: "Bridging gaps with innovative digital visions." },
+              { year: "2025", title: "Launch", desc: "Turning vision into reality with global clients." },
+              { year: "2026", title: "Growth", desc: "Scaling up with a solid corporate foundation." }
+            ].map((item, index) => (
+              <div key={index} className="relative">
+                <div className="absolute -left-[41px] top-0 w-6 h-6 rounded-full bg-white border-4 border-purple-light"></div>
+                <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                  <span className="text-2xl font-bold text-gray-900 font-oswald block mb-1">{item.year}</span>
+                  <h3 className="text-lg font-bold text-purple-600 mb-2">{item.title}</h3>
+                  <p className="text-sm text-gray-600">{item.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
         </div>
-      </section >
+      </section>
 
       {/* AUTOMATION FEATURES SECTION */}
-      < section className="bg-white py-[100px] px-5 border-t border-[#e5e7eb]" >
+      <section className="bg-white py-[100px] px-5 border-t border-[#e5e7eb]">
         <div className="max-w-[1920px] mx-auto px-[6vw]">
           <div className="text-center max-w-[800px] mx-auto mb-16">
             <p className="text-xs font-semibold text-purple-light uppercase tracking-widest mb-2 font-montserrat">AUTOMATION FEATURES</p>
@@ -1748,7 +1839,7 @@ function App() {
             </div>
           </div>
         </div>
-      </section>
+      </section >
 
       {/* CTA BANNER SECTION */}
       < section className="bg-[#4b5563] py-20 px-5" >
@@ -1921,7 +2012,7 @@ function App() {
       </nav >
 
       {/* Global Confetti Overlay */}
-      <AnimatePresence>
+      < AnimatePresence >
         {showConfetti && (
           <div key={currentQuestionIndex} className="fixed inset-0 z-[100] pointer-events-none overflow-hidden">
             {[...Array(50)].map((_, i) => {
@@ -1963,8 +2054,9 @@ function App() {
               )
             })}
           </div>
-        )}
-      </AnimatePresence>
+        )
+        }
+      </AnimatePresence >
     </div >
   );
 }
