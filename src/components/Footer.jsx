@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import logoImage from '../img/logo.png';
 import socialIconsImage from '../img/social_icons.png';
-import smartbotImage from '../img/PhotoshopExtension_Image.png';
+import smartbotImage from '../img/logo.png'; // Placeholder: PhotoshopExtension_Image.png was missing
 
 const Footer = () => {
     const [newsletterEmail, setNewsletterEmail] = useState('');
@@ -145,12 +145,12 @@ const Footer = () => {
                                 type="submit"
                                 disabled={isSubscribing}
                                 className={`font-semibold py-3 px-4 rounded-lg text-sm transition-colors w-full flex items-center justify-center gap-2 ${isSubscribing
-                                        ? 'bg-gray-500 cursor-not-allowed'
-                                        : newsletterStatus === 'success'
-                                            ? 'bg-green-600 hover:bg-green-700'
-                                            : newsletterStatus === 'error'
-                                                ? 'bg-red-600 hover:bg-red-700'
-                                                : 'bg-purple-600 hover:bg-purple-700'
+                                    ? 'bg-gray-500 cursor-not-allowed'
+                                    : newsletterStatus === 'success'
+                                        ? 'bg-green-600 hover:bg-green-700'
+                                        : newsletterStatus === 'error'
+                                            ? 'bg-red-600 hover:bg-red-700'
+                                            : 'bg-purple-600 hover:bg-purple-700'
                                     } text-white`}
                             >
                                 {isSubscribing ? (

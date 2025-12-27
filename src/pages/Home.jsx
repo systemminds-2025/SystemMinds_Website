@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import smartbotImage from '../img/PhotoshopExtension_Image.png';
+// Image import removed as per request
 import logoImage from '../img/logo.png';
 import imgInterview from '../img/about-interview.png';
 import imgAssessment from '../img/about-assessment.png';
