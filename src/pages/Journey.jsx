@@ -10,7 +10,7 @@ const Journey = () => {
                     <div className="text-center max-w-[800px] mx-auto mb-20">
                         <p className="text-xs font-semibold text-purple-light uppercase tracking-widest mb-2 font-montserrat">OUR STORY</p>
                         <h2 className="text-[clamp(28px,5vw,42px)] font-bold leading-[1.2] text-[#111827] mb-6 tracking-tight font-oswald">
-                            From a startup vision to a trusted technology partner—<span className="relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-gradient-to-r after:from-purple-light after:to-purple-dark">here's how SystemMinds came to be</span>
+                            From a startup vision to a trusted technology partner—<span className="relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-gradient-to-r after:from-purple-light after:to-purple-dark">here's how SystemMindz came to be</span>
                         </h2>
                     </div>
 

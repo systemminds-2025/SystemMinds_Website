@@ -35,7 +35,7 @@ const Footer = () => {
                     </div>
                     <div style="margin-top: 20px; padding: 15px; background-color: #f3f4f6; border-radius: 8px; font-size: 14px; color: #6b7280;">
                         <p><strong>Timestamp:</strong> ${new Date().toLocaleString()}</p>
-                        <p><strong>Source:</strong> Newsletter Subscription - SystemMinds Website Footer</p>
+                        <p><strong>Source:</strong> Newsletter Subscription - SystemMindz Website Footer</p>
                     </div>
                 </div>
             `;
@@ -187,7 +187,7 @@ const Footer = () => {
 
                 {/* Bottom Bar */}
                 <div className="flex flex-col md:flex-row justify-between items-center gap-4 pt-8 border-t border-gray-800">
-                    <p className="text-gray-500 text-xs md:text-sm">© 2025 SystemMinds. All rights reserved.</p>
+                    <p className="text-gray-500 text-xs md:text-sm">© 2025 SystemMindz. All rights reserved.</p>
                     <div className="flex gap-6">
                         <a href="#" className="text-gray-500 hover:text-white text-xs md:text-sm transition-colors">Privacy Policy</a>
                         <a href="#" className="text-gray-500 hover:text-white text-xs md:text-sm transition-colors">Terms of Service</a>

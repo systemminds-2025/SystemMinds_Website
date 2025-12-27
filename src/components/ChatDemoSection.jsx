@@ -143,8 +143,8 @@ const ChatDemoSection = () => {
                         },
                         body: JSON.stringify({
                             userMessage: messageText, // The email address itself
-                            subject: 'New Email Registration from SystemMinds Website',
-                            fromName: 'SystemMinds Website Visitor',
+                            subject: 'New Email Registration from SystemMindz Website',
+                            fromName: 'SystemMindz Website Visitor',
                             fromEmail: messageText, // Send from user's email
                             isEmailRegistration: true, // Flag to indicate this is email registration
                         }),
@@ -260,8 +260,8 @@ const ChatDemoSection = () => {
                 },
                 body: JSON.stringify({
                     userMessage: messageText,
-                    subject: 'New Message from SystemMinds Website',
-                    fromName: 'SystemMinds Website Visitor',
+                    subject: 'New Message from SystemMindz Website',
+                    fromName: 'SystemMindz Website Visitor',
                     fromEmail: userEmail && isValidEmail(userEmail) ? userEmail : null,
                 }),
             });

@@ -17,7 +17,7 @@ const ConnectSection = () => {
     // Social Media Cards Data
     const socialCards = [
         {
-            title: "SystemMinds",
+            title: "SystemMindz",
             description: "Follow our LinkedIn Company Page for latest innovations and industry updates.",
             icon: (
                 <svg viewBox="0 0 24 24" fill="currentColor">
@@ -30,7 +30,7 @@ const ConnectSection = () => {
             gradient: "linear-gradient(145deg, #111827 0%, #1f2937 100%)"
         },
         {
-            title: "SystemMinds",
+            title: "SystemMindz",
             description: "Join our WhatsApp Community for latest news, updates and team engagement.",
             icon: (
                 <svg viewBox="0 0 24 24" fill="currentColor">
@@ -56,7 +56,7 @@ const ConnectSection = () => {
             gradient: "linear-gradient(145deg, #111827 0%, #1f2937 100%)"
         },
         {
-            title: "SystemMinds",
+            title: "SystemMindz",
             description: "Join our Telegram Channel for instant updates and direct communication.",
             icon: (
                 <svg viewBox="0 0 24 24" fill="currentColor">
@@ -111,7 +111,7 @@ const ConnectSection = () => {
                     </div>
                     <div style="margin-top: 20px; padding: 15px; background-color: #f3f4f6; border-radius: 8px; font-size: 14px; color: #6b7280;">
                         <p><strong>Timestamp:</strong> ${new Date().toLocaleString()}</p>
-                        <p><strong>Source:</strong> Contact Us Form - SystemMinds Website</p>
+                        <p><strong>Source:</strong> Contact Us Form - SystemMindz Website</p>
                     </div>
                 </div>
             `;
@@ -299,8 +299,8 @@ const ConnectSection = () => {
                                 type="submit"
                                 disabled={isSubmitting}
                                 className={`w-full font-semibold py-3 px-6 rounded-lg transition-all duration-300 font-montserrat text-sm flex items-center justify-center gap-2 ${isSubmitting
-                                        ? 'bg-gray-400 cursor-not-allowed'
-                                        : 'bg-black text-white hover:bg-gray-900 hover:shadow-lg hover:-translate-y-0.5'
+                                    ? 'bg-gray-400 cursor-not-allowed'
+                                    : 'bg-black text-white hover:bg-gray-900 hover:shadow-lg hover:-translate-y-0.5'
                                     }`}
                             >
                                 {isSubmitting ? (

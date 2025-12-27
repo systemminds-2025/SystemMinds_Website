@@ -55,7 +55,7 @@ const Navbar = ({ isScrolled, isNavCollapsed, setIsNavCollapsed }) => {
             <div className="flex items-center gap-2 h-11 shrink-0">
                 <img src={logoImage} alt="Logo" className="h-10 w-auto object-contain block" />
                 <span className="text-[22px] font-semibold text-[#111827] whitespace-nowrap leading-none flex items-center tracking-[0.5px] lowercase">
-                    <span className="uppercase font-bold text-2xl tracking-wider">S</span>ystem<span className="uppercase font-bold text-2xl tracking-wider">M</span>inds
+                    <span className="uppercase font-bold text-2xl tracking-wider">S</span>ystem<span className="uppercase font-bold text-2xl tracking-wider">M</span>indz
                 </span>
             </div>
 
@@ -79,8 +79,8 @@ const Navbar = ({ isScrolled, isNavCollapsed, setIsNavCollapsed }) => {
                                         >
                                             <motion.div
                                                 className={`border-none px-4 py-2 text-xs cursor-pointer transition-all duration-200 rounded-full whitespace-nowrap inline-block ${isActive
-                                                        ? 'bg-purple-600 text-white shadow-[0_2px_8px_rgba(147,51,234,0.3)]'
-                                                        : 'bg-transparent text-[#111827] hover:bg-black/5'
+                                                    ? 'bg-purple-600 text-white shadow-[0_2px_8px_rgba(147,51,234,0.3)]'
+                                                    : 'bg-transparent text-[#111827] hover:bg-black/5'
                                                     }`}
                                                 initial={{ opacity: 0, y: -10, height: 0 }}
                                                 animate={{ opacity: 1, y: 0, height: 'auto' }}
