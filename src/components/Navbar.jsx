@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import logoImage from '../img/profilet_logo.png';
 import mainLogo from '../img/logo.png';
 
 const Navbar = ({ isScrolled, isNavCollapsed, setIsNavCollapsed }) => {

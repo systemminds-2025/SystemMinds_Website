@@ -1,8 +1,7 @@
 
 import React, { useState } from 'react';
-import logoImage from '../img/profilet_logo.png';
-// import socialIconsImage from '../img/social_icons.png'; // File missing
-import smartbotImage from '../img/profilet_logo.png';
+import logoImage from '../img/logo.png';
+import smartbotImage from '../img/logo.png';
 
 const Footer = () => {
     const [newsletterEmail, setNewsletterEmail] = useState('');
@@ -87,7 +86,10 @@ const Footer = () => {
                     {/* Col 1: Brand & About (Full width on mobile) */}
                     <div className="col-span-2 md:col-span-1 flex flex-col gap-6">
                         <div>
-                            <h4 className="text-lg font-bold font-oswald text-white mb-6 uppercase tracking-wide">SystemMindz</h4>
+                            <div className="flex items-center gap-3 mb-6">
+                                <img src={logoImage} alt="Logo" className="h-8 w-auto object-contain" />
+                                <h4 className="text-lg font-bold font-oswald text-white uppercase tracking-wide m-0">SystemMindz</h4>
+                            </div>
                             <p className="text-gray-400 text-sm leading-relaxed">
                                 Empowering businesses with cutting-edge AI, Cloud, and Digital solutions. Your partner in digital transformation.
                             </p>
