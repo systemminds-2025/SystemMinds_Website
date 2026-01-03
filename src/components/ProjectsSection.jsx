@@ -1,6 +1,6 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
+import profiletLogo from '../img/profilet_logo.png';
 
 const ProjectsSection = () => {
     // Image arrays for each card
@@ -74,7 +74,7 @@ const ProjectsSection = () => {
                             <p className="text-sm text-[#4b5563] leading-[1.6] m-0 font-montserrat">
                                 A comprehensive career development platform that helps professionals grow their careers through personalized guidance, skill assessments, and career path recommendations.
                             </p>
-                            <a href="#" className="inline-flex items-center text-sm font-semibold text-purple-light no-underline transition-all duration-200 font-montserrat hover:translate-x-1">View Project →</a>
+                            <a href="https://systemmindz-rb.vercel.app/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-sm font-semibold text-purple-light no-underline transition-all duration-200 font-montserrat hover:translate-x-1">View Project →</a>
                         </div>
                     </motion.div>
 
@@ -118,7 +118,7 @@ const ProjectsSection = () => {
                             <p className="text-sm text-[#4b5563] leading-[1.6] m-0 font-montserrat">
                                 An AI-powered profile validation system that verifies professional credentials, skills, and experience using advanced machine learning algorithms.
                             </p>
-                            <a href="#" className="inline-flex items-center text-sm font-semibold text-purple-light no-underline transition-all duration-200 font-montserrat hover:translate-x-1">View Project →</a>
+                            <a href="https://systemmindz-rb.vercel.app/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-sm font-semibold text-purple-light no-underline transition-all duration-200 font-montserrat hover:translate-x-1">View Project →</a>
                         </div>
                     </motion.div>
 
@@ -134,7 +134,9 @@ const ProjectsSection = () => {
                             transition: { duration: 0.3 }
                         }}
                     >
-                        <h3 className="text-xl font-bold text-[#111827] mb-4 font-oswald tracking-tight leading-[1.3]">AI Resume Generator</h3>
+                        <div className="flex items-center justify-start mb-4">
+                            <img src={profiletLogo} alt="Profilet-Ai" className="h-10 w-auto object-contain" />
+                        </div>
                         <div className="w-full h-auto mb-6 bg-[#f9fafb] rounded-xl overflow-hidden relative">
                             <motion.div
                                 className="project-image-track flex"
@@ -162,7 +164,7 @@ const ProjectsSection = () => {
                             <p className="text-sm text-[#4b5563] leading-[1.6] m-0 font-montserrat">
                                 An intelligent resume builder powered by AI that creates professional, ATS-friendly resumes tailored to job descriptions and industry standards.
                             </p>
-                            <a href="#" className="inline-flex items-center text-sm font-semibold text-purple-light no-underline transition-all duration-200 font-montserrat hover:translate-x-1">View Project →</a>
+                            <a href="https://systemmindz-rb.vercel.app/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-sm font-semibold text-purple-light no-underline transition-all duration-200 font-montserrat hover:translate-x-1">View Project →</a>
                         </div>
                     </motion.div>
                 </div>

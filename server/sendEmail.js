@@ -1,23 +1,15 @@
-import nodemailer from 'nodemailer';
+import { SendMailClient } from "zeptomail";
 
-// SMTP Configuration
-const SMTP_HOST = process.env.SMTP_HOST || 'smtp.gmail.com';
-const SMTP_PORT = Number(process.env.SMTP_PORT || 465);
-const SMTP_SECURE = process.env.SMTP_SECURE ? process.env.SMTP_SECURE === 'true' : SMTP_PORT === 465;
-const SMTP_USER = process.env.SMTP_USER || 'info.systemminds@gmail.com';
-const SMTP_PASS = process.env.SMTP_PASS || 'gtzrhicqwdpfbotn';
-const DEFAULT_TO = process.env.SMTP_TO || 'info.systemminds@gmail.com';
+// ZeptoMail Configuration
+const url = process.env.ZEPTOMAIL_URL || "https://api.zeptomail.in/v1.1/email";
+const token = process.env.ZEPTOMAIL_TOKEN || "Zoho-enczapikey PHtE6r0OQ7zqizMm90IA7PS6RcOtYIl/qetgeVNE5t0XDvEKS01Xr48omzC2/U0pVqRDHf+byIprteybsb/RdD7kMT1KVWqyqK3sx/VYSPOZsbq6x00csF0bf03aU4Xvctdv0i3QvNfaNA==";
+const DEFAULT_FROM_ADDRESS = "noreply@systemmindz.com";
+const DEFAULT_FROM_NAME = "SystemMinds Website";
+const DEFAULT_TO_EMAIL = "info.systemminds@gmail.com";
+const DEFAULT_TO_NAME = "SystemMinds Team";
 
-// Create transporter
-const transporter = nodemailer.createTransport({
-  host: SMTP_HOST,
-  port: SMTP_PORT,
-  secure: SMTP_SECURE,
-  auth: {
-    user: SMTP_USER,
-    pass: SMTP_PASS,
-  },
-});
+// Create ZeptoMail client
+const client = new SendMailClient({ url, token });
 
 // Format email body for chat messages
 function formatChatMessage(userMessage, userEmail = null, isEmailRegistration = false) {
@@ -41,7 +33,7 @@ function formatChatMessage(userMessage, userEmail = null, isEmailRegistration = 
       </div>
     `;
   }
-  
+
   return `
     <div style="font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: 0 auto;">
       <h2 style="color: #dc2626; border-bottom: 2px solid #dc2626; padding-bottom: 10px;">
@@ -71,27 +63,50 @@ function isValidEmail(email) {
 
 // Main sendMail function
 export async function sendMail({ subject, body, replyTo, fromName, to, userMessage, fromEmail, isEmailRegistration = false }) {
-  // Use formatted chat message if userMessage is provided, otherwise use body
-  const emailBody = userMessage ? formatChatMessage(userMessage, fromEmail, isEmailRegistration) : body;
-  const emailSubject = subject || (isEmailRegistration ? 'New Email Registration from SystemMinds Website' : (userMessage ? 'New Message from SystemMinds Website' : 'SystemMinds website message'));
+  console.log(`[Email] Preparing to send via ZeptoMail: ${subject || 'New Message'}`);
 
-  // Validate and use fromEmail if provided and valid, otherwise use default
-  const validFromEmail = fromEmail && isValidEmail(fromEmail) ? fromEmail : SMTP_USER;
-  const replyToEmail = fromEmail && isValidEmail(fromEmail) ? fromEmail : (replyTo || undefined);
+  try {
+    // Use formatted chat message if userMessage is provided, otherwise use body
+    const emailBody = userMessage ? formatChatMessage(userMessage, fromEmail, isEmailRegistration) : body;
+    const emailSubject = subject || (isEmailRegistration ? 'New Email Registration from SystemMinds Website' : (userMessage ? 'New Message from SystemMinds Website' : 'SystemMinds website message'));
 
-  // If user provided email, send FROM that email address
-  // Note: The actual SMTP sending uses our credentials, but the email appears to come from user's email
-  const mailOptions = {
-    from: {
-      name: fromName || (fromEmail && isValidEmail(fromEmail) ? 'Website Visitor' : 'SystemMinds Website'),
-      address: validFromEmail, // Use user's email as from address if valid
-    },
-    to: to || DEFAULT_TO,
-    subject: emailSubject,
-    html: emailBody,
-    replyTo: replyToEmail || validFromEmail, // Set replyTo to user's email if provided
-  };
+    const toAddress = to || DEFAULT_TO_EMAIL;
+    const toName = (to === DEFAULT_TO_EMAIL || !to) ? DEFAULT_TO_NAME : (to.split('@')[0]);
 
-  const response = await transporter.sendMail(mailOptions);
-  return response;
+    // ZeptoMail payload structure
+    const mailOptions = {
+      "from": {
+        "address": DEFAULT_FROM_ADDRESS,
+        "name": fromName || DEFAULT_FROM_NAME
+      },
+      "to": [
+        {
+          "email_address": {
+            "address": toAddress,
+            "name": toName
+          }
+        }
+      ],
+      "subject": emailSubject,
+      "htmlbody": emailBody
+    };
+
+    // Add reply_to if provided
+    if (replyTo || (fromEmail && isValidEmail(fromEmail))) {
+      mailOptions.reply_to = [
+        {
+          "address": replyTo || fromEmail,
+          "name": fromName || (fromEmail ? fromEmail.split('@')[0] : "Visitor")
+        }
+      ];
+    }
+
+    const response = await client.sendMail(mailOptions);
+    console.log('[Email] ZeptoMail response:', response);
+
+    return { ok: true, data: response };
+  } catch (error) {
+    console.error('[Email] ZeptoMail error:', error);
+    return { ok: false, error: error.message };
+  }
 }

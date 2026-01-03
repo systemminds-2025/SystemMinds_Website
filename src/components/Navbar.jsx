@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import logoImage from '../img/logo.png';
+import logoImage from '../img/profilet_logo.png';
+import mainLogo from '../img/logo.png';
 
 const Navbar = ({ isScrolled, isNavCollapsed, setIsNavCollapsed }) => {
     const [activeSection, setActiveSection] = useState('home');
@@ -52,11 +53,13 @@ const Navbar = ({ isScrolled, isNavCollapsed, setIsNavCollapsed }) => {
     return (
         <div className={`flex items-center justify-between gap-6 m-0 px-5 md:px-12 fixed top-0 left-0 right-0 w-full z-[1000] py-5 transition-all duration-300 ${isScrolled ? 'bg-[#f5f5f7]/98 backdrop-blur-[40px] shadow-[0_4px_12px_rgba(0,0,0,0.08)] border-b border-black/10 py-3' : 'bg-transparent'}`}>
             {/* Logo with Text */}
-            <div className="flex items-center gap-2 h-11 shrink-0">
-                <img src={logoImage} alt="Logo" className="h-10 w-auto object-contain block" />
-                <span className="text-[22px] font-semibold text-[#111827] whitespace-nowrap leading-none flex items-center tracking-[0.5px] lowercase">
-                    <span className="uppercase font-bold text-2xl tracking-wider">S</span>ystem<span className="uppercase font-bold text-2xl tracking-wider">M</span>indz
-                </span>
+            <div className="flex items-center gap-3 h-11 shrink-0">
+                <div className="flex items-center gap-2">
+                    <img src={mainLogo} alt="SystemMindz Logo" className="h-8 w-auto object-contain block" />
+                    <span className="text-[22px] font-semibold text-[#111827] whitespace-nowrap leading-none flex items-center tracking-[0.5px] lowercase">
+                        <span className="uppercase font-bold text-2xl tracking-wider">S</span>ystem<span className="uppercase font-bold text-2xl tracking-wider">M</span>indz
+                    </span>
+                </div>
             </div>
 
             {/* Navigation Bar */}

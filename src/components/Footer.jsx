@@ -1,8 +1,8 @@
 
 import React, { useState } from 'react';
-import logoImage from '../img/logo.png';
-import socialIconsImage from '../img/social_icons.png';
-import smartbotImage from '../img/logo.png'; // Placeholder: PhotoshopExtension_Image.png was missing
+import logoImage from '../img/profilet_logo.png';
+// import socialIconsImage from '../img/social_icons.png'; // File missing
+import smartbotImage from '../img/profilet_logo.png';
 
 const Footer = () => {
     const [newsletterEmail, setNewsletterEmail] = useState('');
@@ -41,7 +41,7 @@ const Footer = () => {
             `;
 
             // Send email via API
-            const response = await fetch('/api/send-email.js', {
+            const response = await fetch('/api/send-email', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -94,7 +94,7 @@ const Footer = () => {
                         </div>
                         {/* Social Icons */}
                         <div className="flex gap-3">
-                            <img src={socialIconsImage} alt="Social Media Icons" className="h-12 object-contain" />
+                            {/* social Icons image was missing */}
                         </div>
                     </div>
 

@@ -57,6 +57,14 @@ export default async function handler(req, res) {
 
     const response = await sendMail({ subject, body, replyTo, fromName, to, userMessage, fromEmail, isEmailRegistration });
 
+    if (!response.ok) {
+      console.error('Email send failed:', response.error);
+      res.statusCode = response.statusCode || 500;
+      res.setHeader('Content-Type', 'application/json');
+      res.end(JSON.stringify({ ok: false, error: response.error || 'Email send failed.' }));
+      return;
+    }
+
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify({ ok: true, messageId: response.messageId }));

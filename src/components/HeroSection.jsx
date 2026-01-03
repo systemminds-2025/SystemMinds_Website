@@ -1,98 +1,180 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowRight, X } from 'lucide-react';
 
 import heroImage from '../img/HERO.gif';
 
 const HeroSection = () => {
+    const [searchValue, setSearchValue] = useState('');
+    const [showEmailPopup, setShowEmailPopup] = useState(false);
+    const [emailValue, setEmailValue] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitSuccess, setSubmitSuccess] = useState(false);
+
+    const handleGetStarted = () => {
+        if (!searchValue.trim()) return;
+        setShowEmailPopup(true);
+    };
+
+    const handleEmailSubmit = async (e) => {
+        e.preventDefault();
+        if (!emailValue.trim()) return;
+
+        setIsSubmitting(true);
+        try {
+            const response = await fetch('/api/send-email', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    userMessage: `Search Query: ${searchValue}\nUser Email: ${emailValue}`,
+                    subject: 'New Service Search from Hero Section',
+                    fromName: 'Hero Section Visitor',
+                    fromEmail: emailValue,
+                    isEmailRegistration: true,
+                }),
+            });
+
+            const result = await response.json();
+            if (result.ok) {
+                setSubmitSuccess(true);
+                setTimeout(() => {
+                    setShowEmailPopup(false);
+                    setSubmitSuccess(false);
+                    setEmailValue('');
+                    setSearchValue('');
+                }, 3000);
+            }
+        } catch (error) {
+            console.error('Error sending search request:', error);
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
     return (
-        <section className="bg-[#fbfbfb] text-black min-h-screen flex flex-col relative overflow-hidden">
+        <section className="bg-[#fbfbfb] text-black min-h-screen flex flex-col relative overflow-hidden font-montserrat">
+
+
             {/* Main Content Area */}
-            <div className="flex-1 px-8 md:px-16 py-20 md:py-24 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative">
+            <div className="flex-1 px-8 md:px-16 pt-36 pb-12 md:pt-48 lg:pt-36 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative">
+
                 {/* Left Side - Heading, Description, and Service Cards */}
-                <div className="space-y-8">
+                <div className="space-y-4 md:space-y-8">
                     <div>
-                        <p className="text-sm font-semibold text-purple-light uppercase tracking-widest mb-6 font-montserrat">TRANSFORM YOUR IDEAS INTO REALITY</p>
+                        {/* Badge/Tag */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5 }}
+                            className="inline-flex items-center mb-4 md:mb-6 text-purple-light text-xs font-bold tracking-widest uppercase font-montserrat"
+                        >
+                            <span>TRANSFORM YOUR IDEAS INTO REALITY</span>
+                        </motion.div>
+
                         <motion.h1
-                            className="text-[clamp(28px,5vw,42px)] font-bold leading-[1.2] tracking-tight font-oswald lg:mb-6"
+                            className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-slate-900 leading-[1.1] mb-8 md:mb-12 font-oswald"
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8 }}
                         >
-                            Professional Services & <span className="relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-gradient-to-r after:from-purple-light after:to-purple-dark">Innovative Products</span>
+                            Professional Services & <span className="relative inline-block text-slate-900 after:content-[''] after:absolute after:-bottom-2 after:left-0 after:w-full after:h-[3px] after:bg-gradient-to-r after:from-indigo-600 after:to-purple-600">Innovative Products</span>
                         </motion.h1>
-                        <br />
+
                         {/* Description Blocks */}
                         <motion.div
-                            className="space-y-4 text-xs md:text-sm text-gray-400 leading-relaxed lg:mt-8"
+                            className="text-sm text-[#4b5563] leading-[1.6] mb-6 md:mb-8 max-w-3xl font-montserrat"
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.5, duration: 0.8 }}
                         >
-                            <div>
-                                <p>SystemMindz is a full-stack digital studio delivering robust products, future-ready platforms, and tailor-made enterprise solutions. We blend strategy, UI engineering, and cloud-native development to accelerate growth for ambitious brands. Our comprehensive approach ensures seamless integration of cutting-edge technologies with business objectives.</p>
-                            </div>
-                            <div>
-                                <p>With expertise spanning React.js, Spring Boot, Python, and modern cloud technologies, we transform complex business challenges into elegant, scalable digital solutions. Our team combines technical excellence with creative problem-solving to deliver products that not only meet today's needs but are built to evolve with your business. From initial consultation to post-launch support, we provide end-to-end services that drive measurable results and sustainable growth.</p>
-                            </div>
+                            We bring your dream project from scratch to live with robustness and success. As expert full-stack developers, we craft high-performance applications using optimized code and strictly follow Agile methodology. We handle the entire lifecycle, ensuring your vision is executed perfectly.
                         </motion.div>
+
+                        {/* Search Box */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, delay: 0.6 }}
+                            className="bg-white rounded-full shadow-lg border border-gray-100 flex items-stretch max-w-lg mb-8 md:mb-10 w-[90%] md:w-full overflow-hidden"
+                        >
+                            <div className="pl-4 md:pl-6 text-gray-400 flex items-center">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                </svg>
+                            </div>
+                            <input
+                                type="text"
+                                placeholder="Search your service..."
+                                className="flex-1 px-4 py-2 md:py-3 outline-none text-gray-700 font-montserrat text-sm md:text-base bg-transparent placeholder:text-gray-400"
+                                value={searchValue}
+                                onChange={(e) => setSearchValue(e.target.value)}
+                                onKeyDown={(e) => e.key === 'Enter' && handleGetStarted()}
+                            />
+                            <button
+                                onClick={handleGetStarted}
+                                className="bg-black text-white px-6 md:px-8 text-xs md:text-sm shadow-md hover:shadow-lg transition-all font-montserrat whitespace-nowrap flex items-center justify-center"
+                            >
+                                Get Started
+                            </button>
+                        </motion.div>
+
+                        {/* Social Media Icons */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, delay: 0.7 }}
+                            className="flex items-center justify-center md:justify-start gap-4 md:gap-3 mb-8 md:mb-0"
+                        >
+                            <a href="https://www.linkedin.com/company/systemminds" target="_blank" rel="noopener noreferrer" className="transition-transform hover:-translate-y-1 hover:scale-110">
+                                <div className="w-6 h-6 md:w-8 md:h-8 flex items-center justify-center text-[#0077b5]">
+                                    <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
+                                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                                    </svg>
+                                </div>
+                            </a>
+                            <a href="https://chat.whatsapp.com/CJy8YPpWarEGzi9uAfbnoT" target="_blank" rel="noopener noreferrer" className="transition-transform hover:-translate-y-1 hover:scale-110">
+                                <div className="w-6 h-6 md:w-8 md:h-8 flex items-center justify-center text-[#25d366]">
+                                    <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
+                                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+                                    </svg>
+                                </div>
+                            </a>
+                            <a href="https://www.instagram.com/systemminds.tech/" target="_blank" rel="noopener noreferrer" className="transition-transform hover:-translate-y-1 hover:scale-110">
+                                <div className="w-6 h-6 md:w-8 md:h-8 flex items-center justify-center text-[#d62976]">
+                                    <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
+                                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                                    </svg>
+                                </div>
+                            </a>
+                            <a href="https://t.me/+g8kOiqBYvXE3NzJl" target="_blank" rel="noopener noreferrer" className="transition-transform hover:-translate-y-1 hover:scale-110">
+                                <div className="w-6 h-6 md:w-8 md:h-8 flex items-center justify-center text-[#0088cc]">
+                                    <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
+                                        <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
+                                    </svg>
+                                </div>
+                            </a>
+                        </motion.div>
+
+
+
                     </div>
 
-                    {/* Mobile Only - Hero Image (Visible on small screens, hidden on lg screens) */}
-                    <div className="lg:hidden w-full h-[300px] relative my-6">
+                    {/* Mobile Only - Hero Image */}
+                    <div className="lg:hidden w-full h-auto min-h-[180px] relative mt-8 mb-6 flex items-center justify-center">
                         <img
                             src={heroImage}
                             alt="Hero"
-                            className="w-full h-full object-cover rounded-3xl"
+                            className="max-w-[80%] md:max-w-[60%] h-auto object-contain rounded-3xl"
                         />
-                    </div>
-
-                    {/* Integrated Service Cards (Moved from bottom) */}
-                    <div className="grid grid-cols-4 lg:grid-cols-[0.8fr_1.4fr_1fr_1fr] gap-2 pt-4">
-                        {/* Card 1 - Social Media Marketing */}
-                        <motion.div
-                            className="bg-[#F2B2D7] rounded-full px-1 py-1 md:px-4 md:py-3 flex items-center justify-center group cursor-pointer hover:scale-105 transition-transform duration-300 w-full h-full"
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: 0.6, duration: 0.6 }}
-                        >
-                            <h3 className="text-[9px] leading-tight md:text-xs font-bold text-black md:whitespace-nowrap text-center">Feeling Stuck?</h3>
-                        </motion.div>
-
-                        {/* Card 2 - Data and Analytics */}
-                        <motion.div
-                            className="bg-[#CDF4D3] rounded-full px-1 py-1 md:px-4 md:py-3 flex items-center justify-center group cursor-pointer hover:scale-105 transition-transform duration-300 w-full h-full"
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: 0.7, duration: 0.6 }}
-                        >
-                            <h3 className="text-[9px] leading-tight md:text-xs font-bold text-black md:whitespace-nowrap text-center">Don't Know How to Start?</h3>
-                        </motion.div>
-
-                        {/* Card 3 - Marketing Strategy */}
-                        <motion.div
-                            className="bg-[#FFBC01] rounded-full px-1 py-1 md:px-4 md:py-3 flex items-center justify-center group cursor-pointer hover:scale-105 transition-transform duration-300 w-full h-full"
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: 0.8, duration: 0.6 }}
-                        >
-                            <h3 className="text-[9px] leading-tight md:text-xs font-bold text-black md:whitespace-nowrap text-center">Need Expert Help?</h3>
-                        </motion.div>
-
-                        {/* Card 4 - Search Engine Optimization */}
-                        <motion.div
-                            className="bg-[#B3B3B3] rounded-full px-1 py-1 md:px-4 md:py-3 flex items-center justify-center group cursor-pointer hover:scale-105 transition-transform duration-300 w-full h-full"
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: 0.9, duration: 0.6 }}
-                        >
-                            <h3 className="text-[9px] leading-tight md:text-xs font-bold text-black md:whitespace-nowrap text-center">Get Your Product Live</h3>
-                        </motion.div>
                     </div>
                 </div>
 
-                {/* Right Side - Image */}
+                {/* Right Side - Image (Desktop) */}
                 <motion.div
-                    className="hidden lg:flex items-center justify-center relative w-full h-[600px]"
+                    className="hidden lg:flex items-center justify-center relative w-full h-auto"
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.4, duration: 0.8 }}
@@ -100,11 +182,94 @@ const HeroSection = () => {
                     <img
                         src={heroImage}
                         alt="Hero"
-                        className="w-full h-full object-cover rounded-3xl"
+                        className="w-full h-auto max-h-[500px] lg:max-w-[420px] xl:max-w-[550px] object-contain rounded-3xl"
                     />
                 </motion.div>
+
             </div>
-            {/* Removed Bottom Service Cards Section */}
+
+            {/* Email Registration Popup */}
+            <AnimatePresence>
+                {showEmailPopup && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+                    >
+                        <motion.div
+                            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                            animate={{ scale: 1, opacity: 1, y: 0 }}
+                            exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                            className="bg-white rounded-[32px] p-8 md:p-10 w-full max-w-md shadow-2xl relative"
+                        >
+                            <button
+                                onClick={() => setShowEmailPopup(false)}
+                                className="absolute top-6 right-6 p-2 text-gray-400 hover:text-gray-600 transition-colors"
+                            >
+                                <X size={24} />
+                            </button>
+
+                            <div className="text-center mb-8">
+                                <div className="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                        <polyline points="22,6 12,13 2,6"></polyline>
+                                    </svg>
+                                </div>
+                                <h2 className="text-2xl font-bold text-slate-900 mb-2 font-oswald tracking-tight">Almost there!</h2>
+                                <p className="text-slate-500 font-montserrat text-sm leading-relaxed">
+                                    Please enter your email address to receive personalized details about <span className="text-purple-600 font-semibold italic">"{searchValue}"</span>.
+                                </p>
+                            </div>
+
+                            {submitSuccess ? (
+                                <motion.div
+                                    initial={{ opacity: 0, scale: 0.8 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    className="bg-green-50 rounded-2xl p-6 text-center border border-green-100"
+                                >
+                                    <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                    </div>
+                                    <h3 className="text-green-800 font-bold mb-1">Request Received!</h3>
+                                    <p className="text-green-700 text-xs">We'll get back to you shortly at {emailValue}</p>
+                                </motion.div>
+                            ) : (
+                                <form onSubmit={handleEmailSubmit} className="space-y-4">
+                                    <div>
+                                        <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 px-1">Email Address</label>
+                                        <input
+                                            type="email"
+                                            required
+                                            placeholder="you@company.com"
+                                            className="w-full px-6 py-4 rounded-2xl border border-slate-100 bg-slate-50 text-slate-900 placeholder:text-slate-400 focus:border-purple-600 focus:bg-white focus:ring-4 focus:ring-purple-600/5 transition-all outline-none font-montserrat"
+                                            value={emailValue}
+                                            onChange={(e) => setEmailValue(e.target.value)}
+                                        />
+                                    </div>
+                                    <button
+                                        type="submit"
+                                        disabled={isSubmitting}
+                                        className="w-full bg-black text-white font-bold py-4 rounded-2xl hover:bg-slate-900 transition-all flex items-center justify-center gap-2 group shadow-xl shadow-black/10 disabled:opacity-50"
+                                    >
+                                        {isSubmitting ? (
+                                            <span className="w-6 h-6 border-4 border-white/20 border-t-white rounded-full animate-spin"></span>
+                                        ) : (
+                                            <>
+                                                Continue
+                                                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                                            </>
+                                        )}
+                                    </button>
+                                </form>
+                            )}
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </section>
     );
 };

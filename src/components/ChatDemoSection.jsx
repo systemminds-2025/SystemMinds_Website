@@ -300,14 +300,18 @@ const ChatDemoSection = () => {
                     <p className="text-sm md:text-base text-[#4b5563] leading-[1.6] mb-6 md:mb-8 font-montserrat font-normal max-w-[540px] mx-auto lg:mx-0">
                         From concept to deployment, we deliver enterprise-grade applications using cutting-edge technologies. Our full-stack expertise in React.js, Spring Boot, and Python enables us to create robust, future-ready platforms that scale with your business. We combine technical excellence with innovative thinking to transform your business challenges into powerful digital solutions.
                     </p>
-                    <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 sm:gap-8">
-                        <button className="bg-black text-white border-none py-3 px-6 md:py-3.5 md:px-7 rounded-xl text-sm md:text-base font-semibold cursor-pointer flex items-center gap-3 transition-all duration-300 shadow-[0_4px_6px_rgba(0,0,0,0.1)] font-montserrat hover:translate-y-[-2px] hover:shadow-[0_8px_15px_rgba(0,0,0,0.2)] group w-full sm:w-auto justify-center">
+                    <div className="flex flex-row items-center justify-center lg:justify-start gap-4 sm:gap-8">
+                        <button
+                            onClick={() => {
+                                document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                            }}
+                            className="bg-black text-white border-none py-3 px-6 md:py-3.5 md:px-7 rounded-full text-sm md:text-base font-semibold cursor-pointer flex items-center gap-3 transition-all duration-300 shadow-[0_4px_6px_rgba(0,0,0,0.1)] font-montserrat hover:translate-y-[-2px] hover:shadow-[0_8px_15px_rgba(0,0,0,0.2)] group w-auto justify-center"
+                        >
                             Get Started
                             <span className="transition-transform duration-300 group-hover:translate-x-1">
                                 <span className="w-6 h-6 rounded-full bg-white text-black flex items-center justify-center text-sm font-bold">→</span>
                             </span>
                         </button>
-                        <a href="#" className="text-sm md:text-base font-semibold text-black no-underline transition-colors duration-200 hover:text-purple-light font-montserrat">Get Free Demo</a>
                     </div>
                 </div>
 
